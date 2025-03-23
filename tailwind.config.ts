@@ -1,4 +1,6 @@
+
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 export default {
 	darkMode: ["class"],
@@ -52,6 +54,18 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				ocean: {
+					darker: '#0A192F',
+					dark: '#172A45',
+					medium: '#2E5984',
+					light: '#5DA9E9',
+					lighter: '#A8DAF5'
+				},
+				gold: {
+					DEFAULT: '#FFD700',
+					light: '#FFEA9F',
+					dark: '#E6C200'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -68,29 +82,117 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				serif: ['Playfair Display', 'serif'],
+			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				wave: {
+					'0%': { transform: 'translateX(0)' },
+					'50%': { transform: 'translateX(-25%)' },
+					'100%': { transform: 'translateX(-50%)' }
+				},
+				'wave-reverse': {
+					'0%': { transform: 'translateX(0)' },
+					'50%': { transform: 'translateX(25%)' },
+					'100%': { transform: 'translateX(50%)' }
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-20px)' },
+				},
+				'fade-in-up': {
+					'0%': { opacity: '0', transform: 'translateY(20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
+				shimmer: {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
+				},
+				blink: {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.5' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'wave': 'wave 25s linear infinite',
+				'wave-reverse': 'wave-reverse 20s linear infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+				'fade-in': 'fade-in 0.8s ease-out forwards',
+				'shimmer': 'shimmer 2s linear infinite',
+				'blink': 'blink 1.5s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #E6C200 100%)',
+				'ocean-gradient': 'linear-gradient(135deg, #0A192F 0%, #2E5984 100%)',
+				'ocean-gold-gradient': 'linear-gradient(135deg, #172A45 0%, #5DA9E9 70%, #FFD700 100%)',
+				'wave-pattern': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%235DA9E9' fill-opacity='0.3' d='M0,128L48,144C96,160,192,192,288,202.7C384,213,480,203,576,165.3C672,128,768,64,864,64C960,64,1056,128,1152,149.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E\")",
+			},
+			boxShadow: {
+				'gold': '0 4px 14px 0 rgba(255, 215, 0, 0.3)',
+				'ocean': '0 4px 14px 0 rgba(93, 169, 233, 0.3)',
+				'ocean-gold': '0 10px 25px -3px rgba(93, 169, 233, 0.3), 0 4px 6px -4px rgba(255, 215, 0, 0.2)',
+			},
+			transitionTimingFunction: {
+				'wave': 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		plugin(({ addUtilities }) => {
+			addUtilities({
+				'.glass': {
+					backgroundColor: 'rgba(255, 255, 255, 0.05)',
+					backdropFilter: 'blur(10px)',
+					borderRadius: '0.5rem',
+					border: '1px solid rgba(255, 255, 255, 0.1)',
+				},
+				'.glass-dark': {
+					backgroundColor: 'rgba(10, 25, 47, 0.7)',
+					backdropFilter: 'blur(10px)',
+					borderRadius: '0.5rem',
+					border: '1px solid rgba(93, 169, 233, 0.2)',
+				},
+				'.text-gold-shimmer': {
+					backgroundImage: 'linear-gradient(90deg, #E6C200, #FFD700, #FFEA9F, #FFD700, #E6C200)',
+					backgroundSize: '200% auto',
+					color: 'transparent',
+					backgroundClip: 'text',
+					WebkitBackgroundClip: 'text',
+					WebkitTextFillColor: 'transparent',
+					animation: 'shimmer 5s linear infinite',
+				},
+				'.text-gradient-ocean': {
+					backgroundImage: 'linear-gradient(135deg, #5DA9E9 0%, #2E5984 100%)',
+					color: 'transparent',
+					backgroundClip: 'text',
+					WebkitBackgroundClip: 'text',
+					WebkitTextFillColor: 'transparent',
+				},
+				'.hover-lift': {
+					transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
+					'&:hover': {
+						transform: 'translateY(-5px)',
+						boxShadow: '0 10px 30px -10px rgba(93, 169, 233, 0.4)',
+					}
+				},
+			});
+		}),
+	],
 } satisfies Config;
