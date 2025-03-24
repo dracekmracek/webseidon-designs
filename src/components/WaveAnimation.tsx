@@ -13,7 +13,7 @@ interface WaveAnimationProps {
 
 export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   className,
-  waveColor = 'rgb(93, 169, 233)', // Ocean blue default color
+  waveColor = 'rgba(93, 169, 233, 0.4)', // Updated to ocean blue with opacity
   reverse = false,
   intensity = 'medium',
   position = 'bottom',
@@ -26,7 +26,11 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   };
 
   const opacity = intensityValues[intensity];
-  const waveColorWithOpacity = waveColor.replace(/[\d.]+\)$/, `${opacity})`);
+  // Make sure color is always in rgb/rgba format for opacity manipulation
+  const isRgb = waveColor.startsWith('rgb');
+  const waveColorWithOpacity = isRgb 
+    ? waveColor.replace(/[\d.]+\)$/, `${opacity})`)
+    : `rgba(93, 169, 233, ${opacity})`; // Fallback to ocean blue with specified opacity
   
   const positionClass = position === 'top' ? 'top-0 -mt-1' : 'bottom-0 -mb-1';
 
@@ -63,7 +67,7 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
           preserveAspectRatio="none"
         >
           <path 
-            fill={waveColorWithOpacity.replace(/[\d.]+\)$/, `${Number(opacity) * 0.7})`)}
+            fill={isRgb ? waveColorWithOpacity.replace(/[\d.]+\)$/, `${Number(opacity) * 0.7})`) : `rgba(93, 169, 233, ${Number(opacity) * 0.7})`}
             d="M0,160 C48,181.3 96,202.7 144,192 C192,181.3 240,138.7 288,128 C336,117.3 384,138.7 432,160 C480,181.3 528,202.7 576,192 C624,181.3 672,138.7 720,128 C768,117.3 816,138.7 864,160 C912,181.3 960,202.7 1008,192 C1056,181.3 1104,138.7 1152,128 C1200,117.3 1248,138.7 1296,160 L1440,160 L1440,320 L0,320 Z"
             transform="translate(0, 5)"
           ></path>
@@ -76,7 +80,7 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
               key={i}
               className="absolute rounded-full animate-float-up"
               style={{
-                backgroundColor: waveColor.replace(/[\d.]+\)$/, '0.4)'),
+                backgroundColor: 'rgba(93, 169, 233, 0.4)', // Consistent ocean blue for droplets
                 width: `${Math.random() * 6 + 2}px`,
                 height: `${Math.random() * 6 + 2}px`,
                 left: `${Math.random() * 100}%`,

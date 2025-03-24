@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import WaveAnimation from './WaveAnimation';
@@ -86,7 +85,6 @@ const PricingTier: React.FC<PricingTierProps> = ({
 const Pricing: React.FC<PricingProps> = ({ className }) => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Animation on scroll
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -196,7 +194,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
         </div>
       </div>
       
-      <WaveAnimation position="bottom" variant="choppy" />
+      <WaveAnimation position="bottom" variant="choppy" waveColor="rgba(93, 169, 233, 0.4)" />
     </section>
   );
 };
