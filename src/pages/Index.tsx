@@ -72,6 +72,9 @@ const Index = () => {
           droplet.style.width = `${size}px`;
           droplet.style.height = `${size}px`;
           
+          // Set color to ocean blue
+          droplet.style.backgroundColor = 'rgba(93, 169, 233, 0.4)';
+          
           container.appendChild(droplet);
           
           // Remove droplet after animation

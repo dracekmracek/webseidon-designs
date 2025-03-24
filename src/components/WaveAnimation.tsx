@@ -13,16 +13,16 @@ interface WaveAnimationProps {
 
 export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   className,
-  waveColor = 'rgb(93, 169, 233)',
+  waveColor = 'rgb(93, 169, 233)', // Ocean blue default color
   reverse = false,
   intensity = 'medium',
   position = 'bottom',
   variant = 'smooth',
 }) => {
   const intensityValues = {
-    light: '0.1',
-    medium: '0.2',
-    dark: '0.3',
+    light: '0.2',
+    medium: '0.3',
+    dark: '0.4',
   };
 
   const opacity = intensityValues[intensity];
@@ -33,7 +33,7 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   return (
     <div className={cn("absolute left-0 w-full overflow-hidden z-0 h-32", positionClass, className)}>
       {/* Static water base layer with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-ocean-light/5 to-ocean-medium/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-ocean-light/10 to-ocean-medium/20"></div>
       
       <div className="h-full w-full relative">
         {/* First wave layer - smooth vertical motion */}
@@ -89,7 +89,7 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
         </div>
         
         {/* Shimmering water surface effect */}
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-ocean-light/5 opacity-30 animate-shimmer-slow pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-ocean-light/10 opacity-40 animate-shimmer-slow pointer-events-none"></div>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Terminal as TerminalIcon } from 'lucide-react';
@@ -57,9 +58,7 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       observer.observe(sectionRef.current);
     }
 
-    const intervalId = setInterval(() => {
-      setCurrentCommand(prev => (prev + 1) % commands.length);
-    }, 8000);
+    // Removed automatic command switching interval
 
     return () => {
       if (animatedElements && sectionRef.current) {
@@ -68,9 +67,8 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
         });
         observer.unobserve(sectionRef.current);
       }
-      clearInterval(intervalId);
     };
-  }, [commands.length]);
+  }, []);
 
   const typeCommand = () => {
     if (!terminalRef.current) return;

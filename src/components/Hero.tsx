@@ -86,10 +86,9 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
               <span className="text-terminal-green text-sm font-mono tracking-wider uppercase">webseidon@server:~$</span>
             </div>
             
-            {/* Terminal-like title */}
-            <h1 className="font-mono text-3xl md:text-5xl lg:text-6xl font-bold mb-6 opacity-0 translate-y-10 transition-all duration-700 delay-100 hero-animate text-white">
-              <span className="block terminal-prompt">cd ~/modern_web</span>
-              <span className="block terminal-prompt">./create_<span className="text-gold-shimmer">amazing</span>_sites.sh</span>
+            {/* Updated title */}
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 opacity-0 translate-y-10 transition-all duration-700 delay-100 hero-animate text-white">
+              Božské stránky pro malé firmy a živnostníky
             </h1>
             
             {/* Terminal output box */}
@@ -98,8 +97,8 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
             </div>
             
             <p className="font-mono text-foreground/80 mb-8 max-w-lg opacity-0 translate-y-10 transition-all duration-700 delay-200 hero-animate">
-              Crafting exceptional web experiences with the power of a digital deity.
-              WordPress development with modern techniques and creative excellence.
+              Vytváříme výjimečné webové zážitky s mocí digitálního božstva.
+              WordPress vývoj s moderními technikami a kreativní dokonalostí.
             </p>
             
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 opacity-0 translate-y-10 transition-all duration-700 delay-300 hero-animate">
@@ -132,7 +131,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
                 }}
                 className="btn-primary"
               >
-                Contact now
+                Kontaktujte nás
               </button>
             </div>
             
@@ -277,7 +276,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         </div>
       </div>
       
-      <WaveAnimation position="bottom" variant="choppy" intensity="medium" reverse={false} />
+      <WaveAnimation position="bottom" variant="choppy" intensity="medium" reverse={false} waveColor="rgb(93, 169, 233)" />
     </section>
   );
 };

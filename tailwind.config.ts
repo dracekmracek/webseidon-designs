@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
@@ -107,45 +108,42 @@ export default {
         },
         wave: {
           '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(-25%)' },
           '100%': { transform: 'translateX(-50%)' }
         },
         'wave-reverse': {
-          '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(25%)' },
-          '100%': { transform: 'translateX(50%)' }
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' }
         },
         'wave-slow': {
           '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(-15%)' },
           '100%': { transform: 'translateX(-30%)' }
         },
         'wave-slow-reverse': {
-          '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(15%)' },
-          '100%': { transform: 'translateX(30%)' }
+          '0%': { transform: 'translateX(-30%)' },
+          '100%': { transform: 'translateX(0)' }
         },
         'wave-fast': {
           '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(-35%)' },
           '100%': { transform: 'translateX(-70%)' }
         },
         'wave-fast-reverse': {
-          '0%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(35%)' },
-          '100%': { transform: 'translateX(70%)' }
+          '0%': { transform: 'translateX(-70%)' },
+          '100%': { transform: 'translateX(0)' }
         },
         'bounce-wave': {
-          '0%, 100%': { transform: 'translateY(0) translateX(0);' },
-          '50%': { transform: 'translateY(-15px) translateX(-25%);' },
+          '0%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' },
+          '100%': { transform: 'translateY(0)' }
         },
         'bounce-wave-slow': {
-          '0%, 100%': { transform: 'translateY(-5px) translateX(0);' },
-          '50%': { transform: 'translateY(-20px) translateX(15%);' },
+          '0%': { transform: 'translateY(-5px)' },
+          '50%': { transform: 'translateY(-20px)' },
+          '100%': { transform: 'translateY(-5px)' }
         },
         float: {
-          '0%, 100%': { transform: 'translateY(0)' },
+          '0%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
+          '100%': { transform: 'translateY(0)' }
         },
         'float-up': {
           '0%': { opacity: '0', transform: 'translateY(20px)' },

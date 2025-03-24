@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
@@ -325,20 +326,20 @@
   50% { opacity: 0.7; transform: translateY(-5px); }
 }
 
-/* Bouncing wave animation */
+/* Improved bouncing wave animations */
 @keyframes bounce-slow {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
 @keyframes bounce-wave {
-  0%, 100% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-15px) translateX(-25%); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 
 @keyframes bounce-wave-slow {
-  0%, 100% { transform: translateY(-5px) translateX(0); }
-  50% { transform: translateY(-20px) translateX(15%); }
+  0%, 100% { transform: translateY(-5px); }
+  50% { transform: translateY(-20px); }
 }
 
 .animate-bounce-slow {
