@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Terminal as TerminalIcon } from 'lucide-react';
@@ -36,14 +35,12 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
   ];
 
   useEffect(() => {
-    // Animation on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('opacity-100', 'translate-y-0');
           entry.target.classList.remove('opacity-0', 'translate-y-10');
           
-          // Start terminal animation when section becomes visible
           if (entry.target === sectionRef.current) {
             typeCommand();
           }
@@ -60,7 +57,6 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       observer.observe(sectionRef.current);
     }
 
-    // Auto cycle through commands
     const intervalId = setInterval(() => {
       setCurrentCommand(prev => (prev + 1) % commands.length);
     }, 8000);
@@ -76,17 +72,14 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
     };
   }, [commands.length]);
 
-  // Type command effect
   const typeCommand = () => {
     if (!terminalRef.current) return;
     
     const terminalOutput = terminalRef.current;
     const cmd = commands[currentCommand];
     
-    // Clear terminal
     terminalOutput.innerHTML = '<span class="text-terminal-green">webseidon@server</span>:<span class="text-terminal-blue">~</span>$ ';
     
-    // Type command
     let i = 0;
     const typeInterval = setInterval(() => {
       if (i < cmd.input.length) {
@@ -94,7 +87,6 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
         i++;
       } else {
         clearInterval(typeInterval);
-        // Add line break and show output
         setTimeout(() => {
           terminalOutput.innerHTML += '<br>' + cmd.output.replace(/\n/g, '<br>') + '<br><br><span class="text-terminal-green">webseidon@server</span>:<span class="text-terminal-blue">~</span>$ <span class="terminal-cursor">█</span>';
         }, 500);
@@ -102,7 +94,6 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
     }, 50);
   };
 
-  // When current command changes, type the new command
   useEffect(() => {
     typeCommand();
   }, [currentCommand]);
@@ -112,11 +103,10 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       id="terminal" 
       ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden",
+        "py-20 md:py-28 relative overflow-hidden bg-gradient-to-b from-transparent via-ocean-darker/20 to-transparent",
         className
       )}
     >
-      {/* Terminal grid background */}
       <div className="absolute inset-0 bg-terminal-grid bg-[length:40px_40px] opacity-5"></div>
       
       <div className="container mx-auto px-4 relative z-10">
@@ -133,7 +123,6 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          {/* Terminal Window */}
           <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 rounded-lg overflow-hidden shadow-xl">
             <div className="bg-terminal-black border border-terminal-green/20 rounded-lg">
               <div className="bg-terminal-black px-4 py-2 border-b border-terminal-green/20 flex items-center">
@@ -144,13 +133,12 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
                 </div>
                 <div className="text-terminal-white/70 text-xs font-mono mx-auto">webseidon@server: ~</div>
               </div>
-              <div className="p-6 font-mono text-sm text-terminal-white min-h-[320px]">
+              <div className="p-6 font-mono text-sm text-terminal-white min-h-[320px] h-[320px] overflow-y-auto">
                 <div ref={terminalRef} className="terminal-output leading-6"></div>
               </div>
             </div>
           </div>
           
-          {/* Command Options */}
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             {commands.map((cmd, index) => (
               <button

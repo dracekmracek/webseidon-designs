@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
@@ -332,8 +331,26 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes bounce-wave {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-15px) translateX(-25%); }
+}
+
+@keyframes bounce-wave-slow {
+  0%, 100% { transform: translateY(-5px) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15%); }
+}
+
 .animate-bounce-slow {
   animation: bounce-slow 7s ease-in-out infinite;
+}
+
+.animate-bounce-wave {
+  animation: bounce-wave 8s ease-in-out infinite;
+}
+
+.animate-bounce-wave-slow {
+  animation: bounce-wave-slow 12s ease-in-out infinite;
 }
 
 /* Slow shimmer effect */
