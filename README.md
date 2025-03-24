@@ -1,69 +1,113 @@
-# Welcome to your Lovable project
+# Webseidon.cz - Webové stránky pro malé firmy a živnostníky
 
-## Project info
+![Webseidon Logo](public/logo.png)
 
-**URL**: https://lovable.dev/projects/24eb33d7-c064-45e1-b3a4-365abde2907a
+## O projektu
 
-## How can I edit this code?
+Webseidon.cz je moderní webová stránka zaměřená na tvorbu webových stránek a digitální řešení pro malé firmy a živnostníky. Projekt je inspirován řeckým bohem moří Poseidonem a kombinuje tematické prvky moře, vln a trojzubce s moderním "hackerským" designem, který vytváří zajímavou a jedinečnou vizuální identitu.
 
-There are several ways of editing your application.
+### Klíčové vlastnosti
 
-**Use Lovable**
+- **Oceánsko-hackerský design**: Kombinace tmavého pozadí s modrými odstíny oceánu a hackerskou estetikou
+- **Animace vodních vln**: Plynulé animace vln oddělující jednotlivé sekce webu
+- **Interaktivní efekty**: Animované kapičky vody, matrix efekt v pozadí, terminálový styl textů
+- **Responzivní layout**: Plně responzivní design pro všechna zařízení
+- **Optimalizovaný výkon**: Rychlé načítání a plynulé animace
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/24eb33d7-c064-45e1-b3a4-365abde2907a) and start prompting.
+## Technologie
 
-Changes made via Lovable will be committed automatically to this repo.
+Projekt využívá následující technologie:
 
-**Use your preferred IDE**
+- **Frontend framework**: React.js s TypeScript
+- **Vite**: Jako build nástroj pro rychlý vývoj
+- **Tailwind CSS**: Pro styly a responsivní design
+- **Shadcn UI**: Pro konzistentní komponentní systém
+- **React Router**: Pro navigaci mezi stránkami
+- **React Query**: Pro správu stavu a fetching dat
+- **Canvas API**: Pro pokročilé vizuální efekty (matrix déšť)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Struktura projektu
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+webseidon-designs/
+├── public/             # Statické soubory (obrázky, ikony)
+├── src/                # Zdrojový kód
+│   ├── components/     # React komponenty
+│   │   ├── ui/         # Základní UI komponenty (Shadcn)
+│   │   ├── Hero.tsx    # Úvodní sekce
+│   │   ├── About.tsx   # Sekce O nás
+│   │   ├── ...         # Další sekční komponenty
+│   │   └── WaveAnimation.tsx  # Komponenta pro vlnovou animaci
+│   ├── lib/            # Pomocné funkce a utility
+│   ├── hooks/          # React hooks
+│   ├── pages/          # Stránky aplikace
+│   ├── App.tsx         # Hlavní komponent aplikace
+│   └── main.tsx        # Vstupní bod aplikace
+├── tailwind.config.ts  # Konfigurace Tailwind CSS
+└── vite.config.ts      # Konfigurace Vite
 ```
 
-**Edit a file directly in GitHub**
+## Funkcionality
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Vlnová animace
 
-**Use GitHub Codespaces**
+Klíčovým vizuálním prvkem je animace vln mezi sekcemi. Každá vlna je dynamicky vykreslována pomocí SVG a má několik vrstev s různými časováními a animacemi, což vytváří realistický efekt pohybu vody. Vlny jsou dostupné v několika variantách (smooth, choppy, cascade) pro různé sekce webu.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Hackerský matrix efekt
 
-## What technologies are used for this project?
+V pozadí webu běží subtilní "matrix déšť" vykreslovaný pomocí Canvas API, který přidává dynamický pocit hackerského prostředí. Tento efekt je jemný, aby nerušil obsah stránky, ale zároveň posiluje unikátní vizuální identitu.
 
-This project is built with .
+### Vodní kapičky
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Po celé stránce se objevují animované vodní kapičky, které se pohybují a pulzují, což přidává na dynamice a udržuje tematickou konzistenci. Kapičky jsou generovány náhodně a mají různé velikosti a animace.
 
-## How can I deploy this project?
+### Terminálový styl
 
-Simply open [Lovable](https://lovable.dev/projects/24eb33d7-c064-45e1-b3a4-365abde2907a) and click on Share -> Publish.
+Texty nadpisů a některé elementy používají styl připomínající příkazový řádek s blikajícím kurzorem, barevným zvýrazněním a monospacovým fontem, což podtrhuje technologickou identitu projektu.
 
-## I want to use a custom domain - is that possible?
+## Sekce webu
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+1. **Hero** - Úvodní sekce s hlavním sdělením
+2. **O nás** - Představení společnosti a jejích hodnot
+3. **Služby** - Nabídka služeb s detaily
+4. **Terminál** - Interaktivní terminálová sekce pro technologické demo
+5. **Technologie** - Přehled používaných technologií
+6. **Projekty** - Ukázky realizovaných projektů
+7. **Workflow** - Popis pracovního postupu
+8. **Reference** - Zpětná vazba od klientů
+9. **Ceník** - Cenové balíčky a plány
+10. **Blog** - Články a novinky
+11. **FAQ** - Často kladené dotazy
+12. **Kontakt** - Kontaktní formulář a údaje
+
+## Použití a spuštění
+
+```bash
+# Instalace závislostí
+npm install
+
+# Spuštění vývojového serveru
+npm run dev
+
+# Build pro produkci
+npm run build
+
+# Náhled produkčního buildu
+npm run preview
+```
+
+## Responzivní design
+
+Web je plně responzivní a optimalizovaný pro všechna zařízení od mobilních telefonů po širokoúhlé monitory. Používá přístup "mobile-first" a dynamicky se přizpůsobuje různým velikostem obrazovky.
+
+## Další vývoj
+
+- Implementace vícejazyčnosti (EN/DE)
+- Přidání portfolia případových studií
+- Rozšíření blogu o automatické načítání článků
+- Integrace online objednávkového systému
+- Rozšíření analytických nástrojů
+
+## Autor
+
+Vytvořeno s 💙 týmem Webseidon

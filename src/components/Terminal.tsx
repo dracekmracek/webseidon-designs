@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Terminal as TerminalIcon } from 'lucide-react';
@@ -86,7 +85,7 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       } else {
         clearInterval(typeInterval);
         setTimeout(() => {
-          terminalOutput.innerHTML += '<br>' + cmd.output.replace(/\n/g, '<br>') + '<br><br><span class="text-terminal-green">webseidon@server</span>:<span class="text-terminal-blue">~</span>$ <span class="terminal-cursor">█</span>';
+          terminalOutput.innerHTML += '<br>' + cmd.output.replace(/\n/g, '<br>') + '<br><br><span class="text-terminal-green">webseidon@server</span>:<span class="text-terminal-blue">~</span>$ ';
         }, 500);
       }
     }, 50);

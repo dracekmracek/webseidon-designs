@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -51,7 +50,7 @@ const Index = () => {
   useEffect(() => {
     document.body.classList.add('page-loaded');
     
-    // Create water droplet effects throughout the page
+    // Create water droplets effects throughout the page - hackers style
     const createWaterDroplets = () => {
       const container = document.createElement('div');
       container.className = 'fixed inset-0 pointer-events-none z-50 overflow-hidden';
@@ -73,13 +72,19 @@ const Index = () => {
           droplet.style.height = `${size}px`;
           
           // Set color to ocean blue
-          droplet.style.backgroundColor = 'rgba(93, 169, 233, 0.4)';
+          droplet.style.backgroundColor = 'rgba(93, 169, 233, 0.6)';
+          // Add light effect for hackers style
+          droplet.style.boxShadow = '0 0 3px rgba(93, 169, 233, 0.8)';
+          // Add blinking effect
+          droplet.style.animation = 'water-drop 3s ease-out forwards, blink 1.5s ease-in-out infinite';
           
           container.appendChild(droplet);
           
           // Remove droplet after animation
           setTimeout(() => {
-            container.removeChild(droplet);
+            if (container.contains(droplet)) {
+              container.removeChild(droplet);
+            }
           }, 3000);
         }
       }, 200);
@@ -87,13 +92,63 @@ const Index = () => {
     
     createWaterDroplets();
     
+    // Matrix effect in the background
+    const createMatrixBackground = () => {
+      const canvas = document.createElement('canvas');
+      canvas.className = 'fixed inset-0 pointer-events-none z-0';
+      canvas.style.opacity = '0.05'; // Very subtle effect
+      document.body.appendChild(canvas);
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const characters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const columns = Math.floor(canvas.width / 20);
+      const drops: number[] = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+      }
+      
+      const draw = () => {
+        ctx.fillStyle = 'rgba(10, 25, 47, 0.05)'; // Very dark background
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = 'rgba(93, 169, 233, 0.8)'; // Text color
+        ctx.font = '12px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+          const text = characters[Math.floor(Math.random() * characters.length)];
+          ctx.fillText(text, i * 20, drops[i] * 20);
+          
+          if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          
+          drops[i]++;
+        }
+      };
+      
+      setInterval(draw, 50);
+      
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    };
+    
+    createMatrixBackground();
+    
     return () => {
       document.body.classList.remove('page-loaded');
     };
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col relative bg-terminal-black/5 dark:bg-ocean-darker">
+    <div className="min-h-screen flex flex-col relative bg-ocean-darker text-gray-100">
       <Navbar />
       <main className="flex-grow">
         <Hero />

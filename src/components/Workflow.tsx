@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Code, FileCode, Layout, Check, RefreshCw, Zap } from 'lucide-react';
@@ -34,7 +33,7 @@ const WorkflowStep: React.FC<WorkflowStepProps> = ({ icon, title, description, c
         
         <div className="flex-1">
           <h3 className="text-xl font-mono font-bold mb-2 text-terminal-white">{title}</h3>
-          <p className="text-foreground/80 mb-4 font-mono text-sm">{description}</p>
+          <p className="subtitle-text mb-4 text-sm">{description}</p>
           
           <div className="bg-terminal-black/80 border border-terminal-green/20 rounded-md p-3 font-mono text-xs text-terminal-green">
             <span className="mr-2">$</span>
@@ -96,53 +95,53 @@ const Workflow: React.FC<WorkflowProps> = ({ className }) => {
           <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
             workflow
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            # How I transform ideas into exceptional digital experiences
+          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            # Jak bude probíhat naše spolupráce
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-12">
           <WorkflowStep 
             icon={<Layout size={24} />}
-            title="Discovery & Planning"
-            description="Deep dive into your business goals and requirements to create a solid foundation for your project."
-            commandLine="mkdir new_project && cd new_project && touch requirements.md"
+            title="START - Odeslání Vašeho požadavku"
+            description="Využít můžete kontaktní formulář. Popište veškeré Vaše požadavky, nebo se jen na něco zeptejte. Společně zjistíme účel webových stránek a od toho se bude odvíjet i jejich tvorba."
+            commandLine="echo 'Váš požadavek' > kontaktni_formular.txt"
             number={1}
             delay={0}
           />
           
           <WorkflowStep 
             icon={<FileCode size={24} />}
-            title="Design & Wireframing"
-            description="Create intuitive interfaces and user experiences that align with your brand and business objectives."
-            commandLine="figma --new design.fig && npm install design-system"
+            title="Informace o Vašem podnikání"
+            description="Bude Vám odeslán dodatečný formulář. Po přijetí požadavku se doptám na všechny potřebné informace, které budou potřeba pro správné vytvoření Vašich stránek."
+            commandLine="mkdir podnikani_info && touch podnikani_info/formular.md"
             number={2}
             delay={200}
           />
           
           <WorkflowStep 
             icon={<Code size={24} />}
-            title="Development"
-            description="Transform designs into fully functional websites with clean, efficient, and maintainable code."
-            commandLine="git init && npm install && wp scaffold theme custom_theme"
+            title="Platba první části projektu"
+            description="Při přijetí všech informací a vzájemnému potvrzení se neplatí celý projekt, ale pouze 50%. To slouží pro zaplacení počátečních nákladů, jako jsou například doména a webhosting."
+            commandLine="payment --amount '50%' --service 'doména a webhosting'"
             number={3}
             delay={400}
           />
           
           <WorkflowStep 
             icon={<RefreshCw size={24} />}
-            title="Testing & Refinement"
-            description="Rigorous testing across devices and browsers to ensure a flawless user experience."
-            commandLine="npm run test && lighthouse --view && pagespeed insights"
+            title="WEB - Začátek práce na projektu"
+            description="Nyní začínám pracovat na Vámi zadaném projektu. Veškeré informace předem budou zodpovězeny. Kolik času zabere tvorba a konkrétní cenu se dozvíte ještě před tím, než začnu Vaši stránku zhotovovat."
+            commandLine="cd nas_projekt && git init && npm start"
             number={4}
             delay={600}
           />
           
           <WorkflowStep 
             icon={<Zap size={24} />}
-            title="Launch & Optimization"
-            description="Seamless deployment and post-launch optimization to ensure peak performance."
-            commandLine="git push production && wp deploy --optimize --cache"
+            title="Předání webu"
+            description="Nakonec Vám předám veškeré informace a údaje. Následně se zaplatí zbylých 50%. To ale nemusí být konec naší společné cesty. Mohu Vám pomoci s další administrací webu a jeho obecné funkčnosti."
+            commandLine="deploy --production && send_credentials.sh"
             number={5}
             delay={800}
           />

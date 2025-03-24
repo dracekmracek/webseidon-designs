@@ -26,13 +26,13 @@ const PricingTier: React.FC<PricingTierProps> = ({
   return (
     <div 
       className={cn(
-        "animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 relative",
+        "opacity-100 translate-y-0 transition-all duration-700 relative",
         popular ? "transform md:scale-110 md:-translate-y-4 z-10" : ""
       )}
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div className={cn(
-        "h-full rounded-xl border transition-all duration-300 overflow-hidden relative bg-white dark:bg-ocean-darker/60 backdrop-blur-sm",
+        "h-full rounded-xl border transition-all duration-300 overflow-hidden relative bg-ocean-dark/60 backdrop-blur-sm",
         popular 
           ? "border-gold shadow-gold" 
           : "border-ocean-light/20 hover:border-ocean-light/50"
@@ -40,7 +40,7 @@ const PricingTier: React.FC<PricingTierProps> = ({
         {popular && (
           <div className="absolute top-0 right-0">
             <div className="text-xs font-medium bg-gold text-ocean-darker py-1 px-3 rounded-bl-lg">
-              Most Popular
+              Nejoblíbenější
             </div>
           </div>
         )}
@@ -49,18 +49,18 @@ const PricingTier: React.FC<PricingTierProps> = ({
           <div className="mb-6">
             <h3 className={cn(
               "text-xl font-serif font-bold",
-              popular ? "text-gold" : "text-foreground"
+              popular ? "text-gold" : "text-terminal-green"
             )}>
               {title}
             </h3>
             <div className="mt-4 flex items-baseline">
-              <span className="text-3xl md:text-4xl font-bold">{price}</span>
-              {price !== "Custom" && <span className="ml-1 text-muted-foreground">/mo</span>}
+              <span className="text-3xl md:text-4xl font-bold text-terminal-white">{price}</span>
+              {price !== "Na míru" && <span className="ml-1 text-terminal-cyan">/měs</span>}
             </div>
-            <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+            <p className="mt-2 text-sm text-terminal-white/90">{description}</p>
           </div>
           
-          <ul className="space-y-3 font-mono text-sm mb-8 flex-grow terminal-list">
+          <ul className="space-y-3 font-mono text-sm mb-8 flex-grow terminal-list text-terminal-white/90">
             {features.map((feature, index) => (
               <li key={index}>
                 {feature}
@@ -69,11 +69,19 @@ const PricingTier: React.FC<PricingTierProps> = ({
           </ul>
           
           <div className="mt-auto">
-            <button className={cn(
-              "w-full",
-              popular ? "btn-gold" : "btn-terminal"
-            )}>
-              Get Started
+            <button 
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className={cn(
+                "w-full",
+                popular ? "btn-gold" : "btn-terminal"
+              )}
+            >
+              Začít
             </button>
           </div>
         </div>
@@ -115,86 +123,152 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
   return (
     <section 
       id="pricing" 
-      ref={sectionRef}
       className={cn(
-        "py-20 md:py-32 relative overflow-hidden bg-gradient-to-b from-transparent via-ocean-light/5 to-transparent",
+        "py-16 md:py-24 relative overflow-hidden",
         className
       )}
     >
-      <div className="absolute top-0 left-0 w-full h-32 bg-wave-pattern bg-repeat-x bg-contain opacity-10 transform rotate-180"></div>
+      {/* Hlavní pozadí - elegantní gradient */}
+      <div className="absolute inset-0 bg-deep-ocean"></div>
+      
+      {/* Futuristická mřížka */}
+      <div className="absolute inset-0 bg-wavy-grid opacity-10 pointer-events-none"></div>
+      
+      {/* Jemný šum */}
+      <div className="absolute inset-0 bg-noise"></div>
+      
+      {/* Glow efekty */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-ocean-light/10 filter blur-3xl"></div>
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-gold/5 filter blur-3xl"></div>
+      
+      {/* Pohyblivé částice */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div 
+            key={i}
+            className="absolute h-1 w-1 rounded-full bg-gold/20 animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${8 + Math.random() * 8}s`,
+              animationDelay: `${Math.random() * 5}s`,
+              boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)'
+            }}
+          />
+        ))}
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
-            grep -i "pricing" | sort
+        <div className="text-center mb-12">
+          <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
+            grep -i "ceník" | sort
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            <span className="text-terminal-yellow">sudo</span> choose a plan that fits your project needs <span className="text-terminal-magenta">--no-cache</span>
+          <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            <span className="text-terminal-yellow">sudo</span> CENA/VÝKON řešení pro Váš byznys <span className="text-terminal-magenta">--no-cache</span>
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
           <PricingTier 
-            title="Basic Site"
-            price="$599"
-            description="Perfect for small businesses just getting started online"
+            title="Triton"
+            price="8 999 Kč"
+            description="Nejlevnější řešení pro začínající firmy"
             features={[
-              "Responsive WordPress site with up to 5 pages",
-              "Custom theme based on your brand",
-              "Basic SEO optimization",
-              "Contact form integration",
-              "1 month of support"
+              "1 stránka (vizitka)",
+              "Doménový Email",
+              "Základní SEO",
+              "Design, funkce ze šablon",
+              "Měsíc následných úprav a služeb",
+              "V ceně doména včetně hostingu"
             ]}
             delay={0}
           />
           
           <PricingTier 
-            title="Business Suite"
-            price="$1,299"
-            description="Comprehensive solution for established businesses"
+            title="Siréna"
+            price="11 999 Kč"
+            description="Cena/výkon: Ušetříte 20%"
             features={[
-              "Responsive WordPress site with up to 10 pages",
-              "Custom theme with advanced features",
-              "E-commerce integration (up to 20 products)",
-              "Advanced SEO package",
-              "Performance optimization",
-              "3 months of support & maintenance"
+              "Až 4 stránky",
+              "Vše z Triton balíčku",
+              "Pokročilé SEO",
+              "Úpravy designu na přání",
+              "Základní logo a obrázky na míru",
+              "V ceně doména včetně hostingu"
             ]}
             popular={true}
             delay={200}
           />
           
           <PricingTier 
-            title="Enterprise"
-            price="Custom"
-            description="Tailored solutions for large organizations"
+            title="Webseidon"
+            price="18 999 Kč"
+            description="All in 1 komplexní řešení"
             features={[
-              "Fully custom WordPress development",
-              "Unlimited pages & functionality",
-              "Advanced E-commerce & payment gateways",
-              "Custom plugin development",
-              "Premium hosting & security package",
-              "6 months of priority support",
-              "24/7 emergency assistance"
+              "Až 10 stránek",
+              "Vše z balíčku Siréna",
+              "Blog, galerie nebo třeba rezervace",
+              "Google analytics",
+              "Založení firemního profilu",
+              "V ceně doména včetně hostingu"
             ]}
             delay={400}
           />
         </div>
         
         <div className="mt-16 text-center">
-          <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 inline-block p-4 rounded-lg bg-terminal-black/10 backdrop-blur-md border border-ocean-light/10">
-            <p className="text-sm text-foreground/70 font-mono">
-              <span className="text-terminal-green">$</span> Need a custom solution? 
-              <a href="#contact" className="text-ocean-light underline ml-2 hover:text-gold transition-colors">
-                Contact us
-              </a>
-              <span className="animate-type-cursor inline-block w-2 h-4 ml-1 bg-ocean-light align-middle"></span>
+          <div className="opacity-100 translate-y-0 transition-all duration-700 inline-block p-6 rounded-lg bg-terminal-black backdrop-blur-md border border-terminal-green/30 my-12">
+            <p className="text-terminal-white font-mono text-base">
+              <span className="text-terminal-green mr-2">$</span>K dispozici jsou i <span className="text-terminal-cyan font-bold">měsíční plány údržby:</span>
             </p>
           </div>
         </div>
+
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
+          <PricingTier 
+            title="Hodinovka"
+            price="490 Kč"
+            description="Úkony navíc"
+            features={[
+              "Tvorba loga",
+              "SEO & Copywriting",
+              "Zálohování a obnova",
+              "Design a ostatní funkcionality webu",
+              "Fotografování a ostatní"
+            ]}
+            delay={0}
+          />
+          
+          <PricingTier 
+            title="Roční plán"
+            price="10 690 Kč"
+            description="Cena/výkon: Ušetříte 10%"
+            features={[
+              "Měsíční zálohování",
+              "2h úprav měsíčně",
+              "Konzultace 24/7",
+              "Optimalizace SEO",
+              "Pravidelné aktualizace"
+            ]}
+            popular={true}
+            delay={200}
+          />
+          
+          <PricingTier 
+            title="Měsíční plán"
+            price="990 Kč"
+            description="Flexibilní měsíční podpora"
+            features={[
+              "Měsíční zálohování",
+              "2h úprav a služeb",
+              "Konzultace 24/7",
+              "Optimalizace SEO",
+              "Pravidelné aktualizace"
+            ]}
+            delay={400}
+          />
+        </div>
       </div>
-      
-      <WaveAnimation position="bottom" variant="choppy" waveColor="rgba(93, 169, 233, 0.4)" />
     </section>
   );
 };

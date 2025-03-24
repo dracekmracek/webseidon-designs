@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
@@ -110,8 +109,28 @@
     @apply relative px-2 py-1 text-terminal-white/80 hover:text-terminal-green transition-colors duration-200 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-terminal-green after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full font-mono;
   }
 
+  .subtitle-text {
+    @apply text-lg text-terminal-cyan font-mono !important;
+  }
+
+  .faq-answer {
+    @apply text-terminal-cyan/90 font-mono !important;
+  }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-ocean-dark text-white hover:bg-ocean-medium focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 dark:focus:ring-offset-ocean-darker before:content-[''] before:absolute before:inset-0 before:bg-ocean-light/20 before:rounded-md before:scale-x-0 before:origin-left before:transition-transform hover:before:scale-x-100 overflow-hidden;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-ocean-dark text-white hover:bg-ocean-medium focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 dark:focus:ring-offset-ocean-darker relative overflow-hidden;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-ocean-darker text-white hover:bg-ocean-dark focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 dark:focus:ring-offset-ocean-darker relative overflow-hidden;
+  }
+
+  .btn-secondary::before {
+    @apply content-[''] absolute inset-0 bg-terminal-green/10 rounded-md scale-x-0 origin-right transition-transform;
+  }
+
+  .btn-secondary:hover::before {
+    @apply scale-x-100 origin-left;
   }
 
   .btn-gold {
@@ -181,6 +200,26 @@
   .terminal-output {
     @apply leading-relaxed whitespace-pre-wrap;
   }
+}
+
+/* Custom animation for terminal cursor */
+@keyframes terminal-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor-animated {
+  display: inline-block;
+  width: 0.6rem;
+  height: 1.25rem;
+  background-color: #A8FFA8;
+  animation: terminal-blink 1.06s step-end infinite;
+  vertical-align: middle;
+  margin-left: 0.125rem;
 }
 
 /* Custom Scrollbar */
@@ -278,18 +317,14 @@
 .typing-effect {
   overflow: hidden;
   white-space: nowrap;
-  border-right: 2px solid #8be9fd;
-  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  display: inline-block;
+  position: relative;
+  animation: typing 3s steps(30);
 }
 
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #8be9fd }
 }
 
 /* Water Effects */
@@ -340,6 +375,19 @@
 @keyframes bounce-wave-slow {
   0%, 100% { transform: translateY(-5px); }
   50% { transform: translateY(-20px); }
+}
+
+/* Vylepšená animace particles */
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translateY(-15px) translateX(10px); }
+  90% { opacity: 1; }
+  100% { transform: translateY(0) translateX(0); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 10s ease-in-out infinite;
 }
 
 .animate-bounce-slow {
@@ -420,4 +468,143 @@
 
 .bg-terminal-cyan {
   background-color: #8be9fd;
+}
+
+/* Background pro terminálový vzhled */
+.bg-terminal-grid {
+  background-image: radial-gradient(#6272a4 1px, transparent 0);
+}
+
+/* Nové gradienty a efektní pozadí */
+.bg-deep-ocean {
+  background: linear-gradient(135deg, #0A192F 0%, #172A45 50%, #2E5984 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.bg-cyber-grid {
+  background-image: 
+    linear-gradient(rgba(93, 169, 233, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 169, 233, 0.03) 1px, transparent 1px),
+    radial-gradient(rgba(93, 169, 233, 0.05) 1.5px, transparent 1.5px);
+  background-size: 50px 50px, 50px 50px, 50px 50px;
+  background-position: -1px -1px, -1px -1px, -1px -1px;
+}
+
+.bg-constellation {
+  background-color: #0A192F;
+  background-image: radial-gradient(rgba(93, 169, 233, 0.4) 1px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.bg-animated-gradient {
+  background: linear-gradient(-45deg, #0A192F, #172A45, #2E5984, #5DA9E9);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.bg-wavy-grid {
+  background-color: #0A192F;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(93, 169, 233, 0.03) 40px, rgba(93, 169, 233, 0.03) 41px),
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(93, 169, 233, 0.03) 40px, rgba(93, 169, 233, 0.03) 41px),
+    linear-gradient(135deg, #0A192F 0%, #172A45 100%);
+}
+
+.bg-glass-shatter {
+  background-color: #0A192F;
+  background-image: 
+    linear-gradient(135deg, rgba(93, 169, 233, 0.05) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(93, 169, 233, 0.05) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(93, 169, 233, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(93, 169, 233, 0.05) 25%, transparent 25%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px, 50px 50px, 0 0;
+}
+
+/* Upravený digital rain efekt - jemnější ale jasnější */
+.bg-digital-rain {
+  position: relative;
+}
+
+.bg-digital-rain::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(93, 169, 233, 0.08) 1px, transparent 1px);
+  background-size: 100% 12px;
+  filter: brightness(1.3) contrast(1.2);
+  animation: digitalRain 25s linear infinite;
+  pointer-events: none;
+}
+
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.glow-border {
+  box-shadow: 0 0 15px rgba(93, 169, 233, 0.3);
+  border: 1px solid rgba(93, 169, 233, 0.2);
+}
+
+.cyber-gradient {
+  background: linear-gradient(135deg, rgba(93, 169, 233, 0.1) 0%, rgba(139, 233, 253, 0.1) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease infinite;
+}
+
+/* Přidáme novou animaci pro gradienty */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes digitalRain {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 1000px; }
+}
+
+/* Holografický efekt */
+.holographic {
+  position: relative;
+  overflow: hidden;
+}
+
+.holographic::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  right: -100%;
+  bottom: -100%;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%);
+  transform: rotate(45deg);
+  animation: holographicShift 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes holographicShift {
+  0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+  100% { transform: translateX(50%) translateY(50%) rotate(360deg); }
 }

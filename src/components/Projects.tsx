@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -144,56 +143,30 @@ const ProjectDetail: React.FC<{
 
 const Projects: React.FC<ProjectsProps> = ({ className }) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [selectedProject, setSelectedProject] = useState<null | {
-    title: string;
-    category: string;
-    image: string;
-    description: string;
-    technologies: string[];
-  }>(null);
+  const [selectedProject, setSelectedProject] = useState<null | (typeof projects[0] & { date?: string; url?: string })>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const projects = [
     {
-      title: "Ocean Blue E-commerce",
-      category: "E-commerce",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "A premium e-commerce platform for a luxury ocean-themed jewelry brand. The design incorporates fluid animations and a sophisticated color palette that evokes the mystery and beauty of the deep sea.",
-      technologies: ["WordPress", "WooCommerce", "Custom Theme", "GSAP", "PHP", "MySQL"]
+      title: "autoskla-vejmola.cz",
+      category: "Automotive Service",
+      image: "https://images.unsplash.com/photo-1571172964276-91faaa704e1f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      description: "Webové stránky pro služby výměny a opravy autoskel. Web zahrnuje online rezervační systém a automatické kalkulace cen na základě typu vozidla a služby.",
+      technologies: ["WordPress", "WooCommerce", "Custom Theme", "PHP", "MySQL", "Booking System"]
     },
     {
-      title: "Coastal Retreats",
-      category: "Travel & Hospitality",
-      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "A booking website for exclusive beach-front properties. The site features interactive maps, real-time availability, and a seamless booking experience with secure payment processing.",
-      technologies: ["WordPress", "Custom Plugin Development", "Google Maps API", "Stripe", "CSS3 Animations"]
+      title: "unamisteel.cz",
+      category: "Manufacturing",
+      image: "https://images.unsplash.com/photo-1584824388173-8dd77cc6bd4d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      description: "Firemní prezentace pro výrobce ocelových konstrukcí. Web obsahuje portfolio realizovaných projektů, parametrické kalkulačky pro odhad ceny a přehled nabízených služeb.",
+      technologies: ["WordPress", "Custom Theme", "JS Animations", "PHP", "Responsive Design", "SEO Optimization"]
     },
     {
-      title: "Marine Conservation Fund",
-      category: "Non-Profit",
-      image: "https://images.unsplash.com/photo-1533713692156-f70938dc0d54?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
-      description: "A website for a marine conservation organization that needed a platform to showcase their work, accept donations, and organize volunteer events. The site includes interactive infographics and a donation system.",
-      technologies: ["WordPress", "Donation System", "Event Management", "D3.js", "Responsive Design"]
-    },
-    {
-      title: "Aquatic Sports Club",
-      category: "Sports & Recreation",
-      image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "A dynamic website for a water sports club offering various activities including surfing, sailing, and scuba diving. The site includes membership management, event scheduling, and weather integration.",
-      technologies: ["WordPress", "Custom Theme", "Membership Plugin", "REST API", "Weather Integration"]
-    },
-    {
-      title: "Deep Blue Analytics",
-      category: "Business & Finance",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1426&q=80",
-      description: "A corporate website for a data analytics firm that specializes in maritime shipping logistics. The site features interactive data visualizations and a client portal for accessing custom reports.",
-      technologies: ["WordPress", "Custom Plugin", "Chart.js", "User Authentication", "AJAX"]
-    },
-    {
-      title: "Seaside Wellness Spa",
-      category: "Health & Wellness",
-      image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "A tranquil website for a luxury spa offering ocean-inspired treatments. The design emphasizes relaxation with smooth animations, blue tones, and an intuitive booking system for treatments and packages.",
-      technologies: ["WordPress", "Booking System", "Custom Theme", "CSS Animations", "Mobile Optimization"]
+      title: "Cybersec Platform",
+      category: "Cybersecurity",
+      image: "https://images.unsplash.com/photo-1544890225-2f3faec4cd60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      description: "Platforma pro vzdělávání v oblasti kybernetické bezpečnosti. Web obsahuje interaktivní kurzy, cvičení a simulace hackerských útoků v bezpečném prostředí.",
+      technologies: ["React", "Node.js", "MongoDB", "Docker", "WebSocket", "Auth0"]
     },
   ];
 
@@ -228,43 +201,191 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
   return (
     <section 
       id="projects" 
-      ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden",
+        "py-16 md:py-24 relative overflow-hidden",
         className
       )}
     >
-      {/* Background Decoration */}
-      <div className="absolute bottom-0 right-0 w-full h-1/2 bg-wave-pattern bg-repeat-x bg-contain opacity-5 transform rotate-180"></div>
-
+      {/* Hlavní pozadí s gradientem */}
+      <div className="absolute inset-0 bg-deep-ocean"></div>
+      
+      {/* Pokročilá mřížka v pozadí */}
+      <div className="absolute inset-0 bg-glass-shatter opacity-10 pointer-events-none"></div>
+      
+      {/* Šumový efekt pro autentický vzhled */}
+      <div className="absolute inset-0 bg-noise"></div>
+      
+      {/* Světelné gradientové efekty */}
+      <div className="absolute top-1/4 right-0 w-80 h-80 bg-ocean-light/10 rounded-full filter blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-ocean-light/5 rounded-full filter blur-3xl"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 section-title inline-block after:left-1/2 after:-translate-x-1/2">
-            Recent Projects
+        <div className="text-center mb-12">
+          <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
+            find ./projekty -type f -name "*.html" | sort
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80">
-            Dive into my portfolio of WordPress websites and web applications that showcase my expertise in creating powerful digital experiences.
+          <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            Ukázky uskutečněných projektů a spolupráce
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
-            <ProjectCard 
-              key={index}
-              title={project.title}
-              category={project.category}
-              image={project.image}
-              delay={index * 100}
-              onClick={() => setSelectedProject(project)}
-            />
+            <div 
+              key={project.title} 
+              className="opacity-100 translate-y-0 transition-all duration-700"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="group cyber-gradient backdrop-blur-md rounded-lg overflow-hidden border border-ocean-light/10 hover:border-ocean-light/30 shadow-lg hover:shadow-ocean transition-all duration-300 h-full hover:scale-[1.02] hover:-translate-y-1 glow-border relative">
+                {/* Overlay efekty */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-noise transition-opacity duration-300 z-10"></div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 holographic transition-opacity duration-300 z-10"></div>
+                
+                <div className="relative overflow-hidden aspect-[16/9]">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ocean-darker/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-0 p-4 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech, techIndex) => (
+                        <span 
+                          key={techIndex}
+                          className="px-2 py-1 text-xs rounded-full bg-terminal-cyan/20 text-terminal-cyan font-mono"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-5">
+                  <h3 className="font-bold text-lg mb-2 font-mono text-terminal-white group-hover:text-terminal-cyan transition-colors duration-300">{project.title}</h3>
+                  <p className="font-mono text-terminal-white/80 text-sm mb-4">{project.description}</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <button 
+                      onClick={() => setSelectedProject(project)}
+                      className="inline-flex items-center font-mono text-sm text-terminal-green hover:text-terminal-cyan transition-colors duration-200"
+                    >
+                      <span className="mr-1">{'>'}</span> Zobrazit detail
+                    </button>
+                    <span className="text-xs text-terminal-white/50 font-mono">{project.category}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
+        
+        <div className="text-center mt-16">
+          <div className="inline-flex items-center bg-terminal-black px-4 py-3 rounded-md border border-terminal-green/30 font-mono text-sm text-terminal-green">
+            <span className="mr-2">$</span>
+            find /projects -type f -name "*.html" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">wc</span> -l <span className="blink-cursor">■</span>
+          </div>
+        </div>
+        
+        {/* Project Modal */}
+        {selectedProject && (
+          <div className="fixed inset-0 bg-ocean-darker/80 backdrop-blur-md z-50 overflow-y-auto flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+            
+            <div 
+              className="w-full max-w-4xl bg-deep-ocean rounded-xl shadow-2xl relative animate-fade-in-up overflow-hidden glow-border"
+              ref={modalRef}
+            >
+              <div className="absolute inset-0 bg-cyber-grid opacity-10 pointer-events-none"></div>
+              <div className="absolute inset-0 holographic opacity-10 pointer-events-none"></div>
+              
+              <div className="flex justify-between items-center p-4 border-b border-ocean-light/10">
+                <h3 className="text-xl font-bold font-mono text-terminal-cyan">
+                  {selectedProject.title}
+                </h3>
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="text-terminal-white/70 hover:text-terminal-white transition-colors"
+                  aria-label="Zavřít"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <div className="relative rounded-lg overflow-hidden mb-4 border border-ocean-light/10">
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {selectedProject.technologies.map((tech, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 text-xs rounded-full bg-terminal-cyan/20 text-terminal-cyan font-mono"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="mb-6">
+                      <h4 className="text-lg font-bold mb-2 font-mono text-terminal-white">O projektu</h4>
+                      <p className="text-terminal-white/80 font-mono text-sm">{selectedProject.description}</p>
+                    </div>
+                    
+                    <div className="mb-6">
+                      <h4 className="text-lg font-bold mb-2 font-mono text-terminal-white">Podrobnosti</h4>
+                      <ul className="space-y-2 text-sm text-terminal-white/80 font-mono">
+                        <li><span className="text-terminal-green mr-2">Kategorie:</span>{selectedProject.category}</li>
+                        <li><span className="text-terminal-green mr-2">Vytvořeno:</span>{selectedProject.date || "2023"}</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="mb-6">
+                      <h4 className="text-lg font-bold mb-2 font-mono text-terminal-white">Technický přístup</h4>
+                      <p className="text-terminal-white/80 font-mono text-sm">
+                        Projekt byl implementován s důrazem na výkon, SEO a moderní uživatelský zážitek.
+                        Bylo využito responzivního designu a optimalizace pro mobilní zařízení.
+                      </p>
+                    </div>
+                    
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setSelectedProject(null)}
+                        className="btn-terminal"
+                      >
+                        Zavřít
+                      </button>
+                      {selectedProject.url && (
+                        <a
+                          href={selectedProject.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary"
+                        >
+                          <span className="font-mono mr-2">$</span>
+                          Navštívit web
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <ProjectDetail 
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
     </section>
   );
 };

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -158,7 +157,7 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
           <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
             grep "insights" /var/www/blog
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
+          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
             <span className="text-terminal-magenta">find</span> ./articles <span className="text-terminal-red">-type</span> f <span className="text-terminal-red">-name</span> "*.md" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">head</span> -n 3
           </p>
         </div>
@@ -182,44 +181,7 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
           </button>
         </div>
         
-        {/* Newsletter signup */}
-        <div className="mt-20 animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-4xl mx-auto">
-          <div className="p-8 rounded-xl bg-ocean-gradient text-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-serif font-bold mb-3">Subscribe to Our Newsletter</h3>
-                <p className="text-white/80 mb-4">
-                  Get the latest WordPress tips, tricks, and tutorials delivered directly to your inbox.
-                </p>
-                <div className="flex items-center text-sm text-white/70 font-mono">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                  </svg>
-                  One email per month. No spam.
-                </div>
-              </div>
-              
-              <div>
-                <form className="space-y-3">
-                  <div>
-                    <input 
-                      type="email" 
-                      placeholder="Enter your email address" 
-                      className="w-full px-4 py-3 rounded-md border border-white/30 bg-white/10 backdrop-blur-sm text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
-                    />
-                  </div>
-                  <button type="submit" className="w-full btn-gold">
-                    <span className="mr-2">Subscribe</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                      <line x1="22" y1="2" x2="11" y2="13"></line>
-                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </section>
   );

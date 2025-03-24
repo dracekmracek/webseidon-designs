@@ -1,7 +1,6 @@
-
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Code, Terminal } from 'lucide-react';
+import { Code, Terminal, CheckCircle2 } from 'lucide-react';
 
 interface ServicesProps {
   className?: string;
@@ -11,37 +10,49 @@ interface ServiceCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  command: string;
+  features: string[];
   delay?: number;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, description, command, delay = 0 }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, description, features, delay = 0 }) => {
   return (
     <div 
-      className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 relative group"
-      style={{ transitionDelay: `${delay}ms` }}
+      className="opacity-100 translate-y-0 transition-all duration-700"
+      style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-terminal-blue/5 to-transparent rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      <div className="relative p-6 rounded-xl border border-terminal-green/20 hover:border-terminal-green/40 transition-all duration-300 h-full flex flex-col hover-lift bg-terminal-black/50 backdrop-blur-sm">
+      <div className="group cyber-gradient backdrop-blur-md rounded-lg p-6 border border-ocean-light/10 hover:border-ocean-light/30 shadow-lg hover:shadow-ocean transition-all duration-300 relative h-full hover:scale-[1.02] hover:-translate-y-1 glow-border">
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-noise transition-opacity duration-300"></div>
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-20 holographic transition-opacity duration-300"></div>
+                
         <div className="flex items-center mb-4">
-          <div className="flex gap-1.5 mr-auto">
-            <div className="w-3 h-3 rounded-full bg-terminal-red"></div>
-            <div className="w-3 h-3 rounded-full bg-terminal-yellow"></div>
-            <div className="w-3 h-3 rounded-full bg-terminal-green"></div>
+          <div className="p-2 rounded-md bg-terminal-cyan/10 text-terminal-cyan mr-4">
+            {icon}
           </div>
-          <div className="text-terminal-white/70 text-xs font-mono">~/services/{title.toLowerCase().replace(/\s+/g, '-')}</div>
+          <h3 className="text-xl font-bold font-mono text-terminal-white">
+            {title}
+          </h3>
         </div>
-        <div className="flex items-start mb-5">
-          <div className="text-terminal-green mr-3 mt-1">{icon}</div>
-          <div>
-            <h3 className="text-xl font-mono font-bold mb-2 text-terminal-white">{title}</h3>
-            <p className="text-terminal-white/70 flex-grow font-mono text-sm">{description}</p>
-          </div>
-        </div>
-        <div className="mt-auto pt-4 border-t border-terminal-green/10">
-          <div className="font-mono text-sm">
-            <span className="text-terminal-green">$</span> <span className="text-terminal-white">{command}</span>
-          </div>
+        
+        <p className="mb-4 font-mono text-terminal-white/80">
+          {description}
+        </p>
+        
+        <ul className="mb-6 space-y-2">
+          {features.map((feature, idx) => (
+            <li key={idx} className="flex items-start text-sm">
+              <CheckCircle2 className="h-5 w-5 text-terminal-green mr-2 flex-shrink-0 mt-0.5" />
+              <span className="text-terminal-white/90 font-mono">{feature}</span>
+            </li>
+          ))}
+        </ul>
+        
+        <div className="mt-auto">
+          <a 
+            href="#contact" 
+            className="inline-block font-mono text-terminal-green hover:text-terminal-cyan transition-colors duration-200 border-b border-terminal-green/30 hover:border-terminal-cyan"
+          >
+            <span className="mr-1">{'>'}</span> Zjistit více
+          </a>
         </div>
       </div>
     </div>
@@ -82,32 +93,42 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
   return (
     <section 
       id="services" 
-      ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden bg-gradient-to-b from-transparent via-ocean-darker/20 to-transparent",
+        "py-16 md:py-24 relative overflow-hidden",
         className
       )}
     >
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnY0em0wLTZ2LTRoLTJ2NGgyek00NiAxNGgtMnYtNGgydjR6TTI0IDIyaC00djJoNHYyaDJ2LTRoLTJ6TTEyIDMwdi0ySDh2MmgzdjJoMnYtMmgtMXptLTIgNnYtMkg4djJoMnptMCAxMHYtMmgtMnYyaDJ6bTMyLTI2di00aC0ydjRoMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-5"></div>
-
+      {/* Moderní gradient pozadí */}
+      <div className="absolute inset-0 bg-deep-ocean"></div>
+      
+      {/* Cyber grid */}
+      <div className="absolute inset-0 bg-wavy-grid opacity-10 pointer-events-none"></div>
+      
+      {/* Šumový texturový overlay */}
+      <div className="absolute inset-0 bg-noise"></div>
+      
+      {/* Glow efekty */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-ocean-light/10 rounded-full filter blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-ocean-light/5 rounded-full filter blur-3xl"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block mb-6">
-            services --list-all
+        <div className="text-center mb-12">
+          <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
+            ls -la /services
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            # Harnessing the power of modern web technologies to create exceptional digital experiences for businesses and individuals.
+          <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            Poskytované služby přímo na míru Vašim potřebám
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <ServiceCard 
             icon={
               <Terminal className="w-8 h-8" />
             }
-            title="WordPress Development"
-            description="Custom WordPress websites with modern architecture, optimized performance and tailored to your specific needs."
-            command="sudo apt install wordpress-custom"
+            title="Tvorba webových stránek"
+            description="Vizitkové weby, střední i větší weby o více stránkách. E-shopy lze domluvit individuálně, maximálně však o 20 produktech."
+            features={["Vizitkové weby", "Střední i větší weby o více stránkách", "E-shopy lze domluvit individuálně, maximálně však o 20 produktech"]}
             delay={0}
           />
           
@@ -119,9 +140,9 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
                 <path d="M21 15l-5-5L5 21"></path>
               </svg>
             }
-            title="UI/UX Design"
-            description="Intuitive interfaces and engaging user experiences that provide seamless navigation across all devices."
-            command="./design --intuitive --responsive"
+            title="Copywriting"
+            description="Copywritingové služby, tvorba blogu a příspěvků pro větší organickou dosažitelnost. Cena služby se odvíjí od hodinového ceníku."
+            features={["Copywritingové služby", "Tvorba blogu a příspěvků pro větší organickou dosažitelnost", "Cena služby se odvíjí od hodinového ceníku"]}
             delay={100}
           />
           
@@ -134,9 +155,9 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
             }
-            title="E-commerce Solutions"
-            description="WooCommerce and custom e-commerce implementations with secure payment gateways and optimized product displays."
-            command="npm install woocommerce --secure"
+            title="SEO optimalizace"
+            description="Analýza Vašeho webu, následná optimalizace pro organickou dosažitelnost. Základní nastavení Search Engine Optimization je v každém balíčku tvorby webu."
+            features={["Analýza Vašeho webu", "Následná optimalizace pro organickou dosažitelnost", "Základní nastavení Search Engine Optimization je v každém balíčku tvorby webu"]}
             delay={200}
           />
           
@@ -151,9 +172,9 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
               </svg>
             }
-            title="Custom Web Applications"
-            description="Tailor-made web applications with advanced functionality and integrations to meet your business requirements."
-            command="git clone custom-webapp && cd custom-webapp"
+            title="Redesign webu"
+            description="Pokud Váš stávající web používá CMS WordPress, není problém se pustit do upgradu. Pokud ne, tak je nutné na hostingu WordPress nejprve nainstalovat."
+            features={["Pokud Váš stávající web používá CMS WordPress", "Není problém se pustit do upgradu", "Je nutné na hostingu WordPress nejprve nainstalovat"]}
             delay={300}
           />
           
@@ -165,9 +186,9 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
               </svg>
             }
-            title="Website Maintenance"
-            description="Regular updates, security patches, and ongoing support to keep your website running smoothly and securely."
-            command="crontab -e && systemctl restart nginx"
+            title="Tvorba loga"
+            description="Navrhnu Vám logo s mnoha variantami. Konečné logo lze taky převést do vektoru. Vektor je nejideálnější formát pro webové stránky."
+            features={["Navrhnu Vám logo s mnoha variantami", "Konečné logo lze taky převést do vektoru", "Vektor je nejideálnější formát pro webové stránky"]}
             delay={400}
           />
           
@@ -175,9 +196,9 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
             icon={
               <Code className="w-8 h-8" />
             }
-            title="SEO Optimization"
-            description="On-page and technical SEO to improve your website's visibility in search engines and drive organic traffic."
-            command="./optimize --seo --performance"
+            title="Podpora a údržba"
+            description="Budu Vám po ruce kdykoliv, kdy nastane problém, nebo jen budete chtít něco změnit. Nabízím měsíční i roční podporu pro Váš web."
+            features={["Budu Vám po ruce kdykoliv", "Kdy nastane problém", "Nabízím měsíční i roční podporu pro Váš web"]}
             delay={500}
           />
         </div>

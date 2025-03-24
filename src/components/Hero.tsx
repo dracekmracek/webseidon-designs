@@ -1,5 +1,4 @@
-
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import WaveAnimation from './WaveAnimation';
 import { Terminal } from 'lucide-react';
@@ -9,266 +8,395 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ className }) => {
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const tridentRef = useRef<HTMLDivElement>(null);
+  const [terminalOutput, setTerminalOutput] = useState<string[]>([
+    "Init systém webseidon v1.0.3",
+    "Kontrola závislostí...... OK",
+    "Nahrávání rozhraní............ OK",
+    "Načítání kreativního enginu.......... OK",
+    "Inicializace webového božstva........... OK",
+    "Připojování ke Kosmickému oceánskému API............ OK",
+    "Systém webseidon připraven.",
+    "Zadejte 'help' pro zobrazení příkazů."
+  ]);
+  const [userInput, setUserInput] = useState("");
+  const [cursorVisible, setCursorVisible] = useState(true);
+  const inputRef = useRef<HTMLDivElement>(null);
+  const terminalContentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Animate elements on load
-    const timer = setTimeout(() => {
-      document.querySelectorAll('.hero-animate').forEach((el, index) => {
-        setTimeout(() => {
-          el.classList.add('opacity-100');
-          el.classList.remove('translate-y-10');
-        }, index * 200);
-      });
-    }, 300);
+  // Commands that can be entered by the user
+  const commands: Record<string, () => string[]> = {
+    help: () => [
+      "Dostupné příkazy:",
+      "  help          - Zobrazí tento seznam příkazů",
+      "  služby        - Zobrazí nabízené služby",
+      "  kontakt       - Ukáže kontaktní informace",
+      "  projekty      - Příklady našich projektů",
+      "",
+      "Linuxové příkazy:",
+      "  ls            - Výpis souborů",
+      "  pwd           - Aktuální adresář",
+      "  whoami        - Kdo používá tento terminál",
+      "  date          - Aktuální datum a čas",
+      "  cat [soubor]  - Zobrazí obsah souboru",
+      "  mkdir [název] - Vytvoří složku",
+      "  rm [soubor]   - Smaže soubor"
+    ],
+    clear: () => [],
+    služby: () => [
+      "Nabízené služby:",
+      "- Zakázkový vývoj webových stránek, nebo softwaru",
+      "- WordPress, nebo Next.js řešení",
+      "- Redesign a optimalizace existujících webů",
+      "- SEO a digitální marketingové služby",
+      "- Webhosting a správa",
+    ],
+    kontakt: () => [
+      "Kontaktní informace:",
+      "Email: info@webseidon.cz",
+      "Telefon: +420 776 211 336",
+      "Web: webseidon.cz",
+    ],
+    projekty: () => [
+      "Navštivte portfolio v sekci níže",
+      "Spouštím 'zobrazit_projekty.sh'...",
+    ],
+    ls: () => [
+      "website-templates/",
+      "next-projects/",
+      "portfolio.txt",
+      "wordpress-starter.zip",
+      "webseidon-secret-sauce.sh",
+      "client-projects/",
+      "responsive-designs/",
+      "cool-animations.css",
+    ],
+    pwd: () => [
+      "/home/webseidon/web-development/ocean-designs"
+    ],
+    whoami: () => [
+      "webseidon - webový vývojář a digitální kouzelník",
+      "Status: Připraven na tvorbu úžasných webových stránek"
+    ],
+    date: () => {
+      const now = new Date();
+      return [`${now.toLocaleDateString()} ${now.toLocaleTimeString()} - Čas začít s novým webem!`];
+    },
+    cat: () => [
+      "Pro jaký soubor? Zkuste 'cat portfolio.txt' nebo 'cat webseidon-secret-sauce.sh'"
+    ],
+    "cat portfolio.txt": () => [
+      "=== PORTFOLIO WEBSEIDON ===",
+      "- E-shop pro lokální značku oblečení",
+      "- Webové stránky pro právnickou kancelář",
+      "- Rezervační systém pro restauraci",
+      "- Osobní blog s automatickým zálohováním",
+      "- Single-page aplikace pro realitní kancelář",
+      "... a mnoho dalších projektů, které změnily podnikání našich klientů!"
+    ],
+    "cat webseidon-secret-sauce.sh": () => [
+      "#!/bin/bash",
+      "# TAJNÝ RECEPT WEBSEIDON",
+      "# Varování: Následující kód může způsobit nárůst návštěvnosti webu a zvýšení konverzí!",
+      "",
+      "mix_ingredients() {",
+      "  echo \"Přidávám responzivní design...\"",
+      "  echo \"Míchám s optimalizací pro SEO...\"",
+      "  echo \"Přisypávám rychlost načítání...\"",
+      "  echo \"Dochucuji UX designem...\"",
+      "}",
+      "",
+      "# Hlavní tajná přísada je láska ke kódu!"
+    ],
+    mkdir: () => [
+      "Složka úspěšně vytvořena! (Ale jen virtuálně - toto je pouze simulace terminálu)",
+      "Tip: Skutečnou složku pro váš web můžeme vytvořit na našem serveru. Kontaktujte nás!"
+    ],
+    rm: () => [
+      "Chcete smazat staré webové stránky a nahradit je novými?", 
+      "Volejte Webseidon a my to za vás rádi uděláme! Bez rm příkazu a mnohem elegantněji."
+    ],
+    sudo: () => [
+      "Pro využití sudo oprávnění musíte být Webseidon klient.",
+      "Staňte se klientem a získejte přístup k exkluzivním možnostem!"
+    ],
+    "sudo apt-get install webseidon": () => [
+      "Čtu seznamy balíčků... Hotovo",
+      "Stavím strom závislostí... Hotovo",
+      "Instaluji Webseidon webdesign balíček:",
+      "  - moderní_design (100%)",
+      "  - responzivní_zobrazení (100%)",
+      "  - seo_optimalizace (100%)",
+      "  - rychlé_načítání (100%)",
+      "Balíček úspěšně nainstalován!",
+      "Váš web je nyní o 1000% lepší!"
+    ],
+    "apt-get install wordpress": () => [
+      "Nemáte oprávnění pro tuto operaci. Zkuste: sudo apt-get install webseidon",
+      "Webseidon WordPress instalace zahrnuje zabezpečení, optimalizaci a prémiové pluginy!"
+    ],
+    "git clone webseidon": () => [
+      "Klonuji repozitář 'webseidon'...",
+      "Stahování kreativity...",
+      "Stahování designových vzorů...",
+      "Stahování webových zkušeností...",
+      "Chyba: Nelze naklonovat kreativitu. Kontaktujte Webseidon pro osobní přístup!"
+    ],
+    "npm install": () => [
+      "added 1,286 packages, and audited 1,287 packages in 5s",
+      "108 packages are looking for funding",
+      "Webseidon dependencies installed successfully!",
+      "Chcete spustit npm run dev? Kontaktujte Webseidon a my to za vás uděláme lépe!"
+    ],
+    grep: () => [
+      "Hledání 'úspěšný web' v databázi klientů...",
+      "Nalezeno: všichni klienti Webseidon mají úspěšný web!",
+      "Důkaz: zeptejte se kteréhokoliv z nich nebo si prohlédněte naše portfolio."
+    ],
+    man: () => [
+      "MAN(1) - Manuálová stránka Webseidon",
+      "",
+      "NÁZEV",
+      "     webseidon - webový designér a vývojář pro úspěšné firmy",
+      "",
+      "POUŽITÍ",
+      "     kontaktujte webseidon pro [projekt] [rozpočet] [termín]",
+      "",
+      "POPIS",
+      "     Webseidon je webové studio specializující se na tvorbu",
+      "     moderních a efektivních webových stránek pro firmy a",
+      "     živnostníky, kteří chtějí růst v online světě."
+    ],
+    ping: () => [
+      "PING webseidon.cz (192.168.1.1): 56 data bytes",
+      "64 bytes from 192.168.1.1: icmp_seq=0 ttl=64 time=0.8 ms",
+      "64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.5 ms",
+      "64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=0.6 ms",
+      "--- webseidon.cz ping statistics ---",
+      "3 packets transmitted, 3 packets received, 0.0% packet loss",
+      "round-trip min/avg/max/stddev = 0.5/0.6/0.8/0.1 ms",
+      "",
+      "Webseidon je vždy online a připraven pomoci! Kontaktujte nás."
+    ]
+  };
 
-    // Floating animation for trident
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!tridentRef.current) return;
-      
-      const { clientX, clientY } = e;
-      const rect = tridentRef.current.getBoundingClientRect();
-      
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const moveX = (clientX - centerX) / 50;
-      const moveY = (clientY - centerY) / 50;
-      
-      tridentRef.current.style.transform = `translate(${moveX}px, ${moveY}px) rotate(15deg)`;
-    };
-
-    // Terminal typing effect
-    const terminalOutput = document.getElementById('terminal-output');
-    if (terminalOutput) {
-      const text = "Init system webseidon v1.0.3\nLoading kernel modules...\nMounting file systems...\nStarting network services...\nWebseidon loaded successfully.\nType 'help' for commands.";
-      let i = 0;
-      const typeWriter = () => {
-        if (i < text.length) {
-          terminalOutput.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-          i++;
-          setTimeout(typeWriter, Math.random() * 50 + 30);
-        } else {
-          terminalOutput.innerHTML += '<span class="terminal-cursor">█</span>';
-        }
-      };
-      typeWriter();
-    }
-
-    window.addEventListener('mousemove', handleMouseMove);
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    const trimmedInput = userInput.trim();
+    const commandLower = trimmedInput.toLowerCase();
+    
+    // Add the user input to the terminal with bash-like prompt
+    setTerminalOutput(prev => [...prev, `webseidon@server:~$ ${trimmedInput}`]);
+    
+    // Clear the input
+    setUserInput("");
+    
+    // Reset contentEditable div
+    if (inputRef.current) {
+      inputRef.current.textContent = "";
+    }
+    
+    // Process command
+    setTimeout(() => {
+      let commandFn: (() => string[]) | undefined;
+      
+      // Try exact match first
+      commandFn = commands[trimmedInput];
+      
+      // If not found, try lowercase version
+      if (!commandFn) {
+        commandFn = commands[commandLower];
+      }
+      
+      // Handle special cases for commands with arguments (like cat filename)
+      if (!commandFn && trimmedInput.startsWith('cat ')) {
+        const fullCommand = trimmedInput;
+        commandFn = commands[fullCommand];
+        if (!commandFn) {
+          const filename = trimmedInput.substring(4).trim();
+          commandFn = () => [`Soubor '${filename}' nenalezen. Zkuste 'cat portfolio.txt'`];
+        }
+      }
+      
+      // Handle commands with arguments that we don't specifically handle
+      if (!commandFn && (trimmedInput.startsWith('mkdir ') || trimmedInput.startsWith('rm '))) {
+        const command = trimmedInput.split(' ')[0];
+        commandFn = commands[command];
+      }
+      
+      // Handle unknown commands
+      if (!commandFn && trimmedInput !== "") {
+        commandFn = () => [`Příkaz nenalezen: ${trimmedInput}. Zkuste 'help' pro nápovědu.`];
+      }
+      
+      // Clear the terminal if command is 'clear'
+      if (commandLower === "clear") {
+        setTerminalOutput([]);
+      } else if (commandFn) {
+        // Execute the command and add the output to the terminal
+        setTerminalOutput(prev => [...prev, ...commandFn!()]);
+      }
+      
+      // Scroll to bottom after output is displayed
+      if (terminalContentRef.current) {
+        setTimeout(() => {
+          if (terminalContentRef.current) {
+            terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
+          }
+        }, 50);
+      }
+    }, 300);
+  };
+
+  // Blinking cursor effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCursorVisible(prev => !prev);
+    }, 530);
+    
+    return () => clearInterval(interval);
   }, []);
+
+  // Focus on click
+  const handleTerminalClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  // Handle key press
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
+  // Scroll to bottom when terminal output changes
+  useEffect(() => {
+    if (terminalContentRef.current) {
+      terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
+    }
+  }, [terminalOutput]);
 
   return (
     <section 
-      id="hero" 
+      id="home" 
       className={cn(
-        "relative min-h-screen flex items-center pt-28 pb-16 px-4 overflow-hidden",
+        "min-h-screen pt-20 pb-20 md:pt-32 md:pb-20 relative overflow-hidden bg-deep-ocean flex flex-col items-center justify-center",
         className
       )}
     >
-      {/* Static Water Background */}
-      <div className="absolute inset-0 bg-ocean-darker/80 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQwIiBoZWlnaHQ9IjMyMCIgZmlsbD0ibm9uZSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0icmdiYSg5MywgMTY5LCAyMzMsIDAuMDUpIiBkPSJNMCwxOTIgQzQ4LDE4MS4zIDk2LDE3MC43IDE0NCwxNjAgQzE5MiwxNDkuMyAyNDAsMTM4LjcgMjg4LDE0NCBDMTM2LDE0OS4zIDM4NCwxNzAuNyA0MzIsMTkyIEM0ODAsMjEzLjMgNTI4LDIzNC43IDU3NiwyMjkuMyBDNjI0LDIyNCA2NzIsMTkyIDcyMCwxODYuNyBDNzY4LDE4MS4zIDgxNiwyMDIuNyA4NjQsMjA4IEM5MTIsMjEzLjMgOTYwLDIwMi43IDEwMDgsMTg2LjcgQzEwNTYsMTcwLjcgMTEwNCwxNDkuMyAxMTUyLDE0NCBDMTI4NiwxNDkuMyAxMzQ0LDE2MCwxNDQwLDE5MiBMMTQ0MCwzMjAgTDEzOTIsMzIwIEMxMzQ0LDMyMCAxMjk2LDMyMCAxMjQ4LDMyMCBDMTIwMCwzMjAgMTE1MiwzMjAgMTEwNCwzMjAgQzEwNTYsMzIwIDEwMDgsMzIwIDk2MCwzMjAgQzkxMiwzMjAgODY0LDMyMCA4MTYsMzIwIEM3NjgsMzIwIDcyMCwzMjAgNjcyLDMyMCBDNjI0LDMyMCA1NzYsMzIwIDUyOCwzMjAgQzQ4MCwzMjAgNDMyLDMyMCAzODQsMzIwIEMzMzYsMzIwIDI4OCwzMjAgMjQwLDMyMCBDMTkyLDMyMCAxNDQsMzIwIDk2LDMyMCBMNDgsMzIwIEwwLDMyMCBaIj48L3BhdGg+PC9zdmc+')]  opacity-20 bg-repeat-x bg-bottom animate-wave-slow"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-ocean-darker/70 to-ocean-darker/10"></div>
-      </div>
-
-      <div className="container mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between">
-          <div className="w-full lg:w-1/2 lg:pr-12 mb-12 lg:mb-0">
-            <div className="flex items-center space-x-2 mb-3 opacity-0 translate-y-10 transition-all duration-700 hero-animate">
-              <div className="h-px w-12 bg-terminal-green"></div>
-              <span className="text-terminal-green text-sm font-mono tracking-wider uppercase">webseidon@server:~$</span>
+      {/* Ambient animated gradient background */}
+      <div className="absolute inset-0 opacity-100 bg-animated-gradient"></div>
+      
+      {/* Digital rain effect - zmírněný, ale jasnější */}
+      <div className="absolute inset-0 bg-digital-rain opacity-10 pointer-events-none brightness-125"></div>
+      
+      {/* Modern grid overlay */}
+      <div className="absolute inset-0 bg-cyber-grid opacity-15 pointer-events-none"></div>
+      
+      {/* Noise texture for depth */}
+      <div className="absolute inset-0 bg-noise"></div>
+      
+      {/* Container for content */}
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Left Column - Heading and Text */}
+          <div className="flex flex-col justify-center">
+            <div className="mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 text-white">
+                Přidejte se k ostatním na <span className="text-gradient-gold">vlnu Internetu!</span>
+              </h1>
+              <p className="text-lg md:text-xl text-white/90 max-w-lg">
+                Webové stránky pro malé firmy a živnostníky, kteří svému podnikání chtějí přidat na důvěryhodnosti a dostat do popředí skrze online svět.
+              </p>
             </div>
             
-            {/* Updated title */}
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 opacity-0 translate-y-10 transition-all duration-700 delay-100 hero-animate text-white">
-              Božské stránky pro malé firmy a živnostníky
-            </h1>
-            
-            {/* Terminal output box */}
-            <div className="bg-terminal-black border border-terminal-green/30 rounded-md p-4 mb-8 opacity-0 translate-y-10 transition-all duration-700 delay-200 hero-animate">
-              <div id="terminal-output" className="font-mono text-sm text-terminal-green"></div>
-            </div>
-            
-            <p className="font-mono text-foreground/80 mb-8 max-w-lg opacity-0 translate-y-10 transition-all duration-700 delay-200 hero-animate">
-              Vytváříme výjimečné webové zážitky s mocí digitálního božstva.
-              WordPress vývoj s moderními technikami a kreativní dokonalostí.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 opacity-0 translate-y-10 transition-all duration-700 delay-300 hero-animate">
-              <button
-                onClick={() => {
-                  const element = document.getElementById('projects');
-                  if (element) {
-                    const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
-                    window.scrollTo({
-                      top: offsetTop - 80,
-                      behavior: 'smooth'
-                    });
-                  }
-                }}
-                className="btn-terminal"
-              >
-                <Terminal className="mr-2 h-4 w-4" />
-                ./view_projects.sh
-              </button>
-              <button
-                onClick={() => {
-                  const element = document.getElementById('contact');
-                  if (element) {
-                    const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
-                    window.scrollTo({
-                      top: offsetTop - 80,
-                      behavior: 'smooth'
-                    });
-                  }
-                }}
+            <div className="flex flex-wrap gap-4 mb-8">
+              <a 
+                href="#services" 
                 className="btn-primary"
               >
-                Kontaktujte nás
-              </button>
+                <span className="font-mono mr-2">./</span>
+                Prozkoumat služby
+              </a>
+              <a 
+                href="#pricing" 
+                className="btn-secondary"
+              >
+                <span className="font-mono mr-2">$</span>
+                Ceník
+              </a>
             </div>
             
-            <div className="flex items-center space-x-4 opacity-0 translate-y-10 transition-all duration-700 delay-400 hero-animate">
-              <div className="flex space-x-4">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-terminal-green transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd"></path>
-                  </svg>
-                </a>
-                <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-terminal-green transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z" clipRule="evenodd"></path>
-                  </svg>
-                </a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-terminal-green transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-                  </svg>
-                </a>
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center text-white/70">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>100% Responzivní</span>
+              </div>
+              <div className="flex items-center text-white/70">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>SEO Optimalizované</span>
+              </div>
+              <div className="flex items-center text-white/70">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>Rychlé a Bezpečné</span>
               </div>
             </div>
           </div>
-
-          <div className="w-full lg:w-1/2 relative">
-            <div
-              ref={tridentRef}
-              className="relative max-w-sm mx-auto transform rotate-15 transition-transform duration-300 animate-float opacity-0 translate-y-10 transition-all duration-700 delay-500 hero-animate"
+          
+          {/* Right Column - Terminal */}
+          <div className="flex justify-center lg:justify-end items-center">
+            <div 
+              className="bg-ocean-darkest/80 backdrop-blur-sm rounded-lg border border-ocean-light/20 shadow-glow w-full max-w-lg overflow-hidden transition-all duration-300 hover:border-ocean-light/40 hover:shadow-glow-lg"
+              onClick={handleTerminalClick}
+              tabIndex={0} 
+              onKeyDown={handleKeyPress}
+              style={{ cursor: 'text' }}
             >
-              {/* Trident SVG */}
-              <svg
-                viewBox="0 0 300 500"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-auto filter drop-shadow-xl"
-              >
-                <path
-                  d="M150 60V450"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M150 0V60M110 60V150C110 160 120 170 130 170H170C180 170 190 160 190 150V60"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M70 60V100C70 110 75 115 80 120L120 150"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M230 60V100C230 110 225 115 220 120L180 150"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M150 450L100 500"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M150 450L200 500"
-                  stroke="#FFD700"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                {/* Digital wave effects around the trident */}
-                <path
-                  className="animate-blink"
-                  d="M90 100C100 90 110 85 120 90C130 95 140 100 150 95C160 90 170 85 180 90C190 95 200 100 210 95"
-                  stroke="#5DA9E9"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeDasharray="4 8"
-                  opacity="0.6"
-                />
-                <path
-                  className="animate-blink animation-delay-400"
-                  d="M95 130C105 120 115 115 125 120C135 125 145 130 155 125C165 120 175 115 185 120C195 125 205 130 215 125"
-                  stroke="#5DA9E9"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeDasharray="4 8"
-                  opacity="0.6"
-                />
-                <path
-                  className="animate-blink animation-delay-800"
-                  d="M85 160C95 150 105 145 115 150C125 155 135 160 145 155C155 150 165 145 175 150C185 155 195 160 205 155"
-                  stroke="#5DA9E9"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeDasharray="4 8"
-                  opacity="0.6"
-                />
-              </svg>
-              
-              {/* Digital water droplets */}
-              <div className="absolute w-full h-full top-0 left-0 overflow-hidden pointer-events-none">
-                {[...Array(8)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className="absolute bg-ocean-light/30 w-2 h-2 rounded-full animate-fall"
-                    style={{
-                      left: `${50 + Math.random() * 30 - 15}%`,
-                      top: `${Math.random() * 80}%`,
-                      animationDuration: `${1 + Math.random() * 3}s`,
-                      animationDelay: `${Math.random() * 2}s`,
-                    }}
-                  ></div>
-                ))}
-              </div>
-            </div>
-
-            {/* Digital water splash effect at the bottom */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 h-16 opacity-0 translate-y-10 transition-all duration-700 delay-600 hero-animate">
-              <div className="relative w-full h-full">
-                <div className="absolute bottom-0 left-0 w-full">
-                  <svg viewBox="0 0 100 25" className="w-full h-auto">
-                    <path
-                      d="M0,25 L100,25 L100,20 C85,15 70,25 50,15 C30,5 15,15 0,20 L0,25 Z"
-                      fill="rgba(93, 169, 233, 0.3)"
-                    />
-                  </svg>
+              {/* Terminal Header */}
+              <div className="flex items-center justify-between px-4 py-2 bg-ocean-dark/90 border-b border-ocean-light/20">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-full animation-delay-200">
-                  <svg viewBox="0 0 100 20" className="w-full h-auto">
-                    <path
-                      d="M0,20 L100,20 L100,15 C80,5 65,15 50,10 C35,5 20,10 0,15 L0,20 Z"
-                      fill="rgba(93, 169, 233, 0.2)"
-                    />
-                  </svg>
+                <div className="text-white/80 text-xs font-mono">webseidon@terminal:~</div>
+                <div className="text-white/80 text-xs font-mono opacity-50">bash</div>
+              </div>
+              
+              {/* Terminal Content */}
+              <div 
+                ref={terminalContentRef}
+                className="p-4 font-mono text-white/90 text-sm h-80 overflow-y-auto"
+              >
+                {terminalOutput.map((line, index) => (
+                  <div key={index} className={cn(
+                    line.startsWith("webseidon@server") ? "text-terminal-green mb-1" : "text-terminal-cyan mb-1",
+                    line.includes("ERROR") || line.includes("Chyba") ? "text-terminal-red" : "",
+                    line.includes("OK") || line.includes("úspěšně") ? "text-terminal-green" : ""
+                  )}>
+                    {line}
+                  </div>
+                ))}
+                
+                <div className="flex items-center mt-2">
+                  <span className="text-terminal-green mr-2">webseidon@server:~$</span>
+                  <div
+                    ref={inputRef}
+                    contentEditable
+                    className="outline-none bg-transparent text-terminal-white flex-1 min-w-[1px]"
+                    onInput={(e) => setUserInput(e.currentTarget.textContent || "")}
+                    suppressContentEditableWarning={true}
+                  ></div>
+                  <div className={`terminal-cursor-animated ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}></div>
                 </div>
               </div>
             </div>
@@ -276,7 +404,41 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         </div>
       </div>
       
-      <WaveAnimation position="bottom" variant="choppy" intensity="medium" reverse={false} waveColor="rgb(93, 169, 233)" />
+      {/* Floating particles effect - menší počet, ale v popředí */}
+      <div className="absolute inset-0 pointer-events-none z-20">
+        {Array.from({ length: 8 }).map((_, i) => {
+          // Náhodné parametry pro každou částici
+          const size = 0.08 + Math.random() * 1.5; // Různé velikosti (0.8px - 2.3px)
+          const opacity = 0.025 + Math.random() * 0.4; // Různá průhlednost (25%-65%)
+          const glowIntensity = 100 + Math.random() * 15; // Různá intenzita záře (10px-25px)
+          const glowColor = Math.random() > 0.5 
+            ? 'rgba(93, 169, 233, 0.6)' // Modrá
+            : Math.random() > 0.5 
+              ? 'rgba(255, 215, 0, 0.4)' // Zlatá
+              : 'rgba(255, 255, 255, 0.5)'; // Bílá
+          
+          return (
+            <div 
+              key={i}
+              className="absolute rounded-full animate-float"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${size}px`,
+                height: `${size}px`,
+                zIndex: Math.floor(Math.random() * 30) + 20,
+                backgroundColor: glowColor.replace('0.6', `${opacity}`),
+                animationDuration: `${5 + Math.random() * 15}s`,
+                animationDelay: `${Math.random() * 5}s`,
+                boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
+              }}
+            />
+          );
+        })}
+      </div>
+      
+      {/* Wave Animation at bottom */}
+      <WaveAnimation position="bottom" variant="choppy" waveColor="rgba(93, 169, 233, 0.4)" />    
     </section>
   );
 };

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import WaveAnimation from './WaveAnimation';
@@ -94,7 +93,7 @@ const FAQItem: React.FC<FAQItemProps> = ({
         }}
       >
         <div ref={contentRef} className="pb-5 pr-10">
-          <p className="text-foreground/70 font-mono">
+          <p className="faq-answer">
             {answer}
           </p>
         </div>
@@ -109,28 +108,28 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
 
   const faqItems = [
     {
-      question: "What is the typical timeline for a WordPress website project?",
-      answer: "A standard WordPress website typically takes 3-6 weeks from start to finish, depending on complexity. Small brochure sites may take as little as 2 weeks, while complex e-commerce or membership sites can take 8-10 weeks. After our initial consultation, I'll provide you with a detailed timeline specific to your project requirements."
+      question: "Proč bych si měl nechat udělat webové stránky zrovna u Vás?",
+      answer: "Protože nejsem velká firma, která musí platit spousty zaměstnanců, jejich potřeby, služební auta, nákladný software pro firmy, účetní apod.. Díky tomuto a mým zkušenostem jsem schopný srazit cenu a poskytnout kvalitní služby, stejně jako tyto velké firmy."
     },
     {
-      question: "Do you provide ongoing maintenance and support?",
-      answer: "Yes, I offer comprehensive maintenance packages that include regular updates, security monitoring, backups, performance optimization, and technical support. Monthly and annual plans are available to ensure your site remains secure, fast, and functioning properly after launch."
+      question: "Mohu si dát tvojí fakturu do nákladů?",
+      answer: "Ano, ikdyž nejsem plátcem DPH, tak si můžeš dát mou fakturu do nákladu. Pouze se z ní neodvádí žádné DPH, ale o to mám taky sníženou cenu, aby byl každý spokojen."
     },
     {
-      question: "How do you handle website security?",
-      answer: "Security is a top priority in all my projects. I implement multiple layers of protection including secure hosting recommendations, SSL certificates, regular core and plugin updates, malware scanning, firewall configuration, strong password policies, and limited login attempts. All sites are also backed up regularly to ensure quick recovery if needed."
+      question: "V čem vytváříte webové stránky?",
+      answer: "Pro tvorbu mých webů používám převážně CMS WordPress s pluginem Elementor. Tohle je základ mé tvorby. Další pluginy jsou individuální."
     },
     {
-      question: "Can you help with migrating an existing WordPress site?",
-      answer: "Absolutely! I specialize in smooth WordPress migrations with minimal to no downtime. The process includes transferring all content, images, plugins, themes, and custom functionality to the new server or domain. I'll handle DNS configuration and ensure everything is working correctly after the migration is complete."
+      question: "Mohu si sám potom měnit informace na webu?",
+      answer: "Ano, pokud budete chtít, naučím Vás základy používání webu a můžeš si na něm cokoliv měnit, včetně textů, obrázků, ale i grafiky, velikosti textů apod."
     },
     {
-      question: "Do you develop custom WordPress plugins?",
-      answer: "Yes, I develop custom WordPress plugins tailored to specific business requirements. When existing plugins don't provide the functionality you need, a custom solution ensures you get exactly what your business requires without unnecessary bloat or compatibility issues. All custom plugins are built following WordPress best practices and are fully documented."
+      question: "Jsem úplný amatér, potřeboval bych vše vysvětlit od začátku až do konce, je to možné?",
+      answer: "Ano, mohu Vám vše vysvětlit. Daleko jednodušší je ale podívat se na můj blog, kde je většina práce vysvětlena."
     },
     {
-      question: "What payment methods do you accept?",
-      answer: "I accept various payment methods including credit/debit cards, PayPal, bank transfers, and cryptocurrency. Projects typically require a 50% deposit to begin work, with the remaining balance due upon completion. For larger projects, I offer milestone-based payment schedules to align with project deliverables."
+      question: "Můžeme se domluvit osobně?",
+      answer: "Ano, ale pouze v regionech Ostrava, Opava, Nový Jičín, Odry, Fulnek, Olomouc a jejich okolí."
     }
   ];
 
@@ -167,24 +166,22 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
       id="faq" 
       ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden bg-gradient-to-br from-transparent to-ocean-light/5",
+        "py-20 md:py-28 relative overflow-hidden bg-gradient-to-br from-ocean-darker to-ocean-dark",
         className
       )}
     >
-      <div className="absolute bottom-0 right-0 w-full h-32 bg-wave-pattern bg-repeat-x bg-contain opacity-10 transform rotate-180"></div>
-      
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
             man webseidon-faq
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            <span className="text-terminal-yellow">cat</span> frequently_asked_questions.md <span className="text-terminal-red">|</span> <span className="text-terminal-green">less</span>
+          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            <span className="text-terminal-yellow">cat</span> často_kladené_dotazy.md <span className="text-terminal-red">|</span> <span className="text-terminal-green">less</span>
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white/80 dark:bg-ocean-darker/60 backdrop-blur-sm rounded-xl border border-ocean-light/20 p-6 md:p-8">
+          <div className="bg-ocean-dark/60 backdrop-blur-sm rounded-xl border border-ocean-light/20 p-6 md:p-8">
             {faqItems.map((item, index) => (
               <FAQItem 
                 key={index}
@@ -199,20 +196,20 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
           </div>
           
           <div className="mt-10 text-center animate-on-scroll opacity-0 translate-y-10 transition-all duration-700" style={{ transitionDelay: `${faqItems.length * 100 + 100}ms` }}>
-            <div className="inline-block p-4 rounded-lg bg-terminal-black/10 backdrop-blur-md border border-gold/10">
-              <p className="text-sm text-foreground/80 font-mono">
-                <span className="text-terminal-green">$</span> Have more questions? 
-                <a href="#contact" className="ml-2 text-gold hover:text-ocean-light transition-colors">
-                  Contact me for detailed answers
+            <div className="inline-block p-6 rounded-lg bg-terminal-black backdrop-blur-md border border-terminal-green/30">
+              <p className="text-terminal-white font-mono text-base">
+                <span className="text-terminal-green mr-2">$</span>
+                <span className="text-terminal-cyan font-bold">Máte další otázky?</span>
+                <a href="#contact" className="ml-2 text-terminal-yellow hover:text-terminal-green transition-colors">
+                  Kontaktujte mě pro detailní odpovědi
                 </a>
-                <span className="animate-type-cursor inline-block w-2 h-4 ml-1 bg-gold align-middle"></span>
+                <span className="blink-cursor ml-1"></span>
               </p>
             </div>
           </div>
         </div>
       </div>
       
-      <WaveAnimation position="bottom" variant="smooth" />
     </section>
   );
 };

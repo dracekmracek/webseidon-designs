@@ -1,6 +1,6 @@
-
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import WaveAnimation from './WaveAnimation';
 
 interface TechnologiesProps {
   className?: string;
@@ -23,28 +23,27 @@ const TechStackItem: React.FC<TechStackItemProps> = ({
 }) => {
   return (
     <div 
-      className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 group"
+      className="opacity-100 translate-y-0 transition-all duration-700 group"
       style={{ transitionDelay: `${delay}ms` }}
     >
-      <div className="p-6 rounded-xl bg-white/80 dark:bg-ocean-darker/80 backdrop-blur-sm border border-ocean-light/10 hover:border-ocean-light/30 transition-all duration-300 hover-lift">
+      <div className="p-6 rounded-xl bg-ocean-darker/90 backdrop-blur-sm border border-ocean-light/20 hover:border-terminal-cyan/50 transition-all duration-300 hover-lift">
         <div className="flex items-start">
-          <div className="mr-4 text-ocean-light">{icon}</div>
+          <div className="mr-4 text-terminal-cyan">{icon}</div>
           <div>
-            <h3 className="font-mono text-lg font-medium mb-2 group-hover:text-gold transition-colors duration-300">{title}</h3>
-            <p className="text-foreground/70 text-sm mb-3">{description}</p>
+            <h3 className="font-mono text-lg font-medium mb-2 text-terminal-green group-hover:text-gold transition-colors duration-300">{title}</h3>
+            <p className="text-white text-sm mb-3">{description}</p>
             <div className="flex items-center">
               <div className="flex-grow h-2 bg-ocean-light/10 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-gold-gradient rounded-full transition-all duration-1000 transform origin-left"
+                  className="h-full bg-terminal-cyan rounded-full transition-all duration-1000 transform origin-left"
                   style={{ 
-                    width: '10%', 
-                    animation: 'skill-bar-fill 1.5s ease-out forwards',
-                    animationDelay: `${delay + 500}ms`,
+                    width: `${level * 20}%`, 
+                    boxShadow: '0 0 8px rgba(64, 224, 208, 0.7)'
                   }}
                   data-width={`${level * 20}%`}
                 ></div>
               </div>
-              <span className="ml-3 text-xs font-mono text-ocean-medium">{level * 20}%</span>
+              <span className="ml-3 text-xs font-mono text-terminal-cyan">{level * 20}%</span>
             </div>
           </div>
         </div>
@@ -65,7 +64,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
           entry.target.classList.remove('opacity-0', 'translate-y-10');
           
           // Animate skill bars
-          const skillBars = entry.target.querySelectorAll('.bg-gold-gradient');
+          const skillBars = entry.target.querySelectorAll('.bg-terminal-cyan');
           skillBars.forEach(bar => {
             const width = bar.getAttribute('data-width') || '0%';
             (bar as HTMLElement).style.width = width;
@@ -108,24 +107,27 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
   }, []);
 
   return (
-    <section 
-      id="technologies" 
-      ref={sectionRef}
-      className={cn(
-        "py-20 md:py-28 relative overflow-hidden",
-        className
-      )}
-    >
-      {/* Grid background */}
-      <div className="absolute inset-0 opacity-5 bg-terminal-grid bg-[length:50px_50px] pointer-events-none"></div>
+    <section id="technologies" className={cn("py-16 md:py-24 relative overflow-hidden", className)}>
+      {/* Ambientní gradient pozadí */}
+      <div className="absolute inset-0 bg-deep-ocean"></div>
+      
+      {/* Subtle constellation background */}
+      <div className="absolute inset-0 bg-constellation opacity-20 pointer-events-none"></div>
+      
+      {/* Noise texture */}
+      <div className="absolute inset-0 bg-noise pointer-events-none"></div>
+      
+      {/* Gradient glow effects */}
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-ocean-light opacity-10 rounded-full filter blur-3xl"></div>
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-ocean-light opacity-10 rounded-full filter blur-3xl"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
-            ls -la /my/tech/stack
+        <div className="text-center mb-12">
+          <h2 className="terminal-section-title inline-block">
+            naše_technologie
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            <span className="text-terminal-magenta">cat</span> technologies.json <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">jq</span> .expertise
+          <p className="subtitle-text text-lg mb-4">
+            Kombinace technologií pro moderní web
           </p>
         </div>
 
@@ -139,7 +141,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
               </svg>
             }
             title="WordPress"
-            description="Expert-level development with custom themes, plugins, and advanced configurations for optimal performance and security."
+            description="Expertní vývoj s vlastními šablonami, pluginy a pokročilou konfigurací pro optimální výkon a bezpečnost."
             level={5}
             delay={0}
           />
@@ -153,7 +155,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
               </svg>
             }
             title="WooCommerce"
-            description="Building high-performance e-commerce stores with custom checkout flows, payment gateways, and product displays."
+            description="Tvorba vysoce výkonných e-shopů s vlastními průběhy nákupu, platebními bránami a zobrazením produktů."
             level={4.5}
             delay={100}
           />
@@ -170,7 +172,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
               </svg>
             }
             title="PHP"
-            description="Core backend development with expertise in modern PHP practices, custom REST APIs, and database optimization."
+            description="Základní backendový vývoj s odborností v moderních PHP praktikách, vlastních REST API a optimalizaci databází."
             level={4}
             delay={200}
           />
@@ -186,7 +188,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
               </svg>
             }
             title="JavaScript / React"
-            description="Creating interactive UIs with modern JavaScript frameworks and libraries for enhanced user experiences."
+            description="Tvorba interaktivních UI s moderními JavaScript frameworky a knihovnami pro vylepšení uživatelské zkušenosti."
             level={4}
             delay={300}
           />
@@ -199,7 +201,7 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
               </svg>
             }
             title="UI/UX Design"
-            description="Crafting intuitive user interfaces with a focus on accessibility, usability, and beautiful aesthetics."
+            description="Návrh intuitivních uživatelských rozhraní se zaměřením na přístupnost, použitelnost a krásnou estetiku."
             level={4.5}
             delay={400}
           />
@@ -216,31 +218,31 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
                 <circle cx="16.5" cy="16.5" r=".5"></circle>
               </svg>
             }
-            title="Performance Optimization"
-            description="Implementing best practices for lightning-fast websites with server-side optimizations and frontend performance tuning."
+            title="Optimalizace výkonu"
+            description="Implementace nejlepších postupů pro bleskově rychlé weby se serverovou optimalizací a vyladěním výkonu frontendu."
             level={5}
             delay={500}
           />
         </div>
         
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 col-span-1 md:col-span-3" style={{ transitionDelay: `600ms` }}>
-            <div className="p-6 rounded-xl border border-gold/30 bg-gradient-to-br from-white/50 to-white/20 dark:from-ocean-darker/80 dark:to-ocean-darker/60 backdrop-blur-md">
-              <h3 className="font-mono text-lg font-medium mb-4 text-gold">Additional Technical Expertise</h3>
+          <div className="opacity-100 translate-y-0 transition-all duration-700 col-span-1 md:col-span-3" style={{ transitionDelay: `600ms` }}>
+            <div className="p-6 rounded-xl border border-terminal-cyan/30 bg-ocean-darker/90 backdrop-blur-md shadow-glow">
+              <h3 className="font-mono text-lg font-medium mb-4 text-terminal-green">Další technická expertiza</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  "MySQL / Database Optimization", 
-                  "SEO & Analytics", 
-                  "Responsive Design", 
+                  "MySQL / Optimalizace DB", 
+                  "SEO & Analytika", 
+                  "Responzivní design", 
                   "Webpack / Gulp / Build Tools",
-                  "AJAX & REST APIs", 
+                  "AJAX & REST API", 
                   "CSS / SASS / Tailwind", 
-                  "Git Version Control",
-                  "Server Management"
+                  "Git verzování",
+                  "Správa serverů"
                 ].map((skill, index) => (
                   <div key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-gold rounded-full mr-2"></div>
-                    <span className="text-sm font-mono">{skill}</span>
+                    <div className="w-2 h-2 bg-terminal-cyan rounded-full mr-2 shadow-glow-sm"></div>
+                    <span className="text-sm font-mono text-white">{skill}</span>
                   </div>
                 ))}
               </div>

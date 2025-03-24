@@ -1,7 +1,7 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import WaveAnimation from './WaveAnimation';
+import { Code, Terminal, MessageSquare } from 'lucide-react';
 
 interface TestimonialsProps {
   className?: string;
@@ -11,68 +11,43 @@ interface TestimonialCardProps {
   quote: string;
   author: string;
   company: string;
-  image: string;
-  rating: number;
+  delay?: number;
 }
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ 
   quote, 
   author, 
   company, 
-  image,
-  rating
+  delay = 0
 }) => {
   return (
-    <div className="px-4 py-8 md:py-10">
-      <div className="relative p-6 md:p-8 rounded-xl bg-white dark:bg-ocean-darker/60 shadow-lg backdrop-blur-sm border border-ocean-light/10 h-full flex flex-col transition-all duration-300 hover:border-ocean-light/30 hover:shadow-ocean">
-        {/* Water ripple effect on hover */}
-        <div className="absolute -inset-px rounded-xl overflow-hidden opacity-0 group-hover:opacity-100 pointer-events-none">
-          <div className="absolute inset-0 water-surface"></div>
+    <div 
+      className="opacity-100 translate-y-0 transition-all duration-700 relative"
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      <div className="relative p-6 rounded-xl border border-terminal-green/20 hover:border-terminal-green/40 transition-all duration-300 h-full flex flex-col hover-lift bg-terminal-black/50 backdrop-blur-sm">
+        <div className="flex items-center mb-4">
+          <div className="flex gap-1.5 mr-auto">
+            <div className="w-3 h-3 rounded-full bg-terminal-red"></div>
+            <div className="w-3 h-3 rounded-full bg-terminal-yellow"></div>
+            <div className="w-3 h-3 rounded-full bg-terminal-green"></div>
+          </div>
+          <div className="text-terminal-white/70 text-xs font-mono">~/feedback/{author.toLowerCase().replace(/\s+/g, '-')}</div>
         </div>
         
-        {/* Quote content */}
-        <div className="mb-6 relative z-10">
-          {/* Rating stars */}
-          <div className="flex mb-4">
-            {[...Array(5)].map((_, i) => (
-              <svg 
-                key={i} 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 24 24" 
-                fill={i < rating ? "#FFD700" : "none"} 
-                stroke={i < rating ? "#FFD700" : "currentColor"} 
-                className="w-5 h-5 text-muted-foreground mr-1"
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-            ))}
+        <div className="mb-6">
+          <MessageSquare className="text-terminal-green mb-4 h-6 w-6" />
+          <div className="font-mono text-sm text-terminal-white mb-2">
+            <span className="text-terminal-green">$</span> cat testimonial.txt
           </div>
-          
-          {/* Quote text */}
-          <blockquote className="font-serif italic text-foreground/80 relative">
-            <svg 
-              className="absolute -top-3 -left-3 w-8 h-8 text-gold/20" 
-              fill="currentColor" 
-              viewBox="0 0 32 32"
-            >
-              <path d="M10,8H6a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4v6H6a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4a6,6,0,0,0,6-6V14A6,6,0,0,0,10,8Z"></path>
-              <path d="M26,8H22a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4v6H22a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4a6,6,0,0,0,6-6V14A6,6,0,0,0,26,8Z"></path>
-            </svg>
-            <p className="pl-6">{quote}</p>
+          <blockquote className="font-mono text-terminal-cyan border-l-2 border-terminal-green/30 pl-4 py-1 text-sm">
+            {quote}
           </blockquote>
         </div>
         
-        {/* Author info */}
-        <div className="mt-auto flex items-center relative z-10">
-          <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border-2 border-ocean-light flex-shrink-0">
-            <img src={image} alt={author} className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <h4 className="font-mono font-medium text-terminal-cyan">{author}</h4>
-            <p className="text-sm text-foreground/60">{company}</p>
+        <div className="mt-auto pt-4 border-t border-terminal-green/10">
+          <div className="font-mono text-sm">
+            <span className="text-terminal-yellow">@{author}</span> <span className="text-terminal-white/50">~</span> <span className="text-terminal-cyan">{company}</span>
           </div>
         </div>
       </div>
@@ -83,50 +58,23 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const totalTestimonials = 6;
+  const totalTestimonials = 3;
 
   const testimonials = [
     {
-      quote: "Working with Webseidon was a game-changer for our business. Their attention to detail and technical expertise transformed our outdated website into a powerful sales tool that our customers love navigating.",
-      author: "Alexandra Chen",
-      company: "OceanView Resorts",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 5
+      quote: "Spolupráce s Webseidon znamenala revoluci pro naše podnikání. Jejich pozornost k detailům a technická odbornost přeměnily naše zastaralé webové stránky na mocný prodejní nástroj, který naši zákazníci milují.",
+      author: "Alexandra",
+      company: "OceanView Resorts"
     },
     {
-      quote: "The WordPress site they built exceeded all our expectations. The custom functionality and e-commerce integration works flawlessly, and we've seen a 40% increase in online sales since launch.",
-      author: "Michael Trent",
-      company: "Aquatic Supplies Co.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 5
+      quote: "WordPress stránky, které vytvořili, předčily všechna naše očekávání. Vlastní funkce a e-commerce integrace fungují bezchybně a od spuštění jsme zaznamenali nárůst online prodejů o 40 %.",
+      author: "Michal",
+      company: "Aquatic Supplies s.r.o."
     },
     {
-      quote: "Responsive, creative, and technically brilliant. Their deep understanding of WordPress and attention to performance optimization gave us a website that loads lightning-fast and converts visitors effectively.",
-      author: "Sophia Winters",
-      company: "Digital Horizons",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 4
-    },
-    {
-      quote: "I needed a complex membership site with custom user roles and payment processing. Webseidon delivered a solution that works seamlessly and is easy to manage on the backend.",
-      author: "David Marino",
-      company: "SeaClub Membership",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 5
-    },
-    {
-      quote: "We've worked with many WordPress developers over the years, but none have matched Webseidon's technical skill and creative vision. They truly understand how to blend design and functionality.",
-      author: "Emily Zhang",
-      company: "Coastal Media Group",
-      image: "https://images.unsplash.com/photo-1614644147724-2d4785d69962?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 5
-    },
-    {
-      quote: "The ongoing maintenance and support has been just as impressive as the initial build. Any issues are addressed promptly, and their advice on improvements has been invaluable.",
-      author: "Thomas Reynolds",
-      company: "Neptune Technologies",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
-      rating: 4
+      quote: "Responzivní, kreativní a technicky brilantní. Jejich hluboké pochopení WordPressu a důraz na optimalizaci výkonu nám přinesly web, který se načítá bleskovou rychlostí a efektivně konvertuje návštěvníky.",
+      author: "Sofie",
+      company: "Digital Horizons"
     }
   ];
 
@@ -158,7 +106,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
     };
   }, []);
 
-  // Auto-rotate testimonials
+  // Auto-rotate testimonials pro mobilní verzi
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % totalTestimonials);
@@ -172,25 +120,43 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
       id="testimonials" 
       ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden bg-ocean-light/5",
+        "py-16 md:py-24 relative overflow-hidden",
         className
       )}
     >
+      {/* Sofistikované pozadí */}
+      <div className="absolute inset-0 bg-deep-ocean"></div>
+      
+      {/* Cyber grid */}
+      <div className="absolute inset-0 bg-cyber-grid opacity-15 pointer-events-none"></div>
+      
+      {/* Noise overlay pro autentický vzhled */}
+      <div className="absolute inset-0 bg-noise"></div>
+      
+      {/* Glow efekty pro hloubku */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-80 h-80 bg-ocean-light/10 rounded-full filter blur-3xl"></div>
+      <div className="absolute right-0 top-1/4 w-72 h-72 bg-accent/5 rounded-full filter blur-3xl"></div>
+      <div className="absolute left-1/4 bottom-0 w-64 h-64 bg-gold/5 rounded-full filter blur-3xl"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
-            tail -f /client/feedback.log
+        <div className="text-center mb-12">
+          <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
+            tail -f /klient/zpetna-vazba.log
           </h2>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            <span className="text-terminal-green">echo</span> "What our clients say about our services" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">more</span>
+          <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+            <span className="text-terminal-green">echo</span> "Co o našich službách říkají klienti" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">more</span>
           </p>
         </div>
 
-        <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700">
+        <div className="opacity-100 translate-y-0 transition-all duration-700">
           {/* Desktop version - grid */}
           <div className="hidden md:grid md:grid-cols-3 gap-6">
-            {testimonials.slice(0, 6).map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} />
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard 
+                key={index} 
+                {...testimonial} 
+                delay={index * 200}
+              />
             ))}
           </div>
           
@@ -218,10 +184,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
                   className={cn(
                     "w-2.5 h-2.5 rounded-full transition-all duration-300",
                     index === activeIndex 
-                      ? "bg-gold w-8" 
-                      : "bg-ocean-light/30 hover:bg-ocean-light/50"
+                      ? "bg-terminal-green w-8" 
+                      : "bg-terminal-green/30 hover:bg-terminal-green/50"
                   )}
-                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-label={`Přejít na recenzi ${index + 1}`}
                 />
               ))}
             </div>
@@ -229,7 +195,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
         </div>
       </div>
       
-      <WaveAnimation position="bottom" waveColor="rgb(93, 169, 233)" intensity="light" variant="cascade" />
+      <WaveAnimation position="bottom" variant="choppy" waveColor="rgba(93, 169, 233, 0.4)" />
     </section>
   );
 };
