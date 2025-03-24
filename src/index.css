@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -111,11 +111,23 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-ocean-dark text-white hover:bg-ocean-medium focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 dark:focus:ring-offset-ocean-darker;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-ocean-dark text-white hover:bg-ocean-medium focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 dark:focus:ring-offset-ocean-darker before:content-[''] before:absolute before:inset-0 before:bg-ocean-light/20 before:rounded-md before:scale-x-0 before:origin-left before:transition-transform hover:before:scale-x-100 overflow-hidden;
   }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-gold-gradient text-ocean-darker hover:shadow-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 dark:focus:ring-offset-ocean-darker;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-medium transition-all bg-gold-gradient text-ocean-darker hover:shadow-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 dark:focus:ring-offset-ocean-darker relative overflow-hidden;
+  }
+
+  .btn-gold::before {
+    @apply content-[''] absolute inset-0 bg-white/30 rounded-md scale-x-0 origin-right transition-transform;
+  }
+
+  .btn-gold:hover::before {
+    @apply scale-x-100 origin-left;
+  }
+
+  .btn-terminal {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-mono font-medium transition-all bg-terminal-black text-terminal-green border border-terminal-green/50 hover:bg-terminal-green/10 hover:text-terminal-green focus:outline-none focus:ring-2 focus:ring-terminal-green focus:ring-offset-2 dark:focus:ring-offset-ocean-darker;
   }
 
   .card-hover {
@@ -130,8 +142,36 @@
     @apply content-[''] absolute h-1 w-16 bg-gold bottom-0 left-0 -mb-2;
   }
 
+  .terminal-section-title {
+    @apply font-mono text-2xl md:text-4xl font-bold mb-6 md:mb-10 text-terminal-cyan;
+  }
+
+  .terminal-section-title::before {
+    @apply content-['$'] text-terminal-green mr-2;
+  }
+
+  .terminal-section-title::after {
+    @apply content-[''] inline-block w-3 h-6 bg-terminal-cyan ml-1 animate-type-cursor;
+  }
+
   .trident-bullet li {
     @apply relative pl-8 mb-3 before:content-['⋊'] before:absolute before:left-0 before:text-gold before:text-xl before:rotate-90;
+  }
+
+  .terminal-list li {
+    @apply relative pl-8 mb-3 font-mono;
+  }
+
+  .terminal-list li::before {
+    @apply content-['>'] absolute left-0 text-terminal-green;
+  }
+
+  .water-droplet {
+    @apply absolute bg-ocean-light/40 rounded-full;
+  }
+
+  .water-droplet::after {
+    @apply content-[''] absolute inset-0 rounded-full bg-ocean-light/20 scale-0 animate-water-drop;
   }
 }
 
@@ -224,4 +264,56 @@
   opacity: 0;
   transform: translateY(-20px);
   transition: opacity 400ms, transform 400ms;
+}
+
+/* Terminal Typing Effect */
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #8be9fd;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #8be9fd }
+}
+
+/* Water Effects */
+.water-surface {
+  position: relative;
+  overflow: hidden;
+}
+
+.water-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(93, 169, 233, 0.2) 0%, rgba(93, 169, 233, 0) 70%);
+  z-index: 1;
+}
+
+.water-surface::after {
+  content: '';
+  position: absolute;
+  height: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: 2;
+  animation: water-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes water-shimmer {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 0.7; transform: translateY(-5px); }
 }
