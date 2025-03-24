@@ -12,6 +12,8 @@ import Blog from '@/components/Blog';
 import FAQ from '@/components/FAQ';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import Terminal from '@/components/Terminal';
+import Workflow from '@/components/Workflow';
 
 const Index = () => {
   useEffect(() => {
@@ -88,14 +90,16 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="min-h-screen flex flex-col relative bg-terminal-black/5 dark:bg-ocean-darker">
       <Navbar />
       <main className="flex-grow">
         <Hero />
         <About />
         <Services />
+        <Terminal />
         <Technologies />
         <Projects />
+        <Workflow />
         <Testimonials />
         <Pricing />
         <Blog />

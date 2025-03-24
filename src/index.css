@@ -107,7 +107,7 @@
 
 @layer components {
   .nav-link {
-    @apply relative px-2 py-1 text-foreground/80 hover:text-foreground transition-colors duration-200 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gold after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full;
+    @apply relative px-2 py-1 text-terminal-white/80 hover:text-terminal-green transition-colors duration-200 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-terminal-green after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full font-mono;
   }
 
   .btn-primary {
@@ -172,6 +172,14 @@
 
   .water-droplet::after {
     @apply content-[''] absolute inset-0 rounded-full bg-ocean-light/20 scale-0 animate-water-drop;
+  }
+
+  .terminal-cursor {
+    @apply inline-block animate-blink;
+  }
+
+  .terminal-output {
+    @apply leading-relaxed whitespace-pre-wrap;
   }
 }
 
@@ -316,4 +324,82 @@
 @keyframes water-shimmer {
   0%, 100% { opacity: 0.5; transform: translateY(0); }
   50% { opacity: 0.7; transform: translateY(-5px); }
+}
+
+/* Bouncing wave animation */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 7s ease-in-out infinite;
+}
+
+/* Slow shimmer effect */
+@keyframes shimmer-slow {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+.animate-shimmer-slow {
+  animation: shimmer-slow 4s ease-in-out infinite;
+}
+
+/* Terminal text colors */
+.text-terminal-green {
+  color: #50fa7b;
+}
+
+.text-terminal-red {
+  color: #ff5555;
+}
+
+.text-terminal-yellow {
+  color: #f1fa8c;
+}
+
+.text-terminal-blue {
+  color: #6272a4;
+}
+
+.text-terminal-magenta {
+  color: #ff79c6;
+}
+
+.text-terminal-cyan {
+  color: #8be9fd;
+}
+
+.text-terminal-white {
+  color: #f8f8f2;
+}
+
+.bg-terminal-black {
+  background-color: #282a36;
+}
+
+.bg-terminal-red {
+  background-color: #ff5555;
+}
+
+.bg-terminal-green {
+  background-color: #50fa7b;
+}
+
+.bg-terminal-yellow {
+  background-color: #f1fa8c;
+}
+
+.bg-terminal-blue {
+  background-color: #6272a4;
+}
+
+.bg-terminal-magenta {
+  background-color: #ff79c6;
+}
+
+.bg-terminal-cyan {
+  background-color: #8be9fd;
 }

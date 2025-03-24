@@ -136,6 +136,10 @@ export default {
 					'50%': { transform: 'translateX(35%)' },
 					'100%': { transform: 'translateX(70%)' }
 				},
+				'bounce-wave': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-15px)' },
+				},
 				float: {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-20px)' },
@@ -198,6 +202,7 @@ export default {
 				'wave-slow-reverse': 'wave-slow-reverse 32s linear infinite',
 				'wave-fast': 'wave-fast 18s linear infinite',
 				'wave-fast-reverse': 'wave-fast-reverse 15s linear infinite',
+				'bounce-wave': 'bounce-wave 5s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'float-up': 'float-up 3s ease-out forwards',
 				'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
