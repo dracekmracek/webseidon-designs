@@ -150,21 +150,21 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
     {
       title: "autoskla-vejmola.cz",
       category: "Výměna autoskel",
-      image: "./public/img/broken_windshield.jpg",
+      image: "./img/broken_windshield.jpg",
       description: "Webové stránky pro služby výměny a opravy autoskel. Web zahrnuje základní informace o službách, cenník, lokalizace a kontakt s formulářem.",
       technologies: ["WordPress", "Custom Theme", "Responsive Design", "SEO Optimization"]
     },
     {
       title: "unamisteel.cz",
       category: "Zámečnické služby",
-      image: "./public/img/metalwork.jpg",
+      image: "./img/metalwork.jpg",
       description: "Firemní prezentace pro výrobce ocelových konstrukcí. Web obsahuje portfolio realizovaných projektů a přehled nabízených služeb.",
       technologies: ["WordPress", "Custom Theme", "JS Animations", "Responsive Design", "SEO Optimization"]
     },
     {
       title: "betrim.cz",
       category: "Lakovna a práškovna",
-      image: "./public/img/betrim.jpg",
+      image: "./img/betrim.jpg",
       description: "Práškovna a lakovna ve Fulneku. Web obsahuje portfolio realizovaných projektů a přehled nabízených služeb.",
       technologies: ["React", "Node.js", "Next.js", "Tailwind CSS"]
     },

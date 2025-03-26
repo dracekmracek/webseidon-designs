@@ -70,17 +70,17 @@ $mail = new PHPMailer(true);
 try {
     // SMTP nastavení
     $mail->isSMTP();
-    $mail->Host = 'wes1-smtp.wedos.net';
+    $mail->Host = 'vas-smtp-server.cz'; // ZMĚŇTE na váš SMTP server
     $mail->SMTPAuth = true;
-    $mail->Username = 'info@webseidon.cz';
-    $mail->Password = 'Antekaspol1-';
+    $mail->Username = 'vase@emailova-adresa.cz'; // ZMĚŇTE na váš e-mail
+    $mail->Password = 'vase-heslo'; // ZMĚŇTE na vaše heslo
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
     $mail->CharSet = 'UTF-8'; // Zajistí správné kódování češtiny
 
     // Nastavení odesílatele a příjemce
-    $mail->setFrom('info@webseidon.cz', 'Webseidon - Kontaktní formulář');
-    $mail->addAddress('info@webseidon.cz', 'Webseidon');
+    $mail->setFrom('vase@emailova-adresa.cz', 'Webseidon - Kontaktní formulář'); // ZMĚŇTE na váš e-mail
+    $mail->addAddress('vase@emailova-adresa.cz', 'Webseidon'); // ZMĚŇTE na váš e-mail pro příjem zpráv
     $mail->addReplyTo($email, $name); // Umožní odpovědět přímo odesílateli
 
     // Obsah e-mailu
