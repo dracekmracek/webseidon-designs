@@ -9,13 +9,12 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ className }) => {
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Init systém webseidon v1.0.3",
-    "Kontrola závislostí...... OK",
-    "Nahrávání rozhraní............ OK",
-    "Načítání kreativního enginu.......... OK",
-    "Inicializace webového božstva........... OK",
-    "Připojování ke Kosmickému oceánskému API............ OK",
-    "Systém webseidon připraven.",
+    "Init systém webseidon.cz v2.0.2.5.",
+    "Přijímání objednávek...... OK",
+    "Konzultace s klienty........ OK",
+    "Vysoké ceny.................. ERROR",
+    "Dostatek času.................. ERROR",
+    "Systém webseidon.cz připraven.",
     "Zadejte 'help' pro zobrazení příkazů."
   ]);
   const [userInput, setUserInput] = useState("");
@@ -39,16 +38,22 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
       "  date          - Aktuální datum a čas",
       "  cat [soubor]  - Zobrazí obsah souboru",
       "  mkdir [název] - Vytvoří složku",
-      "  rm [soubor]   - Smaže soubor"
+      "  rm [soubor]   - Smaže soubor",
+      "  sudo [příkaz] - Spustí příkaz s oprávněním root",
+      "  apt-get install webseidon - Nainstaluje Webseidon",
+      "  git clone webseidon - Naklonuje repozitář webseidon",
+      "  npm install - Nainstaluje závislosti",
+      "  grep [text] - Vyhledá text v souborech",
+      
     ],
     clear: () => [],
     služby: () => [
       "Nabízené služby:",
       "- Zakázkový vývoj webových stránek, nebo softwaru",
-      "- WordPress, nebo Next.js řešení",
+      "- WordPress, nebo Next.js/React.js řešení",
       "- Redesign a optimalizace existujících webů",
-      "- SEO a digitální marketingové služby",
-      "- Webhosting a správa",
+      "- SEO, Loga, AI agenti, AI generování fotografií",
+      "- Webhosting a následná správa",
     ],
     kontakt: () => [
       "Kontaktní informace:",
@@ -71,11 +76,11 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
       "cool-animations.css",
     ],
     pwd: () => [
-      "/home/webseidon/web-development/ocean-designs"
+      "/home/webseidon/web-development/secret-design"
     ],
     whoami: () => [
       "webseidon - webový vývojář a digitální kouzelník",
-      "Status: Připraven na tvorbu úžasných webových stránek"
+      "Status OK: Připraven na tvorbu úžasných webových stránek"
     ],
     date: () => {
       const now = new Date();
@@ -102,18 +107,19 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
       "  echo \"Přidávám responzivní design...\"",
       "  echo \"Míchám s optimalizací pro SEO...\"",
       "  echo \"Přisypávám rychlost načítání...\"",
-      "  echo \"Dochucuji UX designem...\"",
+      "  echo \"Dochucuji originálním UX designem...\"",
+      "  echo \"ERROR: Nepodařilo se číst ze souboru, mažu paměť...\"",
       "}",
       "",
-      "# Hlavní tajná přísada je láska ke kódu!"
+      "# Hlavní tajná přísada je láska k webdesignu!"
     ],
     mkdir: () => [
-      "Složka úspěšně vytvořena! (Ale jen virtuálně - toto je pouze simulace terminálu)",
-      "Tip: Skutečnou složku pro váš web můžeme vytvořit na našem serveru. Kontaktujte nás!"
+      "Složka s virem úspěšně vytvořena!",
+      "Tip: Chcete se zbavit viru? Kontaktujte mě na info@webseidon.cz!"
     ],
     rm: () => [
       "Chcete smazat staré webové stránky a nahradit je novými?", 
-      "Volejte Webseidon a my to za vás rádi uděláme! Bez rm příkazu a mnohem elegantněji."
+      "Volejte Webseidon a já to za vás rád udělám! Bez rm příkazu a mnohem elegantněji."
     ],
     sudo: () => [
       "Pro využití sudo oprávnění musíte být Webseidon klient.",
@@ -150,7 +156,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
     grep: () => [
       "Hledání 'úspěšný web' v databázi klientů...",
       "Nalezeno: všichni klienti Webseidon mají úspěšný web!",
-      "Důkaz: zeptejte se kteréhokoliv z nich nebo si prohlédněte naše portfolio."
+      "Důkaz: zeptejte se kteréhokoliv z nich nebo si prohlédněte portfolio."
     ],
     man: () => [
       "MAN(1) - Manuálová stránka Webseidon",
@@ -162,7 +168,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
       "     kontaktujte webseidon pro [projekt] [rozpočet] [termín]",
       "",
       "POPIS",
-      "     Webseidon je webové studio specializující se na tvorbu",
+      "     Webseidon je webový specialista specializující se na tvorbu",
       "     moderních a efektivních webových stránek pro firmy a",
       "     živnostníky, kteří chtějí růst v online světě."
     ],
@@ -281,81 +287,175 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
 
   return (
     <section 
-      id="home" 
+      id="hero" 
       className={cn(
-        "min-h-screen pt-20 pb-20 md:pt-32 md:pb-20 relative overflow-hidden bg-deep-ocean flex flex-col items-center justify-center",
+        "min-h-screen pt-24 sm:pt-28 md:pt-32 pb-20 relative overflow-hidden flex flex-col items-center justify-center",
         className
       )}
     >
-      {/* Ambient animated gradient background */}
-      <div className="absolute inset-0 opacity-100 bg-animated-gradient"></div>
+      {/* Vylepšený animovaný gradient pozadí */}
+      <div className="absolute inset-0 breathing-gradient"></div>
       
-      {/* Digital rain effect - zmírněný, ale jasnější */}
-      <div className="absolute inset-0 bg-digital-rain opacity-10 pointer-events-none brightness-125"></div>
+      {/* Overlay s animovaným zábleskem */}
+      <div className="absolute inset-0 glow-pulse"></div>
       
-      {/* Modern grid overlay */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-15 pointer-events-none"></div>
+      {/* Sekundární glow efekt pro zvýšení hloubky */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute w-full h-full bg-gradient-radial from-wave-blue-light/30 via-transparent to-transparent" 
+          style={{
+            top: '-10%',
+            left: '45%',
+            width: '800px',
+            height: '800px',
+            animation: 'breathing-light-animation 15s ease-in-out infinite',
+            animationDelay: '1s'
+          }}></div>
+        <div className="absolute w-full h-full bg-gradient-radial from-ocean-light/20 via-transparent to-transparent" 
+          style={{
+            bottom: '-5%',
+            right: '35%',
+            width: '600px',
+            height: '600px',
+            animation: 'breathing-light-animation 12s ease-in-out infinite',
+            animationDelay: '2s'
+          }}></div>
+      </div>
       
-      {/* Noise texture for depth */}
-      <div className="absolute inset-0 bg-noise"></div>
+      {/* Futuristická modrá mřížka pro technologický vzhled */}
+      <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
+      
+      {/* Jemný šum pro texturovaný efekt */}
+      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+      
+      {/* Multi-vrstvé gradientové efekty pro hloubku a dimenzi */}
+      <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-b from-wave-blue/5 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-ocean-darker/30 to-transparent"></div>
+      <div className="absolute top-0 left-0 w-1/3 h-screen bg-gradient-to-r from-ocean-light/5 to-transparent opacity-50"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-l from-ocean-light/5 to-transparent opacity-50"></div>
+      
+      {/* Glow efekty pro dynamické světelné body */}
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light"></div>
+      <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-gold/10 filter blur-3xl breathing-light" style={{ animationDelay: '3s' }}></div>
+      <div className="absolute bottom-0 right-1/3 w-80 h-80 rounded-full bg-ocean-light/10 filter blur-3xl breathing-light" style={{ animationDelay: '1.5s' }}></div>
+      
+      {/* Pulzující efekt světla pro zvýšení dynamiky */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-wave-blue-light/20 to-transparent animate-pulse-glow" style={{ animationDuration: '8s' }}></div>
+      </div>
+      
+      {/* Ambientní světelné částice s různou intenzitou a barvami */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        {Array.from({ length: 30 }).map((_, i) => {
+          const size = 0.8 + Math.random() * 2; 
+          const opacity = 0.15 + Math.random() * 0.3;
+          const glowIntensity = 8 + Math.random() * 15;
+          const glowColor = Math.random() > 0.7 
+            ? 'rgba(93, 169, 233, 0.6)' 
+            : Math.random() > 0.5 
+              ? 'rgba(255, 215, 0, 0.4)' 
+              : 'rgba(255, 255, 255, 0.5)';
+          const duration = 10 + Math.random() * 20;
+          
+          return (
+            <div 
+              key={i}
+              className="absolute rounded-full animate-particle-fade"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${size}px`,
+                height: `${size}px`,
+                zIndex: Math.floor(Math.random() * 10) + 5,
+                backgroundColor: glowColor.replace('0.6', `${opacity}`),
+                animationDuration: `${duration}s`,
+                animationDelay: `${Math.random() * 15}s`,
+                boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
+              }}
+            />
+          );
+        })}
+      </div>
+      
+      {/* Bubliny - Poseidonův prvek */}
+      <div className="bubble-container">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <div
+            key={i}
+            className="bubble"
+            style={{
+              width: `${10 + Math.random() * 25}px`,
+              height: `${10 + Math.random() * 25}px`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 8}s`,
+              animationDuration: `${8 + Math.random() * 10}s`
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Trojzubec - animovaný symbol Poseidona v pozadí */}
+      <div className="absolute right-[5%] top-[20%] opacity-10 pointer-events-none">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="1.5" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="w-60 h-60 text-ocean-light animate-trident-thrust"
+          style={{ animationDuration: '12s' }}
+        >
+          <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
+        </svg>
+      </div>
+      
+      {/* Whirlpool efekt */}
+      <div className="whirlpool absolute top-[15%] left-[8%] opacity-15"></div>
       
       {/* Container for content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Left Column - Heading and Text */}
           <div className="flex flex-col justify-center">
-            <div className="mb-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 text-white">
-                Přidejte se k ostatním na <span className="text-gradient-gold">vlnu Internetu!</span>
+            <div className="mb-8 mt-4 sm:mt-6 md:mt-8">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white relative">
+                <span className="text-shadow-lg block relative z-10">
+                  Přidejte se k ostatním <span className="title-gradient-animation">na vlnu Internetu!</span>
+                </span>
+                <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-gold to-transparent"></div>
               </h1>
-              <p className="text-lg md:text-xl text-white/90 max-w-lg">
+              <p className="text-lg md:text-xl text-white/90 max-w-lg font-medium leading-relaxed mt-5 backdrop-blur-sm bg-ocean-darkest/10 p-4 rounded-md border-l-4 border-ocean-light/30">
                 Webové stránky pro malé firmy a živnostníky, kteří svému podnikání chtějí přidat na důvěryhodnosti a dostat do popředí skrze online svět.
               </p>
             </div>
             
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-4 mb-4">
               <a 
                 href="#services" 
-                className="btn-primary"
+                className="btn-primary water-effect relative group"
               >
                 <span className="font-mono mr-2">./</span>
                 Prozkoumat služby
+                <div className="absolute -top-1 -right-1 w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-full bg-ocean-light animate-water-drop"></div>
+                </div>
               </a>
               <a 
                 href="#pricing" 
-                className="btn-secondary"
+                className="btn-secondary hover:bg-gold/20 border-2 border-gold hover:border-terminal-cyan hover:text-terminal-cyan transition-all duration-300 water-effect"
               >
                 <span className="font-mono mr-2">$</span>
                 Ceník
               </a>
             </div>
-            
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center text-white/70">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>100% Responzivní</span>
-              </div>
-              <div className="flex items-center text-white/70">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>SEO Optimalizované</span>
-              </div>
-              <div className="flex items-center text-white/70">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gold" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Rychlé a Bezpečné</span>
-              </div>
-            </div>
           </div>
           
           {/* Right Column - Terminal */}
-          <div className="flex justify-center lg:justify-end items-center">
+          <div className="flex justify-center lg:justify-end items-center mt-4 sm:mt-0">
             <div 
-              className="bg-ocean-darkest/80 backdrop-blur-sm rounded-lg border border-ocean-light/20 shadow-glow w-full max-w-lg overflow-hidden transition-all duration-300 hover:border-ocean-light/40 hover:shadow-glow-lg"
+              className="bg-ocean-darkest/80 backdrop-blur-sm rounded-lg border border-ocean-light/20 shadow-glow w-full max-w-lg overflow-hidden transition-all duration-300 hover:border-ocean-light/40 hover:shadow-glow-lg water-effect"
               onClick={handleTerminalClick}
               tabIndex={0} 
               onKeyDown={handleKeyPress}
@@ -404,41 +504,13 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         </div>
       </div>
       
-      {/* Floating particles effect - menší počet, ale v popředí */}
-      <div className="absolute inset-0 pointer-events-none z-20">
-        {Array.from({ length: 8 }).map((_, i) => {
-          // Náhodné parametry pro každou částici
-          const size = 0.08 + Math.random() * 1.5; // Různé velikosti (0.8px - 2.3px)
-          const opacity = 0.025 + Math.random() * 0.4; // Různá průhlednost (25%-65%)
-          const glowIntensity = 100 + Math.random() * 15; // Různá intenzita záře (10px-25px)
-          const glowColor = Math.random() > 0.5 
-            ? 'rgba(93, 169, 233, 0.6)' // Modrá
-            : Math.random() > 0.5 
-              ? 'rgba(255, 215, 0, 0.4)' // Zlatá
-              : 'rgba(255, 255, 255, 0.5)'; // Bílá
-          
-          return (
-            <div 
-              key={i}
-              className="absolute rounded-full animate-float"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                width: `${size}px`,
-                height: `${size}px`,
-                zIndex: Math.floor(Math.random() * 30) + 20,
-                backgroundColor: glowColor.replace('0.6', `${opacity}`),
-                animationDuration: `${5 + Math.random() * 15}s`,
-                animationDelay: `${Math.random() * 5}s`,
-                boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
-              }}
-            />
-          );
-        })}
-      </div>
-      
-      {/* Wave Animation at bottom */}
-      <WaveAnimation position="bottom" variant="choppy" waveColor="rgba(93, 169, 233, 0.4)" />    
+      {/* Wave Animation at bottom - vylepšená pro lepší propojení mezi sekcemi */}
+      <WaveAnimation 
+        position="bottom" 
+        variant="choppy" 
+        waveColor="rgba(93, 169, 233, 0.4)"
+        height="380"
+      />    
     </section>
   );
 };

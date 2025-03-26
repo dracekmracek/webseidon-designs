@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
@@ -61,6 +60,8 @@ export default {
           light: '#5DA9E9',
           lighter: '#A8DAF5'
         },
+        'deep-ocean': '#05101F',
+        'ocean-darkest': '#041018',
         gold: {
           DEFAULT: '#FFD700',
           light: '#FFEA9F',
@@ -193,6 +194,27 @@ export default {
           '50%': { transform: 'scale(1)', opacity: '0.4' },
           '100%': { transform: 'scale(1.5)', opacity: '0' }
         },
+        'trident-thrust': {
+          '0%': { transform: 'translateY(0) rotate(0deg)' },
+          '25%': { transform: 'translateY(-10px) rotate(-5deg)' },
+          '50%': { transform: 'translateY(0) rotate(0deg)' },
+          '75%': { transform: 'translateY(-5px) rotate(5deg)' },
+          '100%': { transform: 'translateY(0) rotate(0deg)' }
+        },
+        'bubble-rise': {
+          '0%': { transform: 'translateY(100%) scale(0.3)', opacity: '0' },
+          '50%': { opacity: '0.8' },
+          '100%': { transform: 'translateY(-100%) scale(1)', opacity: '0' }
+        },
+        'whirlpool': {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '50%': { transform: 'rotate(180deg) scale(0.8)' },
+          '100%': { transform: 'rotate(360deg) scale(1)' }
+        },
+        'sea-sway': {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' }
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -217,6 +239,10 @@ export default {
         'ripple': 'ripple 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite',
         'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite',
         'water-drop': 'water-drop 2s ease-out forwards',
+        'trident-thrust': 'trident-thrust 6s ease-in-out infinite',
+        'bubble-rise': 'bubble-rise 8s ease-in-out infinite',
+        'whirlpool': 'whirlpool 8s ease-in-out infinite',
+        'sea-sway': 'sea-sway 6s ease-in-out infinite',
       },
       backgroundImage: {
         'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #E6C200 100%)',
@@ -225,9 +251,12 @@ export default {
         'ocean-gold-gradient': 'linear-gradient(135deg, #172A45 0%, #5DA9E9 70%, #FFD700 100%)',
         'wave-pattern': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%235DA9E9' fill-opacity='0.3' d='M0,128L48,144C96,160,192,192,288,202.7C384,213,480,203,576,165.3C672,128,768,64,864,64C960,64,1056,128,1152,149.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E\")",
         'terminal-grid': 'linear-gradient(#6272a4 1px, transparent 1px), linear-gradient(90deg, #6272a4 1px, transparent 1px)',
+        'poseidon-trident': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235DA9E9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2v14M4 9h16M7 3v5M17 3v5'/%3E%3C/svg%3E\")",
+        'coral-pattern': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100' fill='none'%3E%3Cpath d='M30,10 Q40,0 50,10 Q60,20 70,10' stroke='%235DA9E9' stroke-opacity='0.2' stroke-width='1' fill='none'/%3E%3Cpath d='M30,30 Q40,20 50,30 Q60,40 70,30' stroke='%235DA9E9' stroke-opacity='0.2' stroke-width='1' fill='none'/%3E%3Cpath d='M30,50 Q40,40 50,50 Q60,60 70,50' stroke='%235DA9E9' stroke-opacity='0.2' stroke-width='1' fill='none'/%3E%3Cpath d='M30,70 Q40,60 50,70 Q60,80 70,70' stroke='%235DA9E9' stroke-opacity='0.2' stroke-width='1' fill='none'/%3E%3Cpath d='M30,90 Q40,80 50,90 Q60,100 70,90' stroke='%235DA9E9' stroke-opacity='0.2' stroke-width='1' fill='none'/%3E%3C/svg%3E\")",
+        'wave-dots': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100' fill='none'%3E%3Ccircle cx='10' cy='50' r='2' fill='%235DA9E9' fill-opacity='0.2'/%3E%3Ccircle cx='30' cy='40' r='2' fill='%235DA9E9' fill-opacity='0.2'/%3E%3Ccircle cx='50' cy='50' r='2' fill='%235DA9E9' fill-opacity='0.2'/%3E%3Ccircle cx='70' cy='40' r='2' fill='%235DA9E9' fill-opacity='0.2'/%3E%3Ccircle cx='90' cy='50' r='2' fill='%235DA9E9' fill-opacity='0.2'/%3E%3C/svg%3E\")",
       },
       boxShadow: {
-        'gold': '0 4px 14px 0 rgba(255, 215, 0, 0.3)',
+        'gold': '0 4px 14px 0 rgba(255, 215, 0, 0.3), 0 0 5px rgba(255, 215, 0, 0.2), inset 0 0 5px rgba(255, 215, 0, 0.05)',
         'ocean': '0 4px 14px 0 rgba(93, 169, 233, 0.3)',
         'ocean-gold': '0 10px 25px -3px rgba(93, 169, 233, 0.3), 0 4px 6px -4px rgba(255, 215, 0, 0.2)',
         'terminal': '0 0 0 2px rgba(139, 233, 253, 0.3), 0 0 0 4px rgba(139, 233, 253, 0.1)',
@@ -258,6 +287,18 @@ export default {
         },
         '.text-gold-shimmer': {
           backgroundImage: 'linear-gradient(90deg, #E6C200, #FFD700, #FFEA9F, #FFD700, #E6C200)',
+          backgroundSize: '200% auto',
+          color: 'transparent',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          animation: 'shimmer 5s linear infinite',
+          textShadow: '0 0 10px rgba(255, 215, 0, 0.3)',
+          display: 'inline-block',
+          position: 'relative',
+        },
+        '.text-gradient-fancy': {
+          backgroundImage: 'linear-gradient(90deg, #FFD700, #FFEA9F, #FFD700)',
           backgroundSize: '200% auto',
           color: 'transparent',
           backgroundClip: 'text',
@@ -317,6 +358,22 @@ export default {
             background: 'rgba(93, 169, 233, 0.2)',
             animation: 'ripple 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite',
           }
+        },
+        '.text-shadow-lg': {
+          textShadow: '0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08)',
+        },
+        '.shadow-glow': {
+          boxShadow: '0 0 15px rgba(93, 169, 233, 0.3)',
+        },
+        '.shadow-glow-lg': {
+          boxShadow: '0 0 30px rgba(93, 169, 233, 0.5)',
+        },
+        '.bg-wavy-grid': {
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(93, 169, 233, 0.1), rgba(93, 169, 233, 0.1) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(93, 169, 233, 0.1), rgba(93, 169, 233, 0.1) 1px, transparent 1px, transparent 40px)',
+        },
+        '.bg-noise': {
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+          opacity: '0.05',
         },
       });
     }),

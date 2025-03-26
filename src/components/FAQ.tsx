@@ -60,8 +60,8 @@ const FAQItem: React.FC<FAQItemProps> = ({
         onClick={toggleAccordion}
         aria-expanded={isActive}
       >
-        <h3 className="font-mono text-lg font-medium group-hover:text-ocean-light transition-colors duration-300">
-          <span className="text-gold font-mono mr-2 text-sm">~/$ man</span>
+        <h3 className="font-mono text-lg font-medium group-hover:text-gold transition-colors duration-300">
+          <span className="text-terminal-cyan font-mono mr-2 text-sm">~/$ man</span>
           {question}
         </h3>
         <div className={cn(
@@ -78,7 +78,7 @@ const FAQItem: React.FC<FAQItemProps> = ({
             strokeLinejoin="round" 
             className={cn(
               "w-3 h-3 transition-transform duration-300",
-              isActive ? "transform rotate-180 text-ocean-darker" : ""
+              isActive ? "transform rotate-180 text-terminal-cyan" : ""
             )}
           >
             <polyline points="6 9 12 15 18 9"></polyline>
@@ -108,7 +108,7 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
 
   const faqItems = [
     {
-      question: "Proč bych si měl nechat udělat webové stránky zrovna u Vás?",
+      question: "Proč bych si měl nechat udělat webové stránky zrovna u tebe?",
       answer: "Protože nejsem velká firma, která musí platit spousty zaměstnanců, jejich potřeby, služební auta, nákladný software pro firmy, účetní apod.. Díky tomuto a mým zkušenostem jsem schopný srazit cenu a poskytnout kvalitní služby, stejně jako tyto velké firmy."
     },
     {
@@ -117,7 +117,7 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
     },
     {
       question: "V čem vytváříte webové stránky?",
-      answer: "Pro tvorbu mých webů používám převážně CMS WordPress s pluginem Elementor. Tohle je základ mé tvorby. Další pluginy jsou individuální."
+      answer: "Pro tvorbu mých webů používám převážně CMS WordPress s pluginem Elementor. Tohle je základ mé tvorby. Další pluginy jsou individuální. Tvorba na míru může být bez CMS pouze v kódu."
     },
     {
       question: "Mohu si sám potom měnit informace na webu?",
@@ -129,7 +129,7 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
     },
     {
       question: "Můžeme se domluvit osobně?",
-      answer: "Ano, ale pouze v regionech Ostrava, Opava, Nový Jičín, Odry, Fulnek, Olomouc a jejich okolí."
+      answer: "Ano, ale pouze v regionech Ostrava, Opava, Nový Jičín, Odry, Fulnek, Olomouc a jejich okolí. Delší cesty pouze pro větší projekty a spolupráce."
     }
   ];
 
@@ -166,10 +166,11 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
       id="faq" 
       ref={sectionRef}
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden bg-gradient-to-br from-ocean-darker to-ocean-dark",
+        "py-20 md:py-28 relative overflow-hidden bg-enhanced-gradient",
         className
       )}
     >
+      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">
@@ -196,11 +197,11 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
           </div>
           
           <div className="mt-10 text-center animate-on-scroll opacity-0 translate-y-10 transition-all duration-700" style={{ transitionDelay: `${faqItems.length * 100 + 100}ms` }}>
-            <div className="inline-block p-6 rounded-lg bg-terminal-black backdrop-blur-md border border-terminal-green/30">
+            <div className="inline-block p-6 rounded-lg bg-terminal-black backdrop-blur-md border border-ocean-light/30">
               <p className="text-terminal-white font-mono text-base">
-                <span className="text-terminal-green mr-2">$</span>
-                <span className="text-terminal-cyan font-bold">Máte další otázky?</span>
-                <a href="#contact" className="ml-2 text-terminal-yellow hover:text-terminal-green transition-colors">
+                <span className="text-terminal-cyan mr-2">$</span>
+                <span className="text-gold font-bold">Máte další otázky?</span>
+                <a href="#contact" className="ml-2 text-terminal-cyan hover:text-gold transition-colors">
                   Kontaktujte mě pro detailní odpovědi
                 </a>
                 <span className="blink-cursor ml-1"></span>

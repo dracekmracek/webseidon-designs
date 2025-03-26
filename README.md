@@ -96,6 +96,285 @@ npm run build
 npm run preview
 ```
 
+## Nasazení projektu na produkci
+
+### Build a příprava souborů pro hosting
+
+```bash
+# Vytvoření produkční verze
+npm run build
+
+# Výsledné soubory pro nahrání na hosting jsou ve složce /dist
+```
+
+Po spuštění příkazu `npm run build` se vytvoří složka `dist`, která obsahuje všechny potřebné soubory pro nasazení na hosting. Tyto soubory obsahují optimalizovaný a minifikovaný kód připravený pro produkční nasazení.
+
+### Hosting a nastavení serveru
+
+1. **Nahrání souborů na hosting**:
+   - Nahrajte celý obsah složky `dist` na váš webový hosting
+   - Pro nahrání můžete použít FTP klienta nebo nástroje poskytované hostingem
+
+2. **Konfigurace serveru**:
+   - Pro správné fungování SPA (Single Page Application) je potřeba nastavit přesměrování
+   - Vytvořte ve vašem hostingu soubor `.htaccess` (pro Apache) nebo odpovídající konfiguraci pro Nginx
+
+   **Příklad konfigurace pro Apache (.htaccess)**:
+   ```
+   <IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteBase /
+     RewriteRule ^index\.html$ - [L]
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteCond %{REQUEST_FILENAME} !-d
+     RewriteRule . /index.html [L]
+   </IfModule>
+   ```
+
+   **Příklad konfigurace pro Nginx**:
+   ```
+   location / {
+     try_files $uri $uri/ /index.html;
+   }
+   ```
+
+3. **HTTPS nastavení**:
+   - Zajistěte, aby váš web běžel přes HTTPS
+   - Většina moderních hostingů poskytuje Let's Encrypt certifikáty zdarma
+   - Pokud váš hosting nepodporuje automatické nastavení HTTPS, použijte služby jako Cloudflare
+
+### Správa domény
+
+1. **Nastavení DNS záznamů**:
+   - Nastavte A záznam, který směřuje na IP adresu vašeho hostingu
+   - Příklad: `A @ 123.45.67.89`
+   - Pro subdomény vytvořte odpovídající CNAME záznamy
+   - Příklad: `CNAME www webseidon.cz.`
+
+2. **Přesměrování www/non-www**:
+   - Rozhodněte se, zda budete používat www nebo non-www variantu (např. webseidon.cz vs www.webseidon.cz)
+   - Nastavte přesměrování z jedné varianty na druhou
+   
+   **Příklad pro přesměrování z www na non-www v .htaccess**:
+   ```
+   RewriteEngine On
+   RewriteCond %{HTTP_HOST} ^www\.webseidon\.cz [NC]
+   RewriteRule ^(.*)$ https://webseidon.cz/$1 [L,R=301]
+   ```
+
+## SEO Optimalizace
+
+### Klíčové SEO soubory a jejich umístění
+
+1. **Meta tagy a HTML hlavička** (`/index.html`):
+   - Soubor obsahuje všechny důležité meta tagy, title, description
+   - Open Graph a Twitter Card metadata pro sdílení na sociálních sítích
+   - Strukturovaná data Schema.org pro lepší výsledky ve vyhledávačích
+
+2. **robots.txt** (`/public/robots.txt`):
+   - Řídí přístup vyhledávacích botů k vašemu webu
+   - Aktuální nastavení povoluje indexaci celého webu
+   - Pro úpravy editujte `/public/robots.txt`
+
+3. **Sitemap.xml**:
+   - Doporučujeme vytvořit sitemap.xml pro lepší indexaci
+   - Umístěte ho do složky `/public/sitemap.xml`
+   - Příklad základní podoby:
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     <url>
+       <loc>https://webseidon.cz/</loc>
+       <lastmod>2023-06-20</lastmod>
+       <changefreq>monthly</changefreq>
+       <priority>1.0</priority>
+     </url>
+   </urlset>
+   ```
+
+4. **Web Manifest** (`/public/site.webmanifest`):
+   - Definuje, jak se má web chovat při přidání na plochu mobilního zařízení
+   - Doporučené úpravy:
+   ```json
+   {
+     "name": "Webseidon",
+     "short_name": "Webseidon",
+     "icons": [
+       {"src": "/icons/favicon-192x192.png", "sizes": "192x192", "type": "image/png"},
+       {"src": "/icons/favicon-512x512.png", "sizes": "512x512", "type": "image/png"}
+     ],
+     "theme_color": "#05101F",
+     "background_color": "#05101F",
+     "display": "standalone",
+     "start_url": "/"
+   }
+   ```
+
+### Strukturovaná data
+
+V souboru `index.html` jsou již implementovaná strukturovaná data Schema.org pro:
+- LocalBusiness - informace o vaší firmě
+- Service - informace o vašich službách
+
+Tato data pomáhají vyhledávačům lépe porozumět obsahu vašeho webu a mohou vést k zobrazení rozšířených výsledků ve vyhledávání (rich snippets).
+
+## Service Worker a offline funkcionalita
+
+Service Worker je implementován pro lepší výkon a offline funkce. Najdete ho v souboru `/public/sw.js`.
+
+### Doporučené úpravy v sw.js
+
+1. **Aktualizace seznamu položek k uložení do cache**:
+```javascript
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/assets/index.css',
+  '/assets/index.js',
+  '/icons/favicon.ico',
+  '/icons/favicon-512x512.png',
+  // Přidejte další soubory, které chcete cachovat
+];
+```
+
+2. **Vylepšení strategie cachování**:
+Aktuální implementace přeskakuje cache, což není ideální pro výkon. Doporučujeme použít strategii "stale-while-revalidate":
+
+```javascript
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      // Vrátit z cache, pokud existuje
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          // Aktualizovat cache novými daty
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        })
+        .catch((error) => {
+          console.error('Fetch failed:', error);
+        });
+        
+      return cachedResponse || fetchPromise;
+    })
+  );
+});
+```
+
+## Kontaktní formulář
+
+Kontaktní formulář využívá PHPMailer pro odesílání e-mailů. Soubor pro zpracování formuláře je umístěný v kořenovém adresáři jako `send_mail.php`.
+
+### Nastavení PHPMaileru po nahrání na hosting
+
+1. **Instalace PHPMaileru**:
+   - Na většině hostingů je PHPMailer již předinstalovaný
+   - Pokud není, nahrajte do složky `lib` nebo podobné adresáře na hostingu tyto soubory z oficiálního GitHub repozitáře:
+     - PHPMailer.php
+     - SMTP.php
+     - Exception.php
+
+2. **Úprava konfigurace v send_mail.php**:
+   ```php
+   // Konfigurace SMTP serveru
+   $mail = new PHPMailer(true);
+   $mail->isSMTP();
+   $mail->Host = 'smtp.example.com';             // Zadejte SMTP server vašeho hostingu
+   $mail->SMTPAuth = true;
+   $mail->Username = 'your-email@example.com';   // Váš e-mail pro odesílání
+   $mail->Password = 'your-password';            // Heslo k e-mailu
+   $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Nebo 'ssl' podle vašeho hostingu
+   $mail->Port = 587;                           // Většinou 587 pro TLS nebo 465 pro SSL
+   
+   // Nastavení odesílatele a příjemce
+   $mail->setFrom('info@webseidon.cz', 'Webseidon');
+   $mail->addAddress('info@webseidon.cz');      // E-mail, na který budou chodit zprávy z formuláře
+   
+   // Pro testování můžete aktivovat tuto část:
+   // $mail->SMTPDebug = 2;                    // Zapnutí debugování - výpis informací o průběhu odesílání
+   ```
+
+3. **Zabezpečení před spamem a zneužitím**:
+   - V souboru `send_mail.php` je implementována ochrana proti jednoduchým spambotům (honeypot pole)
+   - Soubor používá anti-CSRF token pro ochranu proti Cross-Site Request Forgery útokům
+   - V případě potřeby implementujte dodatečnou ochranu, jako je Google reCAPTCHA
+
+4. **Propojení frontend a PHP skriptu**:
+   - Ujistěte se, že cesta k `send_mail.php` v komponentě formuláře odpovídá reálnému umístění souboru na serveru
+   - V komponentě `Contact.tsx` je cesta nastavena relativně vůči kořenovému adresáři (`action="/send_mail.php"`)
+
+5. **Testování funkčnosti**:
+   - Po nahrání na hosting nejprve vyzkoušejte formulář s testovacím e-mailem
+   - Zkontrolujte logy serveru pro případné chyby
+   - Ověřte, že e-maily nepadají do spamu
+
+### Časté problémy a jejich řešení
+
+1. **E-maily se neodesílají**:
+   - Zkontrolujte SMTP nastavení (host, port, šifrování)
+   - Ověřte přihlašovací údaje
+   - Zkontrolujte, zda hosting neblokuje odchozí SMTP provoz
+
+2. **E-maily končí ve spamu**:
+   - Nastavte správně SPF, DKIM a DMARC záznamy v DNS vaší domény
+   - Použijte jako odesílatele e-mail ze stejné domény jako je web (např. info@webseidon.cz)
+   - Přidejte do e-mailu smysluplný předmět a obsah s minimem spamových klíčových slov
+
+3. **Chybová hláška "headers already sent"**:
+   - Zkontrolujte, že v PHP souboru nejsou žádné znaky před `<?php` nebo za `?>`
+   - Odstraňte BOM (Byte Order Mark) ze začátku souboru
+
+## Analytika a sledování
+
+Pro sledování návštěvnosti a chování uživatelů doporučujeme:
+
+1. **Google Analytics**: 
+   - Vytvořte GA4 property v Google Analytics
+   - Přidejte měřící kód do `index.html`
+   - Příklad implementace:
+   ```html
+   <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+   <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+     gtag('config', 'G-XXXXXXXXXX');
+   </script>
+   ```
+
+2. **Google Search Console**:
+   - Zaregistrujte váš web v GSC pro sledování výkonu ve vyhledávačích
+   - Nahrajte verifikační HTML soubor do složky `/public/`
+
+## Testování před a po nasazení
+
+### Před nasazením
+
+1. **Lighthouse audit**:
+   - Zkontrolujte výkon, SEO, přístupnost a best practices
+   - Použijte DevTools v prohlížeči Chrome nebo PageSpeed Insights
+
+2. **Cross-browser testování**:
+   - Otestujte web v Chrome, Firefox, Safari a Edge
+   - Zkontrolujte mobilní zobrazení
+
+### Po nasazení
+
+1. **Validace strukturovaných dat**:
+   - Použijte [Rich Results Test](https://search.google.com/test/rich-results)
+   - Ověřte, že vaše strukturovaná data jsou správně implementovaná
+
+2. **Validace rychlosti načítání**:
+   - Použijte [PageSpeed Insights](https://pagespeed.web.dev/)
+   - Použijte [WebPageTest](https://www.webpagetest.org/) pro podrobnější analýzu
+
+3. **Kontrola indexace**:
+   - Zaregistrujte web v Google Search Console
+   - Ověřte, že Google správně indexuje váš web
+
 ## Responzivní design
 
 Web je plně responzivní a optimalizovaný pro všechna zařízení od mobilních telefonů po širokoúhlé monitory. Používá přístup "mobile-first" a dynamicky se přizpůsobuje různým velikostem obrazovky.

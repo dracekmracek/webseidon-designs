@@ -38,7 +38,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         <div className="mb-6">
           <MessageSquare className="text-terminal-green mb-4 h-6 w-6" />
           <div className="font-mono text-sm text-terminal-white mb-2">
-            <span className="text-terminal-green">$</span> cat testimonial.txt
+            <span className="text-terminal-green">$</span> cat zpetna-vazba.txt
           </div>
           <blockquote className="font-mono text-terminal-cyan border-l-2 border-terminal-green/30 pl-4 py-1 text-sm">
             {quote}
@@ -63,18 +63,18 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
   const testimonials = [
     {
       quote: "Spolupráce s Webseidon znamenala revoluci pro naše podnikání. Jejich pozornost k detailům a technická odbornost přeměnily naše zastaralé webové stránky na mocný prodejní nástroj, který naši zákazníci milují.",
-      author: "Alexandra",
-      company: "OceanView Resorts"
+      author: "Š. Jindřich",
+      company: ""
     },
     {
       quote: "WordPress stránky, které vytvořili, předčily všechna naše očekávání. Vlastní funkce a e-commerce integrace fungují bezchybně a od spuštění jsme zaznamenali nárůst online prodejů o 40 %.",
-      author: "Michal",
-      company: "Aquatic Supplies s.r.o."
+      author: "D. Ondřej",
+      company: ""
     },
     {
       quote: "Responzivní, kreativní a technicky brilantní. Jejich hluboké pochopení WordPressu a důraz na optimalizaci výkonu nám přinesly web, který se načítá bleskovou rychlostí a efektivně konvertuje návštěvníky.",
-      author: "Sofie",
-      company: "Digital Horizons"
+      author: "V. Adam",
+      company: ""
     }
   ];
 
@@ -124,24 +124,71 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
         className
       )}
     >
-      {/* Sofistikované pozadí */}
-      <div className="absolute inset-0 bg-deep-ocean"></div>
+      {/* Vylepšený gradient pozadí se seamless přechodem pro plynulost */}
+      <div className="absolute inset-0 bg-enhanced-gradient"></div>
       
-      {/* Cyber grid */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-15 pointer-events-none"></div>
+      {/* Modrá mřížka pro technologický vzhled */}
+      <div className="absolute inset-0 bg-cyber-grid-blue opacity-10 pointer-events-none"></div>
       
-      {/* Noise overlay pro autentický vzhled */}
-      <div className="absolute inset-0 bg-noise"></div>
+      {/* Jemný šumový overlay */}
+      <div className="absolute inset-0 bg-noise opacity-10"></div>
       
-      {/* Glow efekty pro hloubku */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-80 h-80 bg-ocean-light/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute right-0 top-1/4 w-72 h-72 bg-accent/5 rounded-full filter blur-3xl"></div>
-      <div className="absolute left-1/4 bottom-0 w-64 h-64 bg-gold/5 rounded-full filter blur-3xl"></div>
+      {/* Glow efekty pro větší hloubku a vrstvy */}
+      <div className="absolute left-0 top-1/4 w-80 h-80 bg-wave-blue/15 rounded-full filter blur-3xl"></div>
+      <div className="absolute right-0 top-1/3 w-72 h-72 bg-wave-blue-light/10 rounded-full filter blur-3xl"></div>
+      <div className="absolute left-1/4 bottom-0 w-64 h-64 bg-gold/10 rounded-full filter blur-3xl"></div>
+      <div className="absolute right-1/4 top-0 w-64 h-64 bg-ocean-light/8 rounded-full filter blur-3xl"></div>
+      
+      {/* Jemný světelný prach - ambientní částice */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <div 
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              width: `${Math.max(1, Math.random() * 2)}px`,
+              height: `${Math.max(1, Math.random() * 2)}px`,
+              backgroundColor: i % 4 === 0 
+                ? 'rgba(255, 215, 0, 0.3)' 
+                : 'rgba(93, 169, 233, 0.3)',
+              boxShadow: i % 4 === 0 
+                ? '0 0 6px rgba(255, 215, 0, 0.5)' 
+                : '0 0 6px rgba(93, 169, 233, 0.5)',
+              opacity: 0.6 + Math.random() * 0.4,
+              animation: `pulse-glow ${3 + Math.random() * 4}s ease-in-out infinite`
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Dynamický světelný paprsek */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-40 h-[200%] rotate-45 opacity-10"
+          style={{
+            top: '-50%',
+            left: '30%',
+            background: 'linear-gradient(90deg, transparent, rgba(93, 169, 233, 0.4), transparent)',
+            animation: 'wave-flow 20s linear infinite'
+          }}
+        ></div>
+        <div 
+          className="absolute w-20 h-[200%] rotate-45 opacity-5"
+          style={{
+            top: '-50%',
+            left: '60%',
+            background: 'linear-gradient(90deg, transparent, rgba(93, 169, 233, 0.5), transparent)',
+            animation: 'wave-flow 15s linear infinite reverse'
+          }}
+        ></div>
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
-            tail -f /klient/zpetna-vazba.log
+            tail -f /klient/zpětná-vazba.log
           </h2>
           <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
             <span className="text-terminal-green">echo</span> "Co o našich službách říkají klienti" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">more</span>

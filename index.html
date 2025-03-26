@@ -3,24 +3,160 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Webseidon - Webové stránky pro malé firmy a živnostníky</title>
-    <meta name="description" content="Tvorba webových stránek pro malé firmy a živnostníky. SEO optimalizace, wordpress, redesign a tvorba loga." />
+    <title>Webseidon - Profesionální tvorba webových stránek pro firmy a živnostníky</title>
+    <meta name="description" content="Tvorba moderních webových stránek na míru pro malé firmy a živnostníky. SEO optimalizace, WordPress, Next.js, redesign, grafické práce a tvorba loga. Kvalitní weby s důrazem na rychlost a konverze." />
     <meta name="author" content="Webseidon" />
+    <meta name="keywords" content="tvorba webových stránek, webdesign, SEO optimalizace, WordPress, grafické práce, logo, webové stránky na míru, redesign webu, webové stránky pro firmy, webové stránky pro živnostníky" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#05101F" />
+    <link rel="canonical" href="https://webseidon.cz" />
 
-    <meta property="og:title" content="Webseidon - Webové stránky pro malé firmy a živnostníky" />
-    <meta property="og:description" content="Tvorba webových stránek pro malé firmy a živnostníky. SEO optimalizace, wordpress, redesign a tvorba loga." />
+    <!-- Favicon ikony -->
+    <link rel="icon" href="/icons/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/favicon-512x512.png" />
+    <link rel="manifest" href="/icons/site.webmanifest" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Webseidon - Profesionální tvorba webových stránek pro firmy a živnostníky" />
+    <meta property="og:description" content="Tvorba moderních webových stránek na míru pro malé firmy a živnostníky. SEO optimalizace, WordPress, Next.js, redesign a tvorba loga. Získejte kvalitní web, který přináší výsledky." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://webseidon.cz" />
     <meta property="og:image" content="https://webseidon.cz/opengraph-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:site_name" content="Webseidon" />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@webseidon" />
+    <meta name="twitter:title" content="Webseidon - Profesionální tvorba webových stránek" />
+    <meta name="twitter:description" content="Tvorba moderních webových stránek na míru pro malé firmy a živnostníky. SEO optimalizace, WordPress, Next.js, redesign a tvorba loga." />
     <meta name="twitter:image" content="https://webseidon.cz/opengraph-image.png" />
+    
+    <!-- Deaktivace cache pro vývoj -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <!-- Strukturovaná data pro LocalBusiness -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Webseidon",
+        "image": "https://webseidon.cz/logo.png",
+        "url": "https://webseidon.cz",
+        "telephone": "+420776211336",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Klokočov",
+          "addressLocality": "Vítkov",
+          "postalCode": "74747",
+          "addressCountry": "CZ"
+        },
+        "priceRange": "$$",
+        "description": "Tvorba moderních webových stránek na míru pro malé firmy a živnostníky.",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      }
+    </script>
+    
+    <!-- Strukturovaná data pro služby -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Tvorba webových stránek",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "Webseidon"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Česká republika"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "8999",
+          "priceCurrency": "CZK"
+        }
+      }
+    </script>
+    
+    <!-- Přednastavení stylu pro okamžité zobrazení bez blikání -->
+    <style>
+      html, body {
+        background-color: #05101F !important;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+        background-color: #05101F;
+      }
+      
+      /* Přednačítací styl pro předcházení FOUC (Flash of Unstyled Content) */
+      .preload * {
+        transition: none !important;
+      }
+    </style>
   </head>
 
-  <body>
+  <body class="preload">
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <!-- Skript byl odstraněn, aby se zabránilo přidání notifikační sekce -->
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Skript pro odstranění notifikační sekce a optimalizaci načítání -->
+    <script>
+      // Optimalizace preloadingu - odstraní preload třídu po načtení
+      window.addEventListener('load', function() {
+        document.body.classList.remove('preload');
+      });
+    
+      window.addEventListener('DOMContentLoaded', () => {
+        // Odstraníme sekci s notifikacemi, pokud existuje
+        const notificationSection = document.querySelector('section[aria-label="Notifications alt+T"]');
+        if (notificationSection) {
+          notificationSection.remove();
+          console.log('Notifikační sekce byla odstraněna');
+        }
+        
+        // Také zkusíme odstranit jakoukoliv sekci s atributem aria-live="polite"
+        const ariaLiveSections = document.querySelectorAll('section[aria-live="polite"]');
+        ariaLiveSections.forEach(section => {
+          section.remove();
+          console.log('Sekce s aria-live="polite" byla odstraněna');
+        });
+      });
+      
+      // Pravidelně kontroluje a odstraňuje sekci, pokud by byla přidána dynamicky
+      setInterval(() => {
+        const notificationSection = document.querySelector('section[aria-label="Notifications alt+T"]');
+        if (notificationSection) {
+          notificationSection.remove();
+          console.log('Dynamicky přidaná notifikační sekce byla odstraněna');
+        }
+      }, 500);
+    </script>
   </body>
 </html>

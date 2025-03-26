@@ -16,22 +16,22 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ title, category, image, delay = 0, onClick }) => {
   return (
     <div 
-      className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 relative cursor-pointer group"
+      className="opacity-100 translate-y-0 transition-all duration-700 relative cursor-pointer group"
       style={{ transitionDelay: `${delay}ms` }}
       onClick={onClick}
     >
       <div className="overflow-hidden rounded-xl shadow-lg relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-ocean-darker to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-ocean-darker to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300 z-10"></div>
         <div 
           className="aspect-[4/3] group-hover:scale-110 transition-transform duration-700 bg-cover bg-center bg-no-repeat" 
           style={{ backgroundImage: `url(${image})` }}
         ></div>
         <div className="absolute inset-0 flex flex-col justify-end p-6 z-20">
-          <p className="text-gold text-sm tracking-wider uppercase transform translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">{category}</p>
-          <h3 className="text-xl font-serif font-bold text-white transform translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-100">{title}</h3>
-          <div className="mt-4 transform translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200">
-            <span className="px-4 py-2 rounded-full text-xs border border-gold/30 text-gold hover:bg-gold hover:text-ocean-darker transition-colors duration-300">
-              View Project
+          <p className="text-gold text-sm tracking-wider uppercase opacity-100 transition-colors duration-300">{category}</p>
+          <h3 className="text-xl font-serif font-bold text-white opacity-100 transition-colors duration-300">{title}</h3>
+          <div className="mt-4 opacity-100 transition-transform duration-300">
+            <span className="px-4 py-2 rounded-full text-xs border border-gold/30 text-gold hover:bg-gold hover:text-ocean-darker transition-colors duration-300 group-hover:border-gold/60">
+              Zobrazit detail
             </span>
           </div>
         </div>
@@ -149,24 +149,24 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
   const projects = [
     {
       title: "autoskla-vejmola.cz",
-      category: "Automotive Service",
-      image: "https://images.unsplash.com/photo-1571172964276-91faaa704e1f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "Webové stránky pro služby výměny a opravy autoskel. Web zahrnuje online rezervační systém a automatické kalkulace cen na základě typu vozidla a služby.",
-      technologies: ["WordPress", "WooCommerce", "Custom Theme", "PHP", "MySQL", "Booking System"]
+      category: "Výměna autoskel",
+      image: "./public/img/broken_windshield.jpg",
+      description: "Webové stránky pro služby výměny a opravy autoskel. Web zahrnuje základní informace o službách, cenník, lokalizace a kontakt s formulářem.",
+      technologies: ["WordPress", "Custom Theme", "Responsive Design", "SEO Optimization"]
     },
     {
       title: "unamisteel.cz",
-      category: "Manufacturing",
-      image: "https://images.unsplash.com/photo-1584824388173-8dd77cc6bd4d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "Firemní prezentace pro výrobce ocelových konstrukcí. Web obsahuje portfolio realizovaných projektů, parametrické kalkulačky pro odhad ceny a přehled nabízených služeb.",
-      technologies: ["WordPress", "Custom Theme", "JS Animations", "PHP", "Responsive Design", "SEO Optimization"]
+      category: "Zámečnické služby",
+      image: "./public/img/metalwork.jpg",
+      description: "Firemní prezentace pro výrobce ocelových konstrukcí. Web obsahuje portfolio realizovaných projektů a přehled nabízených služeb.",
+      technologies: ["WordPress", "Custom Theme", "JS Animations", "Responsive Design", "SEO Optimization"]
     },
     {
-      title: "Cybersec Platform",
-      category: "Cybersecurity",
-      image: "https://images.unsplash.com/photo-1544890225-2f3faec4cd60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      description: "Platforma pro vzdělávání v oblasti kybernetické bezpečnosti. Web obsahuje interaktivní kurzy, cvičení a simulace hackerských útoků v bezpečném prostředí.",
-      technologies: ["React", "Node.js", "MongoDB", "Docker", "WebSocket", "Auth0"]
+      title: "betrim.cz",
+      category: "Lakovna a práškovna",
+      image: "./public/img/betrim.jpg",
+      description: "Práškovna a lakovna ve Fulneku. Web obsahuje portfolio realizovaných projektů a přehled nabízených služeb.",
+      technologies: ["React", "Node.js", "Next.js", "Tailwind CSS"]
     },
   ];
 
@@ -206,18 +206,56 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
         className
       )}
     >
-      {/* Hlavní pozadí s gradientem */}
-      <div className="absolute inset-0 bg-deep-ocean"></div>
+      {/* Vylepšený gradient pozadí - upraveno na světlejší variantu */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ocean-darker via-ocean-dark to-ocean-darker"></div>
       
-      {/* Pokročilá mřížka v pozadí */}
-      <div className="absolute inset-0 bg-glass-shatter opacity-10 pointer-events-none"></div>
+      {/* Modrá mřížka v pozadí */}
+      <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
       
-      {/* Šumový efekt pro autentický vzhled */}
-      <div className="absolute inset-0 bg-noise"></div>
+      {/* Šumový efekt pro texturovaný vzhled */}
+      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
       
-      {/* Světelné gradientové efekty */}
-      <div className="absolute top-1/4 right-0 w-80 h-80 bg-ocean-light/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-ocean-light/5 rounded-full filter blur-3xl"></div>
+      {/* Světelné gradientové efekty - zesíleny */}
+      <div className="absolute top-1/3 right-0 w-96 h-96 bg-wave-blue/20 rounded-full filter blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-wave-blue/15 rounded-full filter blur-3xl"></div>
+      <div className="absolute top-0 left-1/3 w-80 h-80 bg-gold/8 rounded-full filter blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-gold/10 rounded-full filter blur-3xl"></div>
+      
+      {/* Dynamické světelné částice - zvýšena intenzita */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div 
+            key={i}
+            className="absolute h-2 w-2 rounded-full animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 7}s`,
+              animationDelay: `${Math.random() * 4}s`,
+              backgroundColor: i % 3 === 0 
+                ? 'rgba(255, 215, 0, 0.3)' 
+                : 'rgba(93, 169, 233, 0.3)',
+              boxShadow: i % 3 === 0 
+                ? '0 0 15px rgba(255, 215, 0, 0.4)' 
+                : '0 0 15px rgba(93, 169, 233, 0.4)'
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Paprskovité světelné efekty - zvýšena intenzita */}
+      <div 
+        className="absolute -top-20 -left-20 w-96 h-96 opacity-25 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(93, 169, 233, 0.5) 0%, rgba(93, 169, 233, 0) 70%)'
+        }}
+      ></div>
+      <div 
+        className="absolute -bottom-20 -right-20 w-96 h-96 opacity-25 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(93, 169, 233, 0.5) 0%, rgba(93, 169, 233, 0) 70%)'
+        }}
+      ></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
@@ -225,76 +263,37 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
             find ./projekty -type f -name "*.html" | sort
           </h2>
           <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
-            Ukázky uskutečněných projektů a spolupráce
+          # Ukázky uskutečněných projektů a spoluprací
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
-            <div 
-              key={project.title} 
-              className="opacity-100 translate-y-0 transition-all duration-700"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="group cyber-gradient backdrop-blur-md rounded-lg overflow-hidden border border-ocean-light/10 hover:border-ocean-light/30 shadow-lg hover:shadow-ocean transition-all duration-300 h-full hover:scale-[1.02] hover:-translate-y-1 glow-border relative">
-                {/* Overlay efekty */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-noise transition-opacity duration-300 z-10"></div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 holographic transition-opacity duration-300 z-10"></div>
-                
-                <div className="relative overflow-hidden aspect-[16/9]">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ocean-darker/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-0 left-0 p-4 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <span 
-                          key={techIndex}
-                          className="px-2 py-1 text-xs rounded-full bg-terminal-cyan/20 text-terminal-cyan font-mono"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-5">
-                  <h3 className="font-bold text-lg mb-2 font-mono text-terminal-white group-hover:text-terminal-cyan transition-colors duration-300">{project.title}</h3>
-                  <p className="font-mono text-terminal-white/80 text-sm mb-4">{project.description}</p>
-                  
-                  <div className="flex items-center justify-between">
-                    <button 
-                      onClick={() => setSelectedProject(project)}
-                      className="inline-flex items-center font-mono text-sm text-terminal-green hover:text-terminal-cyan transition-colors duration-200"
-                    >
-                      <span className="mr-1">{'>'}</span> Zobrazit detail
-                    </button>
-                    <span className="text-xs text-terminal-white/50 font-mono">{project.category}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProjectCard
+              key={project.title}
+              title={project.title}
+              category={project.category}
+              image={project.image}
+              delay={index * 100}
+              onClick={() => setSelectedProject(project)}
+            />
           ))}
         </div>
         
         <div className="text-center mt-16">
           <div className="inline-flex items-center bg-terminal-black px-4 py-3 rounded-md border border-terminal-green/30 font-mono text-sm text-terminal-green">
             <span className="mr-2">$</span>
-            find /projects -type f -name "*.html" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">wc</span> -l <span className="blink-cursor">■</span>
+            Chceš taky takový web? Stačí zavolat, nebo napsat! <span className="text-terminal-red"></span>  <span className="text-terminal-cyan"></span><span className="blink-cursor">■</span>
           </div>
         </div>
         
-        {/* Project Modal */}
+        {/* Project Modal - upraven pro lepší sladění s designem */}
         {selectedProject && (
-          <div className="fixed inset-0 bg-ocean-darker/80 backdrop-blur-md z-50 overflow-y-auto flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-ocean-darker/80 backdrop-blur-md z-[100] overflow-y-auto flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
             
             <div 
-              className="w-full max-w-4xl bg-deep-ocean rounded-xl shadow-2xl relative animate-fade-in-up overflow-hidden glow-border"
+              className="w-full max-w-4xl bg-gradient-to-b from-ocean-dark to-ocean-deeper rounded-xl shadow-2xl relative animate-fade-in-up overflow-hidden border border-ocean-light/20"
               ref={modalRef}
             >
               <div className="absolute inset-0 bg-cyber-grid opacity-10 pointer-events-none"></div>
@@ -348,7 +347,7 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
                       <h4 className="text-lg font-bold mb-2 font-mono text-terminal-white">Podrobnosti</h4>
                       <ul className="space-y-2 text-sm text-terminal-white/80 font-mono">
                         <li><span className="text-terminal-green mr-2">Kategorie:</span>{selectedProject.category}</li>
-                        <li><span className="text-terminal-green mr-2">Vytvořeno:</span>{selectedProject.date || "2023"}</li>
+                        <li><span className="text-terminal-green mr-2">Vytvořeno:</span>{selectedProject.date || "2024"}</li>
                       </ul>
                     </div>
                     

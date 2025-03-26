@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Mail, Phone, MapPin, Code, Terminal } from 'lucide-react';
+import { Mail, Phone, MapPin, Code, Terminal, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
   className?: string;
@@ -11,160 +12,179 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
 
   return (
     <footer className={cn(
-      "py-12 bg-terminal-black text-terminal-white relative overflow-hidden",
+      "relative bg-ocean-darkest overflow-hidden pt-16 pb-8",
       className
     )}>
-      {/* Terminal-style background pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-5">
-        <div className="h-full w-full bg-terminal-grid bg-[size:20px_20px]"></div>
+      {/* Pozadí a efekty */}
+      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-cyber-grid opacity-10 pointer-events-none"></div>
+      
+      {/* Vodní efekty */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-ocean-light/0 via-ocean-light/50 to-ocean-light/0"></div>
+      
+      {/* Bubliny */}
+      <div className="bubble-container">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className="bubble"
+            style={{
+              width: `${5 + Math.random() * 15}px`,
+              height: `${5 + Math.random() * 15}px`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 7}s`
+            }}
+          />
+        ))}
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 border-b border-terminal-green/20 pb-8">
-          {/* Logo a popis */}
+      {/* Whirlpool efekt */}
+      <div className="whirlpool absolute bottom-[10%] right-[5%] opacity-15" style={{ width: '100px', height: '100px' }}></div>
+      
+      {/* Logo a hlavní obsah */}
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
-            <div className="text-2xl font-mono font-bold flex items-center mb-4">
-              <span className="text-terminal-green">Web</span>
-              <span className="text-terminal-white">seidon</span>
-              <span className="ml-1 text-gold text-gold-shimmer">∿≡</span>
+            <div className="flex items-center mb-4">
+              <div className="relative mr-3">
+                <img 
+                  src="/icons/favicon-512x512.png" 
+                  alt="Webseidon Logo" 
+                  className="w-10 h-10 rounded-lg shadow-glow"
+                />
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-tr from-ocean-light via-gold to-ocean-light opacity-20 blur-sm"></div>
+              </div>
+              <div className="text-2xl font-display font-bold">
+                <span className="text-gold">Web</span>
+                <span className="text-ocean-light">seidon</span>
+              </div>
             </div>
-            <p className="text-terminal-white/70 font-mono text-sm mb-4">
-              Vývoj moderních webových stránek v hackerském stylu s důrazem na výkon a bezpečnost.
+            <p className="text-white/70 text-sm mb-5 font-mono">
+              Webové stránky pro moderní podnikání, firmy a živnostníky, které se chtějí prosadit na internetu.
             </p>
-            <div className="flex items-center text-terminal-green/80 text-sm font-mono">
-              <Terminal className="w-4 h-4 mr-2" />
-              <span>Version 1.0.0</span>
+            <div className="flex space-x-3">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="bg-ocean-dark hover:bg-ocean-medium text-ocean-light w-8 h-8 flex items-center justify-center rounded-md transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-ocean-dark hover:bg-ocean-medium text-ocean-light w-8 h-8 flex items-center justify-center rounded-md transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-ocean-dark hover:bg-ocean-medium text-ocean-light w-8 h-8 flex items-center justify-center rounded-md transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-ocean-dark hover:bg-ocean-medium text-ocean-light w-8 h-8 flex items-center justify-center rounded-md transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
             </div>
           </div>
           
-          {/* Kontakt */}
           <div>
-            <h3 className="text-lg font-bold mb-4 font-mono text-terminal-green">./kontakt.sh</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start">
-                <Mail className="w-4 h-4 mr-2 mt-1 text-terminal-green" />
-                <span className="text-terminal-white/80">info@webseidon.cz</span>
-              </li>
-              <li className="flex items-start">
-                <Phone className="w-4 h-4 mr-2 mt-1 text-terminal-green" />
-                <span className="text-terminal-white/80">+420 777 123 456</span>
-              </li>
-              <li className="flex items-start">
-                <MapPin className="w-4 h-4 mr-2 mt-1 text-terminal-green" />
-                <span className="text-terminal-white/80">
-                  Praha, Česká republika
-                </span>
-              </li>
+            <h3 className="text-white font-bold mb-4 sea-waves-border ocean-title">Služby</h3>
+            <ul className="space-y-2 text-white/70 text-sm trident-bullet">
+              <li>Tvorba webových stránek</li>
+              <li>Redesign webu</li>
+              <li>SEO optimalizace</li>
+              <li>Copywriting</li>
+              <li>Tvorba loga</li>
+              <li>Konzultace</li>
             </ul>
           </div>
           
-          {/* Rychlé odkazy */}
           <div>
-            <h3 className="text-lg font-bold mb-4 font-mono text-terminal-green">./navigace.sh</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <button onClick={() => {
-                  const element = document.getElementById('about');
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }} className="text-terminal-white/80 hover:text-terminal-green transition-colors">
-                  O nás
-                </button>
-              </li>
-              <li>
-                <button onClick={() => {
-                  const element = document.getElementById('services');
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }} className="text-terminal-white/80 hover:text-terminal-green transition-colors">
-                  Služby
-                </button>
-              </li>
-              <li>
-                <button onClick={() => {
-                  const element = document.getElementById('pricing');
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }} className="text-terminal-white/80 hover:text-terminal-green transition-colors">
-                  Ceník
-                </button>
-              </li>
-              <li>
-                <button onClick={() => {
-                  const element = document.getElementById('faq');
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }} className="text-terminal-white/80 hover:text-terminal-green transition-colors">
-                  FAQ
-                </button>
-              </li>
-              <li>
-                <button onClick={() => {
-                  const element = document.getElementById('contact');
-                  if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }} className="text-terminal-white/80 hover:text-terminal-green transition-colors">
-                  Kontakt
-                </button>
-              </li>
+            <h3 className="text-white font-bold mb-4 sea-waves-border ocean-title">Užitečné odkazy</h3>
+            <ul className="space-y-2 text-white/70 text-sm trident-bullet">
+              <li><a href="#services" className="hover:text-ocean-light transition-colors">Služby</a></li>
+              <li><a href="#projects" className="hover:text-ocean-light transition-colors">Portfolio</a></li>
+              <li><a href="#testimonials" className="hover:text-ocean-light transition-colors">Reference</a></li>
+              <li><a href="#faq" className="hover:text-ocean-light transition-colors">FAQ</a></li>
+              <li><a href="#contact" className="hover:text-ocean-light transition-colors">Kontakt</a></li>
+              <li><a href="https://webseidon-blog.cz" target="_blank" rel="noopener noreferrer" className="hover:text-ocean-light transition-colors">Blog</a></li>
             </ul>
           </div>
           
-          {/* Sociální sítě */}
           <div>
-            <h3 className="text-lg font-bold mb-4 font-mono text-terminal-green">./sledujte_nas.sh</h3>
-            <div className="flex space-x-3 mb-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md bg-terminal-black border border-terminal-green/30 text-terminal-green hover:bg-terminal-green hover:text-terminal-black transition-all">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd"></path>
+            <h3 className="text-white font-bold mb-4 sea-waves-border ocean-title">Kontakt</h3>
+            <ul className="space-y-2 text-white/70 text-sm">
+              <li className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-ocean-light">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md bg-terminal-black border border-terminal-green/30 text-terminal-green hover:bg-terminal-green hover:text-terminal-black transition-all">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                <span>+420 776 211 336</span>
+              </li>
+              <li className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-ocean-light">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md bg-terminal-black border border-terminal-green/30 text-terminal-green hover:bg-terminal-green hover:text-terminal-black transition-all">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"></path>
+                <span>info@webseidon.cz</span>
+              </li>
+              <li className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-ocean-light">
+                  <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
                 </svg>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md bg-terminal-black border border-terminal-green/30 text-terminal-green hover:bg-terminal-green hover:text-terminal-black transition-all">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"></path>
-                </svg>
-              </a>
-            </div>
-            <p className="text-sm text-terminal-white/60 font-mono">
-              <span className="text-terminal-green">$</span> cat newsletter_signup.txt
-            </p>
-            <div className="mt-2 flex">
-              <input 
-                type="email" 
-                placeholder="Váš email" 
-                className="bg-terminal-black border border-terminal-green/30 text-terminal-white px-3 py-2 text-sm rounded-l-md focus:outline-none focus:border-terminal-green"
-              />
-              <button className="bg-terminal-green text-terminal-black font-mono text-sm font-medium px-3 py-2 rounded-r-md hover:bg-terminal-green/80 transition-colors">
-                Odeslat
-              </button>
-            </div>
+                <span>IČO: 21965684</span>
+              </li>
+              <li className="mt-4">
+                <a 
+                  href="#contact" 
+                  className="px-4 py-2 bg-ocean-medium hover:bg-ocean-light text-white rounded-md inline-flex items-center text-sm transition-colors water-effect"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2">
+                    <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
+                  </svg>
+                  Kontaktujte nás
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row justify-between items-center pt-4">
-          <div className="text-sm text-terminal-white/60 mb-4 md:mb-0 font-mono">
-            <span className="text-terminal-green">$ echo</span> "© {currentYear} Webseidon. Všechna práva vyhrazena."
-          </div>
-          <div className="text-sm">
-            <a href="#" className="text-terminal-white/60 hover:text-terminal-green mr-4 transition-colors">Ochrana soukromí</a>
-            <a href="#" className="text-terminal-white/60 hover:text-terminal-green transition-colors">Podmínky použití</a>
-          </div>
-        </div>
+        {/* Linka oddělující horní část od copyright zápatí */}
+        <div className="trident-divider"></div>
         
-        {/* Animovaný terminálový kurzor v zápatí */}
+        {/* Copyright section */}
         <div className="mt-8 text-center">
-          <div className="inline-flex items-center bg-terminal-black px-4 py-2 rounded-md border border-terminal-green/30 font-mono text-xs text-terminal-green">
-            <span className="mr-2">$</span>
-            <span className="typing-effect">shutdown -r now</span>
-            <span className="blink-cursor ml-1">■</span>
+          <p className="text-white/60 text-sm">
+            &copy; {new Date().getFullYear()} Webseidon. Všechna práva vyhrazena.
+          </p>
+          <div className="mt-2 flex justify-center space-x-4 text-white/60 text-xs">
+            <Link to="/privacy-policy" className="hover:text-ocean-light transition-colors">Zásady ochrany osobních údajů</Link>
+            <Link to="/terms-of-use" className="hover:text-ocean-light transition-colors">Podmínky užití</Link>
+            <Link to="/cookies" className="hover:text-ocean-light transition-colors">Cookies</Link>
           </div>
         </div>
       </div>
+      
+      {/* Dekorativní prvky v pozadí */}
+      <div className="absolute bottom-0 right-10 opacity-10">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="w-36 h-36 text-ocean-light transform -rotate-12"
+        >
+          <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
+        </svg>
+      </div>
+      
+      <div className="coral-decoration"></div>
     </footer>
   );
 };

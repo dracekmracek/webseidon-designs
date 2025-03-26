@@ -14,23 +14,23 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
   const commands = [
     {
       input: "whoami",
-      output: "Webseidon - Full Stack Developer specializing in WordPress and modern web technologies."
+      output: "INICIALIZUJI IDENTIFIKAČNÍ PROTOKOL...\n\n[BIOMETRICKÉ OVĚŘENÍ DOKONČENO]\n[PŘÍSTUP AUTORIZOVÁN]\n\nJMÉNO: Lukáš Adámek\nKÓDOVÉ OZNAČENÍ: WebCommander_01\nBEZPEČNOSTNÍ ÚROVEŇ: Alpha-5\n\n[DEKLASIFIKOVANÉ DOVEDNOSTI]:\n\n> INFILTRACE SYSTÉMŮ: Windows & Linux - specializace na průnik do nepřátelských sítí a získání admin oprávnění\n> MANIPULACE DAT: SQL databáze - schopnost extrahovat, transformovat a optimalizovat datové struktury\n> AUTOMATIZACE: PowerShell skripty - rychlost psaní převyšuje standardní lidské limity o 278%\n> DIGITÁLNÍ KAMUFLÁŽ: CSS & Frontend - mistrovská schopnost skrýt komplexní kód pod elegantním rozhraním\n> SERVEROVÉ OPERACE: Optimalizace - prediktivní údržba a prevence výpadků\n\n[TAJNÁ SCHOPNOST]: Vývoj AI asistenta s pokročilou autonomií a zpravodajskými funkcemi\n\n[VAROVÁNÍ]: Subjekt disponuje schopností transformovat \"bugy\" na \"features\" a prodávat je jako premium aktualizace.\n\n[KONEC PŘENOSU]"
     },
     {
-      input: "ls -la projects/",
-      output: "drwxr-xr-x  2 webseidon dev   4096 Jun 12 09:15 e-commerce/\ndrwxr-xr-x  2 webseidon dev   4096 Jun 10 11:30 portfolio/\ndrwxr-xr-x  2 webseidon dev   4096 Jun 15 14:22 blog/\ndrwxr-xr-x  2 webseidon dev   4096 Jun 11 16:45 corporate/"
+      input: "sudo -l",
+      output: "[INICIALIZACE PRIVILEGOVANÉHO PŘÍSTUPU]\n[SKENOVÁNÍ OPRÁVNĚNÍ...]\n\n================================================\n============ BEZPEČNOSTNÍ PROTOKOL ============\n================================================\n\nUživatel: lukasadamek\nSkupina: webseidon-admin\nHash: f8d7e5c3b1a9d2f6e8c4b7a5d3f2e1c9\n\nPOVOLENÝ PŘÍSTUP K TĚMTO PŘÍKAZŮM:\n\n> ./Notebook-otevřít.sh\n> ./Přesnost-rychlost-kreativita-dokonalost.bat\n> ./Zjištění_IQ_webseidon.sh\n\n[DIAGNOSTIKA SYSTÉMU V PRŮBĚHU]\n\nKONTROLA INTEGRITY... OK\nSKENOVÁNÍ SÍTĚ... OK\nTESTOVÁNÍ PING webseidon.cz [46.28.106.229]... ÚSPĚŠNÉ\n64 bytes přijato: čas=31.202 ms\n\n[INSTALACE KRITICKÝCH KOMPONENT]\n\nInstaluji úspěch....................[100%] DOKONČENO\nInstaluji kreativitu................[100%] DOKONČENO\nInstaluji dokonalost................[100%] DOKONČENO\n\n[SYSTÉMOVÁ ZPRÁVA]: Váš projekt je připraven na nasazení s nejvyšší úrovní oprávnění.\n\n[KONEC PŘENOSU]"
     },
     {
-      input: "cat skills.txt",
-      output: "WordPress Development\nResponsive Design\nCustom Theme Development\nE-commerce Solutions\nUI/UX Design\nPerformance Optimization\nSEO Friendly Development\nWebsite Security"
+      input: "cat seo_manual.txt",
+      output: "=== CO JE SEO A PROČ JE DŮLEŽITÉ ===\n\n[ACCESS GRANTED]\n\nSEO (Search Engine Optimization) je tajná zbraň pro digitální převahu vašeho webu v informační válce o pozornost uživatelů.\n\nWebové vyhledávače používají složité algoritmy k hodnocení a řazení webových stránek. Bez správné SEO optimalizace je váš web jako stealth letadlo bez stealth technologie - nikdo ho nenajde.\n\n[CRITICAL INTELLIGENCE]\n\n1. Organická viditelnost: 93% online interakcí začíná přes vyhledávače\n2. Důvěryhodnost: Vysoké pozice = vyšší konverzní poměr o 14.6%\n3. Nákladová efektivita: Dlouhodobé výsledky bez placené reklamy\n4. Konkurenční výhoda: Analýza digitální stopy konkurence\n\nWARNING: Bez SEO je váš web jako tajný dokument pohřbený v archivu. Nikdo ho nenajde, nikdo ho nepřečte.\n\n[CONNECTION SECURE] - Další informace na požádání"
     },
     {
-      input: "sudo apt-get install success",
-      output: "Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed:\n  success creativity excellence\n0 upgraded, 3 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 21.3 MB of archives.\nAfter this operation, 42.6 MB of additional disk space will be used.\nGet:1 https://webseidon.dev success [10.5 MB]\nGet:2 https://webseidon.dev creativity [5.8 MB]\nGet:3 https://webseidon.dev excellence [5.0 MB]\nFetched 21.3 MB in 2s (10.6 MB/s)\nInstalling success (100%)\nInstalling creativity (100%)\nInstalling excellence (100%)\nSuccess: Your project is ready to launch!"
+      input: "./scan_responsive_design.sh",
+      output: "sudo ./scan_responsive_design.sh --verbose --access-level=admin\n\n[SKENOVÁNÍ ZAHÁJEN0]\n[ANALYZUJI DŮLEŽITOST RESPONZIVITY]\n\nVÝSLEDEK SKENU:\n\n>>> KRITICKÁ DŮLEŽITOST RESPONZIVITY WEBU <<<\n\n- 68.1% všech návštěv webů probíhá přes mobilní zařízení\n- Google indexuje primárně mobilní verze stránek (Mobile-First Indexing)\n- 57% uživatelů opustí stránku, která se nenačte do 3 sekund\n- Neresponzivní weby ztrácí až 61.5% potenciálních konverzí\n\n[DETEKOVÁNO]: Webové stránky bez responzivního designu jsou v moderní éře jako systém s kritickou bezpečnostní mezerou - zranitelné a ignorované většinou uživatelů.\n\n[VAROVÁNÍ]: Responzivní design není volba, je to nezbytnost pro přežití v digitálním ekosystému.\n\n[SKEN DOKONČEN] - Při redesignu je potřeba implementovat mobile-first přístup."
     },
     {
-      input: "git status",
-      output: "On branch master\nYour branch is up to date with 'origin/master'.\n\nChanges to be committed:\n  (use \"git reset HEAD <file>...\" to unstage)\n\n\tnew file:   amazing-feature.js\n\tmodified:   styles.css\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git checkout -- <file>...\" to discard changes in working directory)\n\n\tmodified:   index.html"
+      input: "decrypt why_redesign.key",
+      output: "Dešifruji soubor: why_redesign.key\n[██████████] 100% Dešifrování dokončeno\n\n=== PROČ JE ČAS NA REDESIGN VAŠEHO WEBU ===\n\nTAJNÉ DŮVODY PRO REDESIGN WEBU:\n\n1. TECHNOLOGICKÁ EVOLUCE\n   Zastaralé weby používají technologie, které již nejsou kompatibilní s moderními prohlížeči a bezpečnostními standardy. Je to jako používat diskety v době cloudových úložišť.\n\n2. DIGITÁLNÍ PRVNÍ DOJEM\n   83% uživatelů opustí web, který vypadá zastarale nebo neprofesionálně během prvních 5 sekund. Web je vaše digitální vizitka - chcete předat vzkaz, že jste zasekli v roce 2010?\n\n3. KONKURENČNÍ ZPRAVODAJSTVÍ\n   Vaše konkurence neustále vylepšuje své digitální zbraně. Statický, zastaralý web je jako přinést nůž do přestřelky.\n\n4. BEZPEČNOSTNÍ PROTOKOL\n   Zastaralé weby jsou zranitelné vůči kybernetickým útokům. Redesign není jen estetická záležitost, ale i bezpečnostní upgrade.\n\n[PŘÍSNĚ TAJNÉ]: Předpoklad ROI při redesignu se pohybuje mezi 400-1000% při správné implementaci.\n\nKONEC PŘENOSU - WEBSEIDON OUT"
     }
   ];
 
@@ -56,8 +56,6 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       });
       observer.observe(sectionRef.current);
     }
-
-    // Removed automatic command switching interval
 
     return () => {
       if (animatedElements && sectionRef.current) {
@@ -109,13 +107,13 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
-            <TerminalIcon className="text-terminal-green mr-3" />
+            {/* <TerminalIcon className="text-terminal-green mr-3" /> */}
             <h2 className="terminal-section-title">
-              command_center.sh
+              Terminal.app
             </h2>
           </div>
-          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto text-foreground/80 font-mono">
-            # Experience the command-line power of Webseidon development
+          <p className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 max-w-2xl mx-auto subtitle-text font-mono">
+            # cd ./expertní_informace
           </p>
         </div>
 
@@ -137,20 +135,61 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
           </div>
           
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            {commands.map((cmd, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentCommand(index)}
-                className={cn(
-                  "px-4 py-2 rounded font-mono text-sm transition-all",
-                  currentCommand === index 
-                    ? "bg-terminal-green text-terminal-black" 
-                    : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
-                )}
-              >
-                $ {cmd.input}
-              </button>
-            ))}
+            <button
+              onClick={() => setCurrentCommand(0)}
+              className={cn(
+                "px-4 py-2 rounded font-mono text-sm transition-all",
+                currentCommand === 0 
+                  ? "bg-terminal-green text-terminal-black" 
+                  : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
+              )}
+            >
+              $ whoami
+            </button>
+            <button
+              onClick={() => setCurrentCommand(1)}
+              className={cn(
+                "px-4 py-2 rounded font-mono text-sm transition-all",
+                currentCommand === 1 
+                  ? "bg-terminal-green text-terminal-black" 
+                  : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
+              )}
+            >
+              $ sudo -l
+            </button>
+            <button
+              onClick={() => setCurrentCommand(2)}
+              className={cn(
+                "px-4 py-2 rounded font-mono text-sm transition-all",
+                currentCommand === 2 
+                  ? "bg-terminal-green text-terminal-black" 
+                  : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
+              )}
+            >
+              $ cat seo_manual.txt
+            </button>
+            <button
+              onClick={() => setCurrentCommand(3)}
+              className={cn(
+                "px-4 py-2 rounded font-mono text-sm transition-all",
+                currentCommand === 3 
+                  ? "bg-terminal-green text-terminal-black" 
+                  : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
+              )}
+            >
+              $ ./scan_responsive_design.sh
+            </button>
+            <button
+              onClick={() => setCurrentCommand(4)}
+              className={cn(
+                "px-4 py-2 rounded font-mono text-sm transition-all",
+                currentCommand === 4 
+                  ? "bg-terminal-green text-terminal-black" 
+                  : "bg-terminal-black/70 text-terminal-green border border-terminal-green/30 hover:bg-terminal-black"
+              )}
+            >
+              $ decrypt why_redesign.key
+            </button>
           </div>
         </div>
       </div>

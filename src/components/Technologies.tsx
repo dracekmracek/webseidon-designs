@@ -1,52 +1,111 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
-import WaveAnimation from './WaveAnimation';
+import { Code, FileCode, Layout, Globe, Layers, Search, Workflow } from 'lucide-react';
 
 interface TechnologiesProps {
   className?: string;
 }
 
-interface TechStackItemProps {
+interface TechItemProps {
   icon: React.ReactNode;
-  title: string;
+  name: string;
   description: string;
-  level: number; // 1-5
-  delay?: number;
+  primaryTech?: boolean;
+  index: number;
 }
 
-const TechStackItem: React.FC<TechStackItemProps> = ({ 
-  icon, 
-  title, 
-  description, 
-  level,
-  delay = 0
-}) => {
+// Hlavní technologie
+const technologies = [
+  {
+    name: 'WordPress',
+    description: 'Kompletní řešení webů, vlastní šablony, pluginy a pokročilá konfigurace.',
+    icon: <Globe className="w-6 h-6" />,
+    primaryTech: true
+  },
+  {
+    name: 'Elementor',
+    description: 'Profesionální tvorba stránek s pokročilými funkcemi a optimalizací rychlosti.',
+    icon: <Layout className="w-6 h-6" />,
+    primaryTech: true
+  },
+  {
+    name: 'React/Next.js',
+    description: 'Vývoj moderních, rychlých a interaktivních webových aplikací a SPA.',
+    icon: <Code className="w-6 h-6" />,
+    primaryTech: true
+  },
+  {
+    name: 'Tailwind CSS',
+    description: 'Utility-first CSS framework pro rychlý a konzistentní design.',
+    icon: <Layers className="w-6 h-6" />,
+    primaryTech: true
+  },
+  {
+    name: 'TypeScript',
+    description: 'Typově bezpečné programování pro spolehlivé a snadno udržovatelné aplikace.',
+    icon: <FileCode className="w-6 h-6" />,
+    primaryTech: true
+  },
+  {
+    name: 'SEO & Analytika',
+    description: 'Optimalizace pro vyhledávače, sledování a analýza výkonu webů.',
+    icon: <Search className="w-6 h-6" />,
+    primaryTech: true
+  }
+];
+
+// Doplňkové technologie
+const secondaryTechs = [
+  "SQL & Databáze", "Python", "Linux/Windows Server", 
+  "Git & Verzování", "UI/UX Design", "Správa serverů",
+  "Shadcn UI", "API integrace", "Webová bezpečnost"
+];
+
+const TechItem: React.FC<TechItemProps> = ({ icon, name, description, primaryTech = false, index }) => {
   return (
-    <div 
-      className="opacity-100 translate-y-0 transition-all duration-700 group"
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="p-6 rounded-xl bg-ocean-darker/90 backdrop-blur-sm border border-ocean-light/20 hover:border-terminal-cyan/50 transition-all duration-300 hover-lift">
-        <div className="flex items-start">
-          <div className="mr-4 text-terminal-cyan">{icon}</div>
-          <div>
-            <h3 className="font-mono text-lg font-medium mb-2 text-terminal-green group-hover:text-gold transition-colors duration-300">{title}</h3>
-            <p className="text-white text-sm mb-3">{description}</p>
-            <div className="flex items-center">
-              <div className="flex-grow h-2 bg-ocean-light/10 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-terminal-cyan rounded-full transition-all duration-1000 transform origin-left"
-                  style={{ 
-                    width: `${level * 20}%`, 
-                    boxShadow: '0 0 8px rgba(64, 224, 208, 0.7)'
-                  }}
-                  data-width={`${level * 20}%`}
-                ></div>
-              </div>
-              <span className="ml-3 text-xs font-mono text-terminal-cyan">{level * 20}%</span>
+    <div className="group hover-float transition-all duration-500">
+      <div className="relative p-5 md:p-6 rounded-xl backdrop-blur-sm border border-ocean-light/10 
+        group-hover:border-ocean-light/30 bg-ocean-darker/40 transition-all duration-500 h-full
+        overflow-hidden shadow-xl">
+        
+        {/* Světelný efekt v pozadí */}
+        <div className="absolute -top-6 -right-6 w-12 h-12 bg-ocean-light/10 opacity-0 
+          group-hover:opacity-100 rounded-full blur-xl transition-opacity duration-500"></div>
+        
+        {/* Horní linka */}
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-ocean-light/0 
+          via-ocean-light/40 to-ocean-light/0 opacity-60"></div>
+        
+        {/* Pozadí karty */}
+        <div className="absolute inset-0 bg-cyber-grid opacity-5"></div>
+        <div className="absolute inset-0 bg-noise opacity-5"></div>
+        
+        <div className="relative">
+          {/* Ikona & Název */}
+          <div className="flex items-center mb-4">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg
+              bg-ocean-dark border border-ocean-light/20 text-ocean-light 
+              group-hover:text-gold group-hover:border-gold/40 transition-all duration-500">
+              {icon}
             </div>
+            <h3 className="ml-3 text-lg font-mono font-bold text-white/90 
+              group-hover:text-gold transition-colors duration-300">{name}</h3>
           </div>
+          
+          {/* Popis */}
+          <p className="text-white/70 text-sm font-mono">{description}</p>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const SecondaryTechItem: React.FC<{name: string, index: number}> = ({ name, index }) => {
+  return (
+    <div className="transition-all duration-500">
+      <div className="flex items-center p-2.5 hover:bg-ocean-light/5 rounded-lg transition-colors duration-300 group">
+        <div className="w-2 h-2 rounded-full bg-ocean-light group-hover:bg-gold transition-colors duration-300"></div>
+        <span className="ml-2.5 text-white/80 font-mono text-sm group-hover:text-gold/90 transition-colors duration-300">{name}</span>
       </div>
     </div>
   );
@@ -55,196 +114,110 @@ const TechStackItem: React.FC<TechStackItemProps> = ({
 const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Animation on scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-10');
-          
-          // Animate skill bars
-          const skillBars = entry.target.querySelectorAll('.bg-terminal-cyan');
-          skillBars.forEach(bar => {
-            const width = bar.getAttribute('data-width') || '0%';
-            (bar as HTMLElement).style.width = width;
-          });
-        }
-      });
-    }, { threshold: 0.1 });
-
-    const animatedElements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
-    
-    if (animatedElements) {
-      animatedElements.forEach(el => {
-        observer.observe(el);
-      });
-    }
-
-    return () => {
-      if (animatedElements) {
-        animatedElements.forEach(el => {
-          observer.unobserve(el);
-        });
-      }
-    };
-  }, []);
-
-  // Add animation style
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes skill-bar-fill {
-        from { width: 10%; }
-        to { width: var(--width, 100%); }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
-
   return (
-    <section id="technologies" className={cn("py-16 md:py-24 relative overflow-hidden", className)}>
-      {/* Ambientní gradient pozadí */}
-      <div className="absolute inset-0 bg-deep-ocean"></div>
+    <section 
+      id="technologies" 
+      ref={sectionRef}
+      className={cn(
+        "py-20 md:py-28 relative overflow-hidden",
+        className
+      )}
+    >
+      {/* Gradient pozadí s ocean tematickou */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ocean-dark via-ocean-darker to-ocean-dark"></div>
       
-      {/* Subtle constellation background */}
-      <div className="absolute inset-0 bg-constellation opacity-20 pointer-events-none"></div>
+      {/* Modrá mřížka v pozadí */}
+      <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
       
-      {/* Noise texture */}
-      <div className="absolute inset-0 bg-noise pointer-events-none"></div>
+      {/* Šumový efekt pro texturovaný vzhled */}
+      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
       
-      {/* Gradient glow effects */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-ocean-light opacity-10 rounded-full filter blur-3xl"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-ocean-light opacity-10 rounded-full filter blur-3xl"></div>
+      {/* Vodní efekty a bubliny */}
+      <div className="bubble-container">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={i}
+            className="bubble"
+            style={{
+              width: `${5 + Math.random() * 15}px`,
+              height: `${5 + Math.random() * 15}px`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 7}s`
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Světelné gradientové efekty */}
+      <div className="absolute top-1/3 right-0 w-96 h-96 bg-wave-blue/20 rounded-full filter blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-wave-blue/15 rounded-full filter blur-3xl"></div>
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-gold/8 rounded-full filter blur-3xl"></div>
+      
+      {/* Dynamické světelné částice */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <div 
+            key={i}
+            className="absolute h-1.5 w-1.5 rounded-full animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 7}s`,
+              animationDelay: `${Math.random() * 4}s`,
+              backgroundColor: i % 3 === 0 
+                ? 'rgba(255, 215, 0, 0.3)' 
+                : 'rgba(93, 169, 233, 0.3)',
+              boxShadow: i % 3 === 0 
+                ? '0 0 15px rgba(255, 215, 0, 0.4)' 
+                : '0 0 15px rgba(93, 169, 233, 0.4)'
+            }}
+          />
+        ))}
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="terminal-section-title inline-block">
-            naše_technologie
+        <div className="text-center mb-16">
+          <h2 className="terminal-section-title inline-block sea-waves-border">
+            tech --stack
           </h2>
-          <p className="subtitle-text text-lg mb-4">
-            Kombinace technologií pro moderní web
+          <p className="max-w-2xl mx-auto subtitle-text">
+            # Technologie, které používám pro digitální kormidlování
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                <path d="M2 17l10 5 10-5"></path>
-                <path d="M2 12l10 5 10-5"></path>
-              </svg>
-            }
-            title="WordPress"
-            description="Expertní vývoj s vlastními šablonami, pluginy a pokročilou konfigurací pro optimální výkon a bezpečnost."
-            level={5}
-            delay={0}
-          />
+        <div className="max-w-6xl mx-auto">
+          {/* Hlavní technologie */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {technologies.map((tech, index) => (
+              <TechItem
+                key={tech.name}
+                icon={tech.icon}
+                name={tech.name}
+                description={tech.description}
+                primaryTech={tech.primaryTech}
+                index={index}
+              />
+            ))}
+          </div>
           
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <path d="M3 9h18"></path>
-                <path d="M15 3v18"></path>
-              </svg>
-            }
-            title="WooCommerce"
-            description="Tvorba vysoce výkonných e-shopů s vlastními průběhy nákupu, platebními bránami a zobrazením produktů."
-            level={4.5}
-            delay={100}
-          />
-          
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            }
-            title="PHP"
-            description="Základní backendový vývoj s odborností v moderních PHP praktikách, vlastních REST API a optimalizaci databází."
-            level={4}
-            delay={200}
-          />
-          
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
-                <line x1="12" y1="22" x2="12" y2="15.5"></line>
-                <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
-                <polyline points="2 15.5 12 8.5 22 15.5"></polyline>
-                <line x1="12" y1="2" x2="12" y2="8.5"></line>
-              </svg>
-            }
-            title="JavaScript / React"
-            description="Tvorba interaktivních UI s moderními JavaScript frameworky a knihovnami pro vylepšení uživatelské zkušenosti."
-            level={4}
-            delay={300}
-          />
-          
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            }
-            title="UI/UX Design"
-            description="Návrh intuitivních uživatelských rozhraní se zaměřením na přístupnost, použitelnost a krásnou estetiku."
-            level={4.5}
-            delay={400}
-          />
-          
-          <TechStackItem 
-            icon={
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                <path d="M18.9 9.4A9 9 0 0 0 9.4 18.9M4.8 14.5C5 11.1 7.4 10.5 9 10.5H10.5"></path>
-                <path d="M4.8 9.5C5 6.1 7.4 5.5 9 5.5H10.5"></path>
-                <path d="M9.4 5.1A9 9 0 0 1 18.9 14.6"></path>
-                <circle cx="7.5" cy="7.5" r=".5"></circle>
-                <circle cx="7.5" cy="16.5" r=".5"></circle>
-                <circle cx="16.5" cy="7.5" r=".5"></circle>
-                <circle cx="16.5" cy="16.5" r=".5"></circle>
-              </svg>
-            }
-            title="Optimalizace výkonu"
-            description="Implementace nejlepších postupů pro bleskově rychlé weby se serverovou optimalizací a vyladěním výkonu frontendu."
-            level={5}
-            delay={500}
-          />
-        </div>
-        
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="opacity-100 translate-y-0 transition-all duration-700 col-span-1 md:col-span-3" style={{ transitionDelay: `600ms` }}>
-            <div className="p-6 rounded-xl border border-terminal-cyan/30 bg-ocean-darker/90 backdrop-blur-md shadow-glow">
-              <h3 className="font-mono text-lg font-medium mb-4 text-terminal-green">Další technická expertiza</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  "MySQL / Optimalizace DB", 
-                  "SEO & Analytika", 
-                  "Responzivní design", 
-                  "Webpack / Gulp / Build Tools",
-                  "AJAX & REST API", 
-                  "CSS / SASS / Tailwind", 
-                  "Git verzování",
-                  "Správa serverů"
-                ].map((skill, index) => (
-                  <div key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-terminal-cyan rounded-full mr-2 shadow-glow-sm"></div>
-                    <span className="text-sm font-mono text-white">{skill}</span>
-                  </div>
-                ))}
+          {/* Další technologie - minimalistický layout */}
+          <div className="mt-16 md:mt-20">
+            <div className="border border-ocean-light/10 rounded-xl p-6 bg-ocean-darker/40 backdrop-blur-sm shadow-lg overflow-hidden relative">
+              {/* Animovaný gradient v pozadí */}
+              <div className="absolute -top-60 -left-60 w-96 h-96 bg-wave-blue/10 rounded-full filter blur-3xl animate-slow-pulse"></div>
+              
+              <div className="relative">
+                <h3 className="text-xl font-mono font-bold mb-5 text-white/90 sea-waves-border inline-block">
+                  <Workflow className="inline-block mr-2 text-ocean-light" size={18} />
+                  Další technické dovednosti
+                </h3>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2">
+                  {secondaryTechs.map((tech, index) => (
+                    <SecondaryTechItem key={tech} name={tech} index={index} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

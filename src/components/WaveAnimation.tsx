@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface WaveAnimationProps {
@@ -14,154 +14,184 @@ interface WaveAnimationProps {
 
 export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   className,
-  waveColor = 'rgba(93, 169, 233, 0.4)', // Výchozí barva oceánu - budeme používat konzistentně
+  waveColor = 'rgba(93, 169, 233, 0.4)',
   reverse = false,
   intensity = 'medium',
   position = 'bottom',
   variant = 'smooth',
-  height = '320',
+  height = '360',
   zIndex = 0,
 }) => {
   const intensityValues = {
     light: '0.3',
-    medium: '0.4',
-    dark: '0.5',
+    medium: '0.5',
+    dark: '0.8',
   };
 
   const opacity = intensityValues[intensity];
-  // Zajistíme, že barva je vždy ve formátu rgb/rgba pro manipulaci s průhledností
   const isRgb = waveColor.startsWith('rgb');
   const waveColorWithOpacity = isRgb 
     ? waveColor.replace(/[\d.]+\)$/, `${opacity})`)
-    : `rgba(93, 169, 233, ${opacity})`; // Garantujeme oceánskou modrou s určenou průhledností
+    : `rgba(93, 169, 233, ${opacity})`;
   
   const positionClass = position === 'top' 
     ? 'top-0 -mt-1 transform scale-y-100' 
     : 'bottom-0 -mb-1';
 
-  // Vybere správnou vlnovou křivku podle varianty
-  const getWavePath = (variant: string, isSecondLayer = false, forTopPosition = false) => {
-    // Pro horní pozici potřebujeme převrátit křivku svisle
-    const paths = {
-      choppy: {
-        first: "M0,192 C48,170 96,140 144,150 C192,160 240,210 288,224 C336,238 384,214 432,192 C480,170 528,150 576,160 C624,170 672,210 720,224 C768,238 816,214 864,192 C912,170 960,150 1008,160 C1056,170 1104,210 1152,224 C1200,238 1248,214 1296,192 C1344,170 1392,150 1440,160 L1440,320 L0,320 Z",
-        second: "M0,160 C60,130 120,110 180,150 C240,190 300,130 360,110 C420,90 480,150 540,170 C600,190 660,130 720,100 C780,70 840,130 900,160 C960,190 1020,130 1080,110 C1140,90 1200,150 1260,170 C1320,190 1380,130 1440,120 L1440,320 L0,320 Z"
-      },
-      cascade: {
-        first: "M0,256 C48,240 96,224 144,224 C192,224 240,240 288,256 C336,272 384,288 432,288 C480,288 528,272 576,256 C624,240 672,224 720,224 C768,224 816,240 864,256 C912,272 960,288 1008,288 C1056,288 1104,272 1152,256 C1200,240 1248,224 1296,224 C1344,224 1392,240 1440,256 L1440,320 L0,320 Z",
-        second: "M0,128 C48,144 96,160 144,160 C192,160 240,144 288,128 C336,112 384,96 432,96 C480,96 528,112 576,128 C624,144 672,160 720,160 C768,160 816,144 864,128 C912,112 960,96 1008,96 C1056,96 1104,112 1152,128 C1200,144 1248,160 1296,160 C1344,160 1392,144 1440,128 L1440,320 L0,320 Z"
-      },
-      smooth: {
-        first: "M0,192 C48,181.3 96,170.7 144,160 C192,149.3 240,138.7 288,144 C336,149.3 384,170.7 432,192 C480,213.3 528,234.7 576,229.3 C624,224 672,192 720,186.7 C768,181.3 816,202.7 864,208 C912,213.3 960,202.7 1008,186.7 C1056,170.7 1104,149.3 1152,144 C1200,138.7 1248,149.3 1296,160 C1344,170.7 1392,181.3 1440,192 L1440,320 L0,320 Z",
-        second: "M0,160 C48,181.3 96,202.7 144,192 C192,181.3 240,138.7 288,128 C336,117.3 384,138.7 432,160 C480,181.3 528,202.7 576,192 C624,181.3 672,138.7 720,128 C768,117.3 816,138.7 864,160 C912,181.3 960,202.7 1008,192 C1056,181.3 1104,138.7 1152,128 C1200,117.3 1248,138.7 1296,160 C1344,170.7 1392,181.3 1440,192 L1440,320 L0,320 Z"
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let waves: Wave[] = [];
+    const waveCount = 6; // Zvýšení počtu vln pro bohatší efekt
+
+    // Nastavení velikosti plátna podle obrazovky
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = parseInt(height, 10); // Použití hodnoty z props
+      initWaves();
+    };
+
+    // Inicializace vln s různými parametry
+    const initWaves = () => {
+      waves = [];
+      const baseSpeed = 0.004; // Zpomalení pro plynulejší pohyb
+      const heightMultiplier = canvas.height / 7;
+
+      for (let i = 0; i < waveCount; i++) {
+        waves.push({
+          amplitude: heightMultiplier * (1.2 + Math.random() * 0.6),
+          period: Math.max(canvas.width / (1.5 + Math.random() * 2.2), 180),
+          phase: Math.random() * Math.PI * 2,
+          speed: baseSpeed * (0.7 + Math.random() * 0.5) * (reverse ? -1 : 1),
+          color: `rgba(93, ${169 - i * 12}, ${233 - i * 15}, ${0.2 + i * 0.05})`, // Odstupňované modré tóny
+        });
       }
     };
 
-    // Pro horní pozici převrátíme křivku
-    if (forTopPosition) {
-      // Pro horní pozici převrátíme křivku - bereme křivku a převrátíme ji pomocí transformace
-      const path = isSecondLayer ? paths[variant as keyof typeof paths].second : paths[variant as keyof typeof paths].first;
-      // Změníme pouze koncovou část, aby navazovala na horní hranu (0 místo 320)
-      return path.replace("L1440,320 L0,320 Z", "L1440,0 L0,0 Z");
-    } else {
-      return isSecondLayer ? paths[variant as keyof typeof paths].second : paths[variant as keyof typeof paths].first;
-    }
-  };
+    // Vykreslení vln
+    const drawWaves = (time: number) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Vylepšený gradient pro přechod mezi sekcemi
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, position === 'top' ? 'rgba(10, 25, 47, 0.15)' : 'rgba(10, 25, 47, 0)');
+      gradient.addColorStop(1, position === 'top' ? 'rgba(10, 25, 47, 0)' : 'rgba(10, 25, 47, 0.15)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      waves.forEach((wave, index) => {
+        ctx.beginPath();
+        ctx.moveTo(0, position === 'top' ? 0 : canvas.height);
+
+        // Parametry pro vlnu
+        const baseY = position === 'top' ? canvas.height * 0.3 : canvas.height * 0.7;
+        wave.phase += wave.speed;
+
+        // Vykreslení křivky vlny s vyšší plynulostí
+        for (let x = 0; x <= canvas.width; x += 3) { // Zjemnění křivky pro plynulejší vizuální efekt
+          let y = baseY;
+          
+          // Různě modulovaný signál pro vlnu podle varianty
+          if (variant === 'choppy') {
+            y += Math.sin(x / wave.period + wave.phase + time / 1200) * wave.amplitude * 
+                 (1 + Math.sin(time / 3500 + index) * 0.15) * 
+                 (0.9 + Math.cos(x / 200) * 0.1);
+          } else if (variant === 'cascade') {
+            y += (Math.sin(x / wave.period + wave.phase + time / 1500) + 
+                 Math.sin(x / (wave.period / 2) + wave.phase + time / 800) * 0.3) * 
+                 wave.amplitude * (1 + Math.sin(time / 4000) * 0.1);
+          } else { // smooth
+            y += Math.sin(x / wave.period + wave.phase + time / 1800) * wave.amplitude * 
+                 (1 + Math.cos(time / 5000) * 0.08);
+          }
+          
+          if (x === 0) {
+            ctx.moveTo(x, position === 'top' ? canvas.height - y : y);
+          } else {
+            ctx.lineTo(x, position === 'top' ? canvas.height - y : y);
+          }
+        }
+
+        // Dokončení cesty
+        ctx.lineTo(canvas.width, position === 'top' ? 0 : canvas.height);
+        ctx.lineTo(0, position === 'top' ? 0 : canvas.height);
+        ctx.closePath();
+
+        // Nastavení barvy a vyplnění
+        ctx.fillStyle = wave.color;
+        ctx.fill();
+
+        // Vykreslení okraje vlny pro lepší definici
+        ctx.strokeStyle = wave.color.replace(/[\d.]+\)$/, '0.7)');
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        
+        // Efekt třpytu na vlnách - pouze pro nejvyšší vlnu
+        if (index === waves.length - 1) {
+          const sparkleCount = 25;
+          const sparkleSize = 1.5;
+          
+          for (let i = 0; i < sparkleCount; i++) {
+            const sparkleX = Math.random() * canvas.width;
+            const waveY = baseY + Math.sin(sparkleX / wave.period + wave.phase + time / 1500) * wave.amplitude;
+            let sparkleY = waveY - Math.random() * 18;
+            if (position === 'top') sparkleY = canvas.height - sparkleY;
+            
+            const opacity = 0.3 + Math.random() * 0.4 * Math.sin(time / 400 + i);
+            
+            ctx.beginPath();
+            ctx.arc(sparkleX, sparkleY, sparkleSize * (0.8 + Math.sin(time / 1000) * 0.2), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(138, 207, 255, ${opacity})`; // Světle modrá pro třpyt
+            ctx.fill();
+          }
+        }
+      });
+
+      animationFrameId = requestAnimationFrame((time) => drawWaves(time));
+    };
+
+    // Obsluha změny velikosti okna
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Spuštění animace
+    animationFrameId = requestAnimationFrame((time) => drawWaves(time));
+
+    // Úklid při odmontování komponenty
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [height, variant, position, reverse]);
 
   return (
-    <div 
+    <canvas
+      ref={canvasRef}
       className={cn(
-        "absolute left-0 w-full overflow-hidden", 
+        "absolute left-0 w-full pointer-events-none", 
         positionClass, 
         className,
         position === 'top' ? 'rotate-180' : ''
-      )} 
-      style={{ 
-        height: `${height}px`, 
-        zIndex: zIndex
-      }}
-    >
-      {/* Odstraněno statické namodralé pozadí */}
-      
-      <div className="h-full w-full relative">
-        {/* První vrstva vln - plynulý vertikální pohyb */}
-        <svg 
-          className={cn(
-            "h-full w-[200%] absolute top-0 left-0 animate-bounce-wave", 
-            reverse ? "animate-wave-reverse" : "animate-wave"
-          )}
-          viewBox="0 0 1440 320" 
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path 
-            fill={waveColorWithOpacity}
-            d={getWavePath(variant, false, position === 'top')}
-          ></path>
-        </svg>
-        
-        {/* Druhá vrstva vln - odlišné časování */}
-        <svg 
-          className={cn(
-            "h-full w-[200%] absolute top-0 left-0 animate-bounce-wave-slow", 
-            reverse ? "animate-wave-slow" : "animate-wave-slow-reverse"
-          )}
-          viewBox="0 0 1440 320" 
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path 
-            fill={isRgb ? waveColorWithOpacity.replace(/[\d.]+\)$/, `${Number(opacity) * 0.8})`) : `rgba(93, 169, 233, ${Number(opacity) * 0.8})`}
-            d={getWavePath(variant, true, position === 'top')}
-            transform="translate(0, 5)"
-          ></path>
-        </svg>
-        
-        {/* Efekt vodních kapiček */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(30)].map((_, i) => (
-            <div 
-              key={i}
-              className="absolute rounded-full animate-float-up"
-              style={{
-                backgroundColor: 'rgba(93, 169, 233, 0.5)', // Jasnější kapičky
-                width: `${Math.random() * 6 + 2}px`,
-                height: `${Math.random() * 6 + 2}px`,
-                left: `${Math.random() * 100}%`,
-                top: position === 'top' ? `${Math.random() * 30}%` : `${70 + Math.random() * 30}%`,
-                animationDuration: `${2 + Math.random() * 3}s`,
-                animationDelay: `${Math.random() * 5}s`,
-                boxShadow: '0 0 3px rgba(93, 169, 233, 0.8)', // Jasnější záře
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Třpytivý efekt vodní hladiny */}
-        <div className="absolute inset-0 holographic opacity-10 pointer-events-none"></div>
-        
-        {/* Jemně svítící body - imitace odrazu světla */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(12)].map((_, i) => (
-            <div 
-              key={`glow-${i}`}
-              className="absolute rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%)',
-                width: `${Math.random() * 20 + 10}px`,
-                height: `${Math.random() * 20 + 10}px`,
-                left: `${Math.random() * 100}%`,
-                top: position === 'top' ? `${Math.random() * 40}%` : `${60 + Math.random() * 40}%`,
-                opacity: Math.random() * 0.3 + 0.1,
-                transform: 'translateZ(0)',
-                animation: `float ${5 + Math.random() * 7}s ease-in-out infinite`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+      )}
+      style={{ height: `${height}px`, zIndex: zIndex }}
+    />
   );
 };
+
+// Definice typu vlny
+interface Wave {
+  amplitude: number;
+  period: number;
+  phase: number;
+  speed: number;
+  color: string;
+}
 
 export default WaveAnimation;

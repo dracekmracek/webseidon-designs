@@ -34,28 +34,40 @@ const PricingTier: React.FC<PricingTierProps> = ({
       <div className={cn(
         "h-full rounded-xl border transition-all duration-300 overflow-hidden relative bg-ocean-dark/60 backdrop-blur-sm",
         popular 
-          ? "border-gold shadow-gold" 
+          ? "border-gold shadow-gold hover:shadow-[0_0_30px_10px_rgba(255,215,0,0.4)] transition-all duration-500" 
           : "border-ocean-light/20 hover:border-ocean-light/50"
       )}>
         {popular && (
-          <div className="absolute top-0 right-0">
-            <div className="text-xs font-medium bg-gold text-ocean-darker py-1 px-3 rounded-bl-lg">
+          <div className="absolute -top-1 -right-1 z-10">
+            <div className="text-xs font-medium bg-gold-gradient text-ocean-darker py-1 px-3 rounded-bl-lg shadow-gold font-bold">
               Nejoblíbenější
             </div>
           </div>
+        )}
+        
+        {popular && (
+          <>
+            <div className="absolute inset-0 bg-gold/5 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-gold/10 to-transparent opacity-0 hover:opacity-20 transition-opacity duration-300 pointer-events-none"></div>
+          </>
         )}
         
         <div className="p-6 md:p-8 flex flex-col h-full">
           <div className="mb-6">
             <h3 className={cn(
               "text-xl font-serif font-bold",
-              popular ? "text-gold" : "text-terminal-green"
+              popular ? "text-gold-shimmer" : "text-terminal-green"
             )}>
               {title}
             </h3>
             <div className="mt-4 flex items-baseline">
-              <span className="text-3xl md:text-4xl font-bold text-terminal-white">{price}</span>
-              {price !== "Na míru" && <span className="ml-1 text-terminal-cyan">/měs</span>}
+              <span className={cn(
+                "text-3xl md:text-4xl font-bold", 
+                popular ? "text-gold" : "text-terminal-white"
+              )}>
+                {price}
+              </span>
+              {price !== "Na míru" && <span className="ml-1 text-terminal-cyan"></span>}
             </div>
             <p className="mt-2 text-sm text-terminal-white/90">{description}</p>
           </div>
@@ -128,31 +140,52 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
         className
       )}
     >
-      {/* Hlavní pozadí - elegantní gradient */}
-      <div className="absolute inset-0 bg-deep-ocean"></div>
+      {/* Vylepšený gradient pozadí ve stylu oceánu */}
+      <div className="absolute inset-0 bg-enhanced-gradient"></div>
       
-      {/* Futuristická mřížka */}
-      <div className="absolute inset-0 bg-wavy-grid opacity-10 pointer-events-none"></div>
+      {/* Futuristická modrá mřížka */}
+      <div className="absolute inset-0 bg-cyber-grid-blue opacity-10 pointer-events-none"></div>
       
-      {/* Jemný šum */}
-      <div className="absolute inset-0 bg-noise"></div>
+      {/* Jemný šum pro texturu */}
+      <div className="absolute inset-0 bg-noise opacity-10"></div>
       
-      {/* Glow efekty */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-ocean-light/10 filter blur-3xl"></div>
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-gold/5 filter blur-3xl"></div>
+      {/* Glow efekty pro dynamiku a hloubku */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl"></div>
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-wave-blue/15 filter blur-3xl"></div>
+      <div className="absolute top-1/3 left-0 w-64 h-64 rounded-full bg-gold/5 filter blur-3xl"></div>
       
-      {/* Pohyblivé částice */}
+      {/* Vznášející se částice */}
       <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <div 
             key={i}
-            className="absolute h-1 w-1 rounded-full bg-gold/20 animate-float"
+            className="absolute h-1.5 w-1.5 rounded-full animate-float"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              animationDuration: `${8 + Math.random() * 8}s`,
+              animationDuration: `${6 + Math.random() * 8}s`,
               animationDelay: `${Math.random() * 5}s`,
-              boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)'
+              backgroundColor: i % 3 === 0 ? 'rgba(255, 215, 0, 0.3)' : 'rgba(93, 169, 233, 0.3)',
+              boxShadow: i % 3 === 0 
+                ? '0 0 8px rgba(255, 215, 0, 0.4)' 
+                : '0 0 8px rgba(93, 169, 233, 0.4)'
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Subtilní konstelační efekt */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 50 }).map((_, i) => (
+          <div 
+            key={`star-${i}`}
+            className="absolute h-1 w-1 rounded-full bg-white/30"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              opacity: Math.random() * 0.5,
+              width: `${Math.max(0.5, Math.random() * 1.5)}px`,
+              height: `${Math.max(0.5, Math.random() * 1.5)}px`
             }}
           />
         ))}
@@ -164,7 +197,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
             grep -i "ceník" | sort
           </h2>
           <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
-            <span className="text-terminal-yellow">sudo</span> CENA/VÝKON řešení pro Váš byznys <span className="text-terminal-magenta">--no-cache</span>
+            <span className="text-terminal-yellow">sudo</span> CENA/VÝKON řešení pro Váš byznys <span className="text-terminal-magenta">--no-kappa</span>
           </p>
         </div>
 
@@ -241,7 +274,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
           
           <PricingTier 
             title="Roční plán"
-            price="10 690 Kč"
+            price="9 600 Kč"
             description="Cena/výkon: Ušetříte 10%"
             features={[
               "Měsíční zálohování",
@@ -256,7 +289,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
           
           <PricingTier 
             title="Měsíční plán"
-            price="990 Kč"
+            price="890 Kč"
             description="Flexibilní měsíční podpora"
             features={[
               "Měsíční zálohování",
