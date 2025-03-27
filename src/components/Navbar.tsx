@@ -59,30 +59,23 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
   }, []); // Závislosti jsou prázdné - spustí se pouze jednou
 
   // Bezpečně přepínání menu
-  const toggleMobileMenu = () => {
-    // Nejprve připravíme stav těla
-    if (!isMobileMenuOpen) {
-      // Pokud otevíráme menu, nejprve uložíme pozici scrollu
+  const toggleMobileMenu = (forceState?: boolean) => {
+    // Pokud dostaneme explicitní hodnotu, nastavíme ji
+    const newState = forceState !== undefined ? forceState : !isMobileMenuOpen;
+    
+    if (newState) {
+      // Otevíráme menu - uložíme aktuální pozici scrollu
       document.body.dataset.scrollY = window.scrollY.toString();
-      
-      // Pak až změníme stav
-      requestAnimationFrame(() => {
-        setIsMobileMenuOpen(true);
-        // Přidáme třídu po změně stavu
-        document.body.classList.add('mobile-menu-open');
-      });
+      document.body.classList.add('mobile-menu-open');
+      setIsMobileMenuOpen(true);
     } else {
-      // Nejprve změníme stav
+      // Zavíráme menu
       setIsMobileMenuOpen(false);
+      document.body.classList.remove('mobile-menu-open');
       
-      // Pak odstraníme třídu a obnovíme scroll pozici
-      requestAnimationFrame(() => {
-        document.body.classList.remove('mobile-menu-open');
-        
-        // Obnovíme scroll pozici, pokud existuje
-        const scrollY = parseInt(document.body.dataset.scrollY || '0');
-        window.scrollTo(0, scrollY);
-      });
+      // Obnovíme uloženou pozici scrollu
+      const scrollY = parseInt(document.body.dataset.scrollY || '0');
+      window.scrollTo(0, scrollY);
     }
   };
 
@@ -90,18 +83,17 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
     // Najdeme element sekce
     const section = document.getElementById(sectionId);
     
-    // Pokud bylo otevřeno mobilní menu, zavřeme ho
+    // Zavřeme menu, pokud je otevřené
     if (isMobileMenuOpen) {
-      // Nejprve zavřeme menu
-      setIsMobileMenuOpen(false);
+      toggleMobileMenu(false);
       
-      // Počkáme na dokončení animace zavření menu
-      setTimeout(() => {
-        // Pak se přesuneme na sekci, pokud existuje
+      // Počkáme na dokončení zavření menu
+      requestAnimationFrame(() => {
+        // Potom scrollujeme na sekci
         if (section) {
           section.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 300); // Přibližně polovina doby trvání animace menu
+      });
     } else {
       // Pokud menu není otevřené, scrollujeme přímo
       if (section) {
@@ -128,8 +120,29 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
         <div 
           className="text-2xl font-display font-bold flex items-center cursor-pointer group"
           onClick={(e) => {
-            e.stopPropagation(); // Zastavit propagaci události
-            scrollToSection('hero');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Pokud je mobilní menu otevřené, nejprve ho zavřeme
+            if (isMobileMenuOpen) {
+              toggleMobileMenu(false);
+              
+              // Počkáme, až se menu zavře a pak scrollujeme
+              setTimeout(() => {
+                const section = document.getElementById('hero');
+                if (section) {
+                  section.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 300);
+            } else {
+              // Jinak přímo scrollujeme
+              const section = document.getElementById('hero');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            
+            return false;
           }}
         >
           <div className="relative mr-3 transition-transform duration-300 group-hover:scale-110">
@@ -157,13 +170,33 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
         {/* Desktopová navigace - změna z xl:hidden na nav:flex pro vlastní breakpoint 1175px */}
         <nav className="hidden nav:flex items-center space-x-6">
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('services');}} className="nav-link flex items-center sea-waves-border">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('services');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="nav-link flex items-center sea-waves-border"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
             </svg>
             Služby
           </button>
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('projects');}} className="nav-link flex items-center sea-waves-border">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('projects');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="nav-link flex items-center sea-waves-border"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
               <circle cx="8.5" cy="8.5" r="1.5"></circle>
@@ -171,10 +204,30 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             </svg>
             Projekty
           </button>
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('workflow');}} className="nav-link flex items-center sea-waves-border">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('workflow');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="nav-link flex items-center sea-waves-border"
+          >
             <Code className="w-3 h-3 mr-1" /> Workflow
           </button>
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('pricing');}} className="nav-link flex items-center sea-waves-border">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('pricing');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="nav-link flex items-center sea-waves-border"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -182,7 +235,17 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             </svg>
             Ceník
           </button>
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('faq');}} className="nav-link flex items-center sea-waves-border">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('faq');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="nav-link flex items-center sea-waves-border"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="9.09" y1="9" x2="9.01" y2="9"></line>
@@ -191,14 +254,30 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             </svg>
             FAQ
           </button>
-          <a href="https://webseidon-blog.cz" target="_blank" rel="noopener noreferrer" className="nav-link flex items-center sea-waves-border" onClick={(e) => e.stopPropagation()}>
+          <a 
+            href="https://webseidon-blog.cz" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="nav-link flex items-center sea-waves-border" 
+            onClick={(e) => e.stopPropagation()}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
             </svg>
             Blog
           </a>
-          <button onClick={(e) => {e.stopPropagation(); scrollToSection('contact');}} className="btn-terminal">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const section = document.getElementById('contact');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
+            className="btn-terminal"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-1">
               <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
             </svg>
@@ -208,7 +287,16 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
         {/* Tlačítko mobilního menu - změna z xl:hidden na nav:hidden pro vlastní breakpoint 1175px */}
         <button 
-          onClick={toggleMobileMenu}
+          onClick={(e) => {
+            e.preventDefault(); // Zabráníme výchozímu chování
+            e.stopPropagation(); // Zabráníme probublávání
+            
+            // Otevřeme/zavřeme menu
+            toggleMobileMenu();
+            
+            // Zabráníme dalšímu šíření události
+            return false;
+          }}
           className="nav:hidden flex items-center justify-center p-2 rounded-md hover:bg-ocean-darker/50 transition-all duration-300"
           aria-label="Přepnout menu"
         >
@@ -224,7 +312,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
       <div
         ref={mobileMenuRef}
         className={cn(
-          "fixed inset-0 nav:hidden mobile-menu-height flex flex-col transform transition-all duration-500 ease-in-out z-50",
+          "fixed inset-0 nav:hidden mobile-menu-height flex flex-col transform transition-all duration-300 ease-in-out z-50",
           isMobileMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
         )}
         style={{
@@ -235,7 +323,12 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
           overflowX: 'hidden',
           borderLeft: '1px solid rgba(5, 206, 153, 0.2)'
         }}
-        onClick={(e) => e.stopPropagation()} // Zastavit propagaci události
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleMobileMenu(false);
+          return false;
+        }}
       >
         {/* Hacker efekty */}
         <div className="absolute inset-0 pointer-events-none">
@@ -248,15 +341,16 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
           </div>
         </div>
 
-        <div className="h-full flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="h-full flex flex-col" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
           {/* Logo */}
           <div className="flex items-center justify-between p-3 sm:p-4 border-b border-terminal-green/20">
             <div 
-              className="text-xl sm:text-2xl font-display font-bold flex items-center"
+              className="text-xl sm:text-2xl font-display font-bold flex items-center cursor-pointer"
               onClick={(e) => {
-                e.stopPropagation(); // Zastavit propagaci události
-                scrollToSection('hero');
-                setIsMobileMenuOpen(false);
+                e.preventDefault();
+                e.stopPropagation();
+                // Pouze zavřeme menu bez scrollování
+                toggleMobileMenu(false);
               }}
             >
               <div className="relative mr-2 sm:mr-3">
@@ -272,8 +366,11 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             </div>
             <button 
               onClick={(e) => {
-                e.stopPropagation(); // Zastavit propagaci události
-                toggleMobileMenu(); // Použití naší bezpečné metody místo přímé změny stavu
+                e.preventDefault();
+                e.stopPropagation();
+                // Pouze zavřeme menu
+                toggleMobileMenu(false);
+                return false;
               }}
               className="p-2 hover:bg-terminal-green/10 rounded-md transition-colors"
             >
@@ -300,12 +397,21 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                     isMobileMenuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0",
                     "delay-[100ms]"
                   )}
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  style={{ transitionDelay: `${index * 50}ms` }}
                   onClick={(e) => e.stopPropagation()} // Zastavit propagaci události
                 >
                   <div className="w-1 h-8 sm:h-10 md:h-12 bg-terminal-green/0 group-hover:bg-terminal-green/80 transition-all duration-300 mr-3 sm:mr-4 rounded-full"></div>
                   {item.isLink ? (
-                    <a href="https://webseidon-blog.cz" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                    <a 
+                      href="https://webseidon-blog.cz" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="flex items-center w-full"
+                      onClick={(e) => {
+                        // Pro externí odkazy nemusíme zabránit výchozímu chování
+                        e.stopPropagation();
+                      }}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-2 sm:mr-3 md:mr-4">
                         <path d={item.icon}></path>
                       </svg>
@@ -316,8 +422,22 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                   ) : (
                     <button 
                       onClick={(e) => {
-                        e.stopPropagation(); // Zastavit propagaci události
-                        scrollToSection(item.id);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Nejprve zavřeme menu a uložíme ID sekce
+                        const targetSection = item.id;
+                        toggleMobileMenu(false);
+                        
+                        // Počkáme, až se menu zavře, pak scrollujeme
+                        setTimeout(() => {
+                          const section = document.getElementById(targetSection);
+                          if (section) {
+                            section.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }, 300);
+                        
+                        return false;
                       }} 
                       className="flex items-center w-full"
                     >
@@ -346,8 +466,21 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
           )}>
             <button 
               onClick={(e) => {
-                e.stopPropagation(); // Zastavit propagaci události
-                scrollToSection('contact');
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Nejprve zavřeme menu
+                toggleMobileMenu(false);
+                
+                // Počkáme, až se menu zavře, pak scrollujeme
+                setTimeout(() => {
+                  const section = document.getElementById('contact');
+                  if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }, 300);
+                
+                return false;
               }}
               className="w-full py-3 md:py-4 px-4 md:px-6 bg-terminal-green/10 hover:bg-terminal-green/20 text-terminal-green border border-terminal-green/20 rounded-md flex items-center justify-center font-mono transition-all duration-300 shadow-sm hover:shadow text-sm sm:text-base md:text-xl lg:text-2xl"
             >
