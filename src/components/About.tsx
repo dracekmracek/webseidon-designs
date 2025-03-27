@@ -134,7 +134,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="ocean-title terminal-section-title inline-block">
-            <span className="text-gold">//</span> Pán internetových vod
+            <span className="text-gold"></span> Pán internetových vod
           </h2>
           <div className="trident-divider my-6"></div>
           <p className="max-w-2xl mx-auto text-white/80 font-mono">
@@ -183,7 +183,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
                 <div className="flex justify-center mb-6">
                   <div className="flex space-x-1">
                     {[
-                      { id: 'profile', label: './profil' },
+                      { id: 'profile', label: './me' },
                       { id: 'skills', label: './dovednosti' },
                       { id: 'journey', label: './cesta' }
                     ].map((tab) => (
