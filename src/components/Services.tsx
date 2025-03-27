@@ -176,8 +176,8 @@ const Services: React.FC<ServicesProps> = ({ className }) => {
               </svg>
             }
             title="Tvorba webových stránek"
-            description="Vizitkové weby a střední weby o více stránkách. E-shopy lze domluvit individuálně."
-            features={["Vizitkové weby (Portfolia)", "Střední weby", "E-shopy (Shoptet, Woo)"]}
+            description="Vizitkové weby a střední weby o více stránkách. Designové weby bez CMS"
+            features={["Vizitkové weby (Portfolia)", "Střední weby", "Desigonové weby"]}
             delay={0}
           />
           

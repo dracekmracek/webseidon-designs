@@ -70,10 +70,10 @@ $mail = new PHPMailer(true);
 try {
     // SMTP nastavení
     $mail->isSMTP();
-    $mail->Host = 'vas-smtp-server.cz'; // ZMĚŇTE na váš SMTP server
+    $mail->Host = 'wes1-smtp.wedos.net';
     $mail->SMTPAuth = true;
-    $mail->Username = 'vase@emailova-adresa.cz'; // ZMĚŇTE na váš e-mail
-    $mail->Password = 'vase-heslo'; // ZMĚŇTE na vaše heslo
+    $mail->Username = 'info@webseidon.cz';
+    $mail->Password = 'Antekaspol1-';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
     $mail->CharSet = 'UTF-8'; // Zajistí správné kódování češtiny

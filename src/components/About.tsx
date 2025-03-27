@@ -143,21 +143,23 @@ const About: React.FC<AboutProps> = ({ className }) => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
           {/* Levý sloupec - navigační záložky a fotografie */}
-          <div className="lg:col-span-2 order-2 lg:order-1">
+          <div className="md:col-span-1 lg:col-span-2 order-2 lg:order-1">
             <div className="mb-10 bg-ocean-darkest/50 backdrop-blur-md border border-ocean-light/10 rounded-xl overflow-hidden shadow-xl water-effect">
               <div className="relative p-1">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-ocean-light/0 via-ocean-light/30 to-ocean-light/0"></div>
                 <div className="absolute inset-0 bg-coral-pattern opacity-30 z-[1] pointer-events-none"></div>
                 
                 <div className="relative z-10">
-                  <img 
-                    src="/img/antekcz__Nerdy_Poseidon_with_short_hair_and_dioptric_glasses__2e7350e5-7b43-4fbf-9ecf-00a8eaa62603_2.png" 
-                    alt="Lukáš Adamek - Web Developer" 
-                    className="w-full h-auto rounded-lg"
-                  />
-                  <div className="absolute -bottom-8 -right-8 w-24 h-24">
+                  <div className="max-w-xs mx-auto sm:max-w-sm md:max-w-md lg:max-w-none">
+                    <img 
+                      src="/img/antekcz__Nerdy_Poseidon_with_short_hair_and_dioptric_glasses__2e7350e5-7b43-4fbf-9ecf-00a8eaa62603_2.png" 
+                      alt="Lukáš Adamek - Web Developer" 
+                      className="w-full h-auto rounded-lg"
+                    />
+                  </div>
+                  <div className="absolute -bottom-8 -right-8 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24">
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
                       viewBox="0 0 24 24" 
@@ -213,7 +215,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
                       </h3>
                       <p className="text-white/80 font-mono mb-4">
                         Jsem <span className="text-ocean-light font-semibold">freelance vývojář</span> s více než 
-                        <span className="text-gold"> 5 lety zkušeností</span>. Podobně jako Poseidon ovládá oceány, 
+                        <span className="text-gold"> 10 lety zkušeností</span>. Podobně jako Poseidon ovládá oceány, 
                         já ovládám webové technologie. Specializuji se na tvorbu moderních, responzivních 
                         a optimalizovaných webů pro malé firmy a živnostníky.
                       </p>
@@ -276,7 +278,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
                       <div className="space-y-3">
                         {[
                           { name: "Full-stack", value: 90, color: "from-gold to-gold/70" },
-                          { name: "React/Next.js", value: 75, color: "from-ocean-light to-ocean-medium" },
+                          { name: "React/Vite", value: 75, color: "from-ocean-light to-ocean-medium" },
                           { name: "/HTML/JS/Tailwind/CSS", value: 95, color: "from-ocean-light to-ocean-medium" },
                           { name: "WordPress", value: 90, color: "from-ocean-light to-ocean-medium" },
                           { name: "UI/UX Design", value: 85, color: "from-ocean-light to-ocean-medium" }
@@ -307,7 +309,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
                       
                       <div className="relative pl-6 border-l border-ocean-light/20 space-y-4">
                         {[
-                          { year: "2025", title: "Specializace na React, Next.js", desc: "Rozšíření nabídky o specializované webové aplikace, spolupráce na SAAS projektech" },
+                          { year: "2025", title: "Specializace na React, Vite", desc: "Rozšíření nabídky o specializované webové aplikace, spolupráce na SAAS projektech" },
                           { year: "2024", title: "Založení Webseidon", desc: "Specializace na tvorbu webových stránek a optimalizaci webů ve WordPressu" },
                           { year: "2020", title: "První weby", desc: "První projekty a webové stránky za použití HTML/CSS/JS" },
                           { year: "2015", title: "Webové začátky", desc: "První kroky k webdesignu a programování" },
@@ -334,7 +336,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
           </div>
           
           {/* Pravý sloupec - hlavní informace */}
-          <div className="lg:col-span-3 order-1 lg:order-2">
+          <div className="md:col-span-1 lg:col-span-3 order-1 lg:order-2">
             <div className="space-y-6">
               {/* Sekce - Co dělám */}
               <div className="bg-ocean-darkest/50 backdrop-blur-md p-6 rounded-xl border border-ocean-light/10 hover:border-ocean-light/20 transition-all duration-300 shadow-xl poseidon-card water-effect animate-on-scroll">

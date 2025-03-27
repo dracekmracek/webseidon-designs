@@ -8,6 +8,7 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ className }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
     "Init systém webseidon.cz v2.0.2.5.",
     "Přijímání objednávek...... OK",
@@ -21,7 +22,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const inputRef = useRef<HTMLDivElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
-
+  
   // Commands that can be entered by the user
   const commands: Record<string, () => string[]> = {
     help: () => [
@@ -284,6 +285,20 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
       terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
     }
   }, [terminalOutput]);
+  
+  // Detekce mobilního zařízení
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   return (
     <section 
@@ -293,210 +308,238 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         className
       )}
     >
-      {/* Vylepšený animovaný gradient pozadí */}
-      <div className="absolute inset-0 breathing-gradient"></div>
+      {/* Základní pozadí - vždy zobrazeno */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ocean-darkest via-ocean-darker to-ocean-darkest"></div>
       
-      {/* Overlay s animovaným zábleskem */}
-      <div className="absolute inset-0 glow-pulse"></div>
+      {/* Overlay s animovaným zábleskem - vypnuto pro mobilní zařízení */}
+      {!isMobile && (
+        <div className="absolute inset-0 breathing-gradient"></div>
+      )}
       
-      {/* Sekundární glow efekt pro zvýšení hloubky */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute w-full h-full bg-gradient-radial from-wave-blue-light/30 via-transparent to-transparent" 
-          style={{
-            top: '-10%',
-            left: '45%',
-            width: '800px',
-            height: '800px',
-            animation: 'breathing-light-animation 15s ease-in-out infinite',
-            animationDelay: '1s'
-          }}></div>
-        <div className="absolute w-full h-full bg-gradient-radial from-ocean-light/20 via-transparent to-transparent" 
-          style={{
-            bottom: '-5%',
-            right: '35%',
-            width: '600px',
-            height: '600px',
-            animation: 'breathing-light-animation 12s ease-in-out infinite',
-            animationDelay: '2s'
-          }}></div>
-      </div>
+      {/* Overlay s animovaným zábleskem - vypnuto pro mobilní zařízení */}
+      {!isMobile && (
+        <div className="absolute inset-0 glow-pulse"></div>
+      )}
       
-      {/* Futuristická modrá mřížka pro technologický vzhled */}
-      <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
+      {/* Sekundární glow efekt pro zvýšení hloubky - pouze pro desktop */}
+      {!isMobile && (
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute w-full h-full bg-gradient-radial from-wave-blue-light/30 via-transparent to-transparent" 
+            style={{
+              top: '-10%',
+              left: '45%',
+              width: '800px',
+              height: '800px',
+              animation: 'breathing-light-animation 15s ease-in-out infinite',
+              animationDelay: '1s'
+            }}></div>
+          <div className="absolute w-full h-full bg-gradient-radial from-ocean-light/20 via-transparent to-transparent" 
+            style={{
+              bottom: '-5%',
+              right: '35%',
+              width: '600px',
+              height: '600px',
+              animation: 'breathing-light-animation 12s ease-in-out infinite',
+              animationDelay: '2s'
+            }}></div>
+        </div>
+      )}
       
-      {/* Jemný šum pro texturovaný efekt */}
-      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+      {/* Futuristická modrá mřížka pro technologický vzhled - pouze pro desktop */}
+      {!isMobile && (
+        <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
+      )}
       
-      {/* Multi-vrstvé gradientové efekty pro hloubku a dimenzi */}
-      <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-b from-wave-blue/5 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-ocean-darker/30 to-transparent"></div>
-      <div className="absolute top-0 left-0 w-1/3 h-screen bg-gradient-to-r from-ocean-light/5 to-transparent opacity-50"></div>
-      <div className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-l from-ocean-light/5 to-transparent opacity-50"></div>
+      {/* Jemný šum pro texturovaný efekt - pouze pro desktop */}
+      {!isMobile && (
+        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+      )}
       
-      {/* Glow efekty pro dynamické světelné body */}
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-gold/10 filter blur-3xl breathing-light" style={{ animationDelay: '3s' }}></div>
-      <div className="absolute bottom-0 right-1/3 w-80 h-80 rounded-full bg-ocean-light/10 filter blur-3xl breathing-light" style={{ animationDelay: '1.5s' }}></div>
+      {/* Multi-vrstvé gradientové efekty pro hloubku a dimenzi - pouze pro desktop */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-b from-wave-blue/5 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-ocean-darker/30 to-transparent"></div>
+          <div className="absolute top-0 left-0 w-1/3 h-screen bg-gradient-to-r from-ocean-light/5 to-transparent opacity-50"></div>
+          <div className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-l from-ocean-light/5 to-transparent opacity-50"></div>
+        </>
+      )}
       
-      {/* Pulzující efekt světla pro zvýšení dynamiky */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-wave-blue-light/20 to-transparent animate-pulse-glow" style={{ animationDuration: '8s' }}></div>
-      </div>
+      {/* Glow efekty pro dynamické světelné body - pouze pro desktop */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-gold/10 filter blur-3xl breathing-light" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute bottom-0 right-1/3 w-80 h-80 rounded-full bg-ocean-light/10 filter blur-3xl breathing-light" style={{ animationDelay: '1.5s' }}></div>
+        </>
+      )}
       
-      {/* Ambientní světelné částice s různou intenzitou a barvami */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        {Array.from({ length: 30 }).map((_, i) => {
-          const size = 0.8 + Math.random() * 2; 
-          const opacity = 0.15 + Math.random() * 0.3;
-          const glowIntensity = 8 + Math.random() * 15;
-          const glowColor = Math.random() > 0.7 
-            ? 'rgba(93, 169, 233, 0.6)' 
-            : Math.random() > 0.5 
-              ? 'rgba(255, 215, 0, 0.4)' 
-              : 'rgba(255, 255, 255, 0.5)';
-          const duration = 10 + Math.random() * 20;
-          
-          return (
-            <div 
+      {/* Pulzující efekt světla pro zvýšení dynamiky - vypnuto pro mobilní zařízení */}
+      {!isMobile && (
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-wave-blue-light/20 to-transparent animate-pulse-glow" style={{ animationDuration: '8s' }}></div>
+        </div>
+      )}
+      
+      {/* Ambientní světelné částice s různou intenzitou a barvami - pouze pro desktop */}
+      {!isMobile && (
+        <div className="absolute inset-0 pointer-events-none z-10">
+          {Array.from({ length: 30 }).map((_, i) => {
+            const size = 0.8 + Math.random() * 2; 
+            const opacity = 0.15 + Math.random() * 0.3;
+            const glowIntensity = 8 + Math.random() * 15;
+            const glowColor = Math.random() > 0.7 
+              ? 'rgba(93, 169, 233, 0.6)' 
+              : Math.random() > 0.5 
+                ? 'rgba(255, 215, 0, 0.4)' 
+                : 'rgba(255, 255, 255, 0.5)';
+            const duration = 10 + Math.random() * 20;
+            
+            return (
+              <div 
+                key={i}
+                className="absolute rounded-full animate-particle-fade"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  zIndex: Math.floor(Math.random() * 10) + 5,
+                  backgroundColor: glowColor.replace('0.6', `${opacity}`),
+                  animationDuration: `${duration}s`,
+                  animationDelay: `${Math.random() * 15}s`,
+                  boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+      
+      {/* Bubliny - Poseidonův prvek - pouze pro desktop */}
+      {!isMobile && (
+        <div className="bubble-container">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <div
               key={i}
-              className="absolute rounded-full animate-particle-fade"
+              className="bubble"
               style={{
-                top: `${Math.random() * 100}%`,
+                width: `${10 + Math.random() * 25}px`,
+                height: `${10 + Math.random() * 25}px`,
                 left: `${Math.random() * 100}%`,
-                width: `${size}px`,
-                height: `${size}px`,
-                zIndex: Math.floor(Math.random() * 10) + 5,
-                backgroundColor: glowColor.replace('0.6', `${opacity}`),
-                animationDuration: `${duration}s`,
-                animationDelay: `${Math.random() * 15}s`,
-                boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
+                animationDelay: `${Math.random() * 8}s`,
+                animationDuration: `${8 + Math.random() * 10}s`
               }}
             />
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
       
-      {/* Bubliny - Poseidonův prvek */}
-      <div className="bubble-container">
-        {Array.from({ length: 15 }).map((_, i) => (
-          <div
-            key={i}
-            className="bubble"
-            style={{
-              width: `${10 + Math.random() * 25}px`,
-              height: `${10 + Math.random() * 25}px`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 8}s`,
-              animationDuration: `${8 + Math.random() * 10}s`
-            }}
-          />
-        ))}
-      </div>
+      {/* Trojzubec - animovaný symbol Poseidona v pozadí - vypnuto pro mobilní zařízení */}
+      {!isMobile && (
+        <div className="absolute right-[5%] top-[20%] opacity-10 pointer-events-none">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="w-60 h-60 text-ocean-light animate-trident-thrust"
+            style={{ animationDuration: '12s' }}
+          >
+            <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
+          </svg>
+        </div>
+      )}
       
-      {/* Trojzubec - animovaný symbol Poseidona v pozadí */}
-      <div className="absolute right-[5%] top-[20%] opacity-10 pointer-events-none">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="1.5" 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          className="w-60 h-60 text-ocean-light animate-trident-thrust"
-          style={{ animationDuration: '12s' }}
-        >
-          <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
-        </svg>
-      </div>
-      
-      {/* Whirlpool efekt */}
-      <div className="whirlpool absolute top-[15%] left-[8%] opacity-15"></div>
+      {/* Whirlpool efekt - vypnuto pro mobilní zařízení */}
+      {!isMobile && (
+        <div className="whirlpool absolute top-[15%] left-[8%] opacity-15"></div>
+      )}
       
       {/* Container for content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Column - Heading and Text */}
-          <div className="flex flex-col justify-center">
-            <div className="mb-8 mt-4 sm:mt-6 md:mt-8">
+          <div className="flex flex-col justify-center text-center lg:text-left">
+            <div className="mb-8 mt-4 sm:mt-6 md:mt-8 mx-auto lg:mx-0 max-w-2xl lg:max-w-none">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white relative">
                 <span className="text-shadow-lg block relative z-10">
                   Přidejte se k ostatním <span className="title-gradient-animation">na vlnu Internetu!</span>
                 </span>
-                <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-gold to-transparent"></div>
+                <div className="absolute -bottom-2 left-0 right-0 lg:right-auto lg:w-24 h-1 bg-gradient-to-r from-gold to-transparent mx-auto lg:mx-0"></div>
               </h1>
-              <p className="text-lg md:text-xl text-white/90 max-w-lg font-medium leading-relaxed mt-5 backdrop-blur-sm bg-ocean-darkest/10 p-4 rounded-md border-l-4 border-ocean-light/30">
+              <p className="text-lg md:text-xl text-white/90 max-w-lg font-medium leading-relaxed mt-5 backdrop-blur-sm bg-ocean-darkest/10 p-4 rounded-md border-l-4 border-ocean-light/30 mx-auto lg:mx-0">
                 Webové stránky pro malé firmy a živnostníky, kteří svému podnikání chtějí přidat na důvěryhodnosti a dostat do popředí skrze online svět.
               </p>
             </div>
             
-            <div className="flex flex-wrap gap-4 mb-4">
+            <div className="flex flex-wrap gap-4 mb-8 justify-center lg:justify-start">
               <a 
                 href="#services" 
-                className="btn-primary water-effect relative group"
+                className="btn-primary relative"
               >
                 <span className="font-mono mr-2">./</span>
                 Prozkoumat služby
-                <div className="absolute -top-1 -right-1 w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute inset-0 rounded-full bg-ocean-light animate-water-drop"></div>
-                </div>
               </a>
               <a 
                 href="#pricing" 
-                className="btn-secondary hover:bg-gold/20 border-2 border-gold hover:border-terminal-cyan hover:text-terminal-cyan transition-all duration-300 water-effect"
+                className="bg-transparent border-2 border-gold/70 hover:border-terminal-cyan/80 text-gold hover:text-terminal-cyan rounded-md px-6 py-3 text-sm font-medium transition-all duration-300 group inline-flex items-center"
               >
-                <span className="font-mono mr-2">$</span>
+                <span className="font-mono mr-2 opacity-80 group-hover:opacity-100">$</span>
                 Ceník
               </a>
             </div>
           </div>
           
           {/* Right Column - Terminal */}
-          <div className="flex justify-center lg:justify-end items-center mt-4 sm:mt-0">
-            <div 
-              className="bg-ocean-darkest/80 backdrop-blur-sm rounded-lg border border-ocean-light/20 shadow-glow w-full max-w-lg overflow-hidden transition-all duration-300 hover:border-ocean-light/40 hover:shadow-glow-lg water-effect"
-              onClick={handleTerminalClick}
-              tabIndex={0} 
-              onKeyDown={handleKeyPress}
-              style={{ cursor: 'text' }}
-            >
-              {/* Terminal Header */}
-              <div className="flex items-center justify-between px-4 py-2 bg-ocean-dark/90 border-b border-ocean-light/20">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                </div>
-                <div className="text-white/80 text-xs font-mono">webseidon@terminal:~</div>
-                <div className="text-white/80 text-xs font-mono opacity-50">bash</div>
-              </div>
-              
-              {/* Terminal Content */}
+          <div className="mt-0 sm:mt-6 md:mt-10 lg:mt-0">
+            <div className="max-w-xl mx-auto lg:mx-0">
               <div 
-                ref={terminalContentRef}
-                className="p-4 font-mono text-white/90 text-sm h-80 overflow-y-auto"
+                className="bg-terminal-black/80 rounded-lg shadow-glow overflow-hidden border border-terminal-green/20 terminal-card"
+                onClick={handleTerminalClick}
+                tabIndex={0} 
+                onKeyDown={handleKeyPress}
+                style={{ cursor: 'text' }}
               >
-                {terminalOutput.map((line, index) => (
-                  <div key={index} className={cn(
-                    line.startsWith("webseidon@server") ? "text-terminal-green mb-1" : "text-terminal-cyan mb-1",
-                    line.includes("ERROR") || line.includes("Chyba") ? "text-terminal-red" : "",
-                    line.includes("OK") || line.includes("úspěšně") ? "text-terminal-green" : ""
-                  )}>
-                    {line}
+                <div className="flex items-center justify-between p-2 border-b border-terminal-green/20 bg-terminal-black">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-terminal-red mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-terminal-yellow mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-terminal-green"></div>
                   </div>
-                ))}
+                  <div className="text-xs text-terminal-white/60 font-mono">webseidon@server: ~/projects</div>
+                  <div className="w-4"></div>
+                </div>
                 
-                <div className="flex items-center mt-2">
-                  <span className="text-terminal-green mr-2">webseidon@server:~$</span>
-                  <div
-                    ref={inputRef}
-                    contentEditable
-                    className="outline-none bg-transparent text-terminal-white flex-1 min-w-[1px]"
-                    onInput={(e) => setUserInput(e.currentTarget.textContent || "")}
-                    suppressContentEditableWarning={true}
-                  ></div>
-                  <div className={`terminal-cursor-animated ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}></div>
+                <div 
+                  ref={terminalContentRef}
+                  className="p-4 font-mono text-white/90 text-sm h-60 sm:h-80 overflow-y-auto"
+                >
+                  {terminalOutput.map((line, index) => (
+                    <div key={index} className={cn(
+                      line.startsWith("webseidon@server") ? "text-terminal-green mb-1" : "text-terminal-cyan mb-1",
+                      line.includes("ERROR") || line.includes("Chyba") ? "text-terminal-red" : "",
+                      line.includes("OK") || line.includes("úspěšně") ? "text-terminal-green" : ""
+                    )}>
+                      {line}
+                    </div>
+                  ))}
+                  
+                  <div className="flex items-center mt-2">
+                    <span className="text-terminal-green mr-2">webseidon@server:~$</span>
+                    <div
+                      ref={inputRef}
+                      contentEditable
+                      className="outline-none bg-transparent text-terminal-white flex-1 min-w-[1px]"
+                      onInput={(e) => setUserInput(e.currentTarget.textContent || "")}
+                      suppressContentEditableWarning={true}
+                    ></div>
+                    <div className={`terminal-cursor-animated ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -504,13 +547,15 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         </div>
       </div>
       
-      {/* Wave Animation at bottom - vylepšená pro lepší propojení mezi sekcemi */}
-      <WaveAnimation 
-        position="bottom" 
-        variant="choppy" 
+      {/* Vlnitá animace v patě sekce - zachována i pro mobilní zařízení */}
+      <WaveAnimation
+        className="bottom-0 md:-mb-1"
         waveColor="rgba(93, 169, 233, 0.4)"
-        height="380"
-      />    
+        intensity="medium"
+        position="bottom"
+        height={isMobile ? "200" : "360"}
+        zIndex={1}
+      />
     </section>
   );
 };

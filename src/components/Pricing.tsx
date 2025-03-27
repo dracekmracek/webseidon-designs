@@ -225,7 +225,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
               "Až 4 stránky",
               "Vše z Triton balíčku",
               "Pokročilé SEO",
-              "Úpravy designu na přání",
+              "Úpravy designu",
               "Základní logo a obrázky na míru",
               "V ceně doména včetně hostingu"
             ]}
@@ -242,7 +242,7 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
               "Vše z balíčku Siréna",
               "Blog, galerie nebo třeba rezervace",
               "Google analytics",
-              "Založení firemního profilu",
+              "Design na přání (ale bez CMS)",
               "V ceně doména včetně hostingu"
             ]}
             delay={400}

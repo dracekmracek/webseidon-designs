@@ -188,11 +188,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="opacity-100 translate-y-0 transition-all duration-700 terminal-section-title inline-block">
-            tail -f /klient/zpětná-vazba.log
+            tail -f /klienti/zpětná-vazba.log
           </h2>
-          <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
+          {/*  <p className="opacity-100 translate-y-0 transition-all duration-700 max-w-2xl mx-auto subtitle-text">
             <span className="text-terminal-green">echo</span> "Co o našich službách říkají klienti" <span className="text-terminal-red">|</span> <span className="text-terminal-cyan">more</span>
-          </p>
+          </p>*/}
         </div>
 
         <div className="opacity-100 translate-y-0 transition-all duration-700">

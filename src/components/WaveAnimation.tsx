@@ -132,26 +132,6 @@ export const WaveAnimation: React.FC<WaveAnimationProps> = ({
         ctx.strokeStyle = wave.color.replace(/[\d.]+\)$/, '0.7)');
         ctx.lineWidth = 0.8;
         ctx.stroke();
-        
-        // Efekt třpytu na vlnách - pouze pro nejvyšší vlnu
-        if (index === waves.length - 1) {
-          const sparkleCount = 25;
-          const sparkleSize = 1.5;
-          
-          for (let i = 0; i < sparkleCount; i++) {
-            const sparkleX = Math.random() * canvas.width;
-            const waveY = baseY + Math.sin(sparkleX / wave.period + wave.phase + time / 1500) * wave.amplitude;
-            let sparkleY = waveY - Math.random() * 18;
-            if (position === 'top') sparkleY = canvas.height - sparkleY;
-            
-            const opacity = 0.3 + Math.random() * 0.4 * Math.sin(time / 400 + i);
-            
-            ctx.beginPath();
-            ctx.arc(sparkleX, sparkleY, sparkleSize * (0.8 + Math.sin(time / 1000) * 0.2), 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(138, 207, 255, ${opacity})`; // Světle modrá pro třpyt
-            ctx.fill();
-          }
-        }
       });
 
       animationFrameId = requestAnimationFrame((time) => drawWaves(time));
