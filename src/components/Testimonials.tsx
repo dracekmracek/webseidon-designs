@@ -139,6 +139,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className }) => {
       <div className="absolute left-1/4 bottom-0 w-64 h-64 bg-gold/10 rounded-full filter blur-3xl"></div>
       <div className="absolute right-1/4 top-0 w-64 h-64 bg-ocean-light/8 rounded-full filter blur-3xl"></div>
       
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       {/* Jemný světelný prach - ambientní částice */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 18 }).map((_, i) => (

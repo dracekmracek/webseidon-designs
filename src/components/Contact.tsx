@@ -116,6 +116,9 @@ const Contact: React.FC<ContactProps> = ({ className }) => {
       {/* Noise texture s nižší opacitou pro jemnější efekt */}
       <div className="absolute inset-0 bg-noise opacity-15 pointer-events-none"></div>
       
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       {/* Gradient glow efekty - více prvků a jasnější efekty */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-wave-blue/10 rounded-full filter blur-3xl"></div>
       <div className="absolute -bottom-20 right-1/4 w-96 h-96 bg-wave-blue/15 rounded-full filter blur-3xl"></div>

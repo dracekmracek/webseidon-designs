@@ -354,7 +354,7 @@ const About: React.FC<AboutProps> = ({ className }) => {
                     },
                     {
                       title: "Frontend vývoj",
-                      desc: "Implementuji responzivní a optimalizované webové stránky pomocí React, Next.js a Tailwind CSS."
+                      desc: "Implementuji responzivní a optimalizované webové stránky pomocí React, Vite a Tailwind CSS."
                     },
                     {
                       title: "Wordpress řešení",

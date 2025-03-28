@@ -154,6 +154,9 @@ const Pricing: React.FC<PricingProps> = ({ className }) => {
       <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-wave-blue/15 filter blur-3xl"></div>
       <div className="absolute top-1/3 left-0 w-64 h-64 rounded-full bg-gold/5 filter blur-3xl"></div>
       
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       {/* Vznášející se částice */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 12 }).map((_, i) => (

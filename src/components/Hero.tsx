@@ -308,158 +308,26 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         className
       )}
     >
-      {/* Základní pozadí - vždy zobrazeno */}
+      {/* Základní pozadí */}
       <div className="absolute inset-0 bg-gradient-to-b from-ocean-darkest via-ocean-darker to-ocean-darkest"></div>
       
-      {/* Overlay s animovaným zábleskem - vypnuto pro mobilní zařízení */}
-      {!isMobile && (
-        <div className="absolute inset-0 breathing-gradient"></div>
-      )}
-      
-      {/* Overlay s animovaným zábleskem - vypnuto pro mobilní zařízení */}
-      {!isMobile && (
-        <div className="absolute inset-0 glow-pulse"></div>
-      )}
-      
-      {/* Sekundární glow efekt pro zvýšení hloubky - pouze pro desktop */}
-      {!isMobile && (
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute w-full h-full bg-gradient-radial from-wave-blue-light/30 via-transparent to-transparent" 
-            style={{
-              top: '-10%',
-              left: '45%',
-              width: '800px',
-              height: '800px',
-              animation: 'breathing-light-animation 15s ease-in-out infinite',
-              animationDelay: '1s'
-            }}></div>
-          <div className="absolute w-full h-full bg-gradient-radial from-ocean-light/20 via-transparent to-transparent" 
-            style={{
-              bottom: '-5%',
-              right: '35%',
-              width: '600px',
-              height: '600px',
-              animation: 'breathing-light-animation 12s ease-in-out infinite',
-              animationDelay: '2s'
-            }}></div>
-        </div>
-      )}
-      
-      {/* Futuristická modrá mřížka pro technologický vzhled - pouze pro desktop */}
-      {!isMobile && (
-        <div className="absolute inset-0 bg-cyber-grid-blue opacity-15 pointer-events-none"></div>
-      )}
-      
-      {/* Jemný šum pro texturovaný efekt - pouze pro desktop */}
-      {!isMobile && (
-        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
-      )}
-      
-      {/* Multi-vrstvé gradientové efekty pro hloubku a dimenzi - pouze pro desktop */}
-      {!isMobile && (
-        <>
-          <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-b from-wave-blue/5 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-ocean-darker/30 to-transparent"></div>
-          <div className="absolute top-0 left-0 w-1/3 h-screen bg-gradient-to-r from-ocean-light/5 to-transparent opacity-50"></div>
-          <div className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-l from-ocean-light/5 to-transparent opacity-50"></div>
-        </>
-      )}
-      
-      {/* Glow efekty pro dynamické světelné body - pouze pro desktop */}
-      {!isMobile && (
-        <>
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-96 h-96 rounded-full bg-wave-blue/10 filter blur-3xl breathing-light" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-gold/10 filter blur-3xl breathing-light" style={{ animationDelay: '3s' }}></div>
-          <div className="absolute bottom-0 right-1/3 w-80 h-80 rounded-full bg-ocean-light/10 filter blur-3xl breathing-light" style={{ animationDelay: '1.5s' }}></div>
-        </>
-      )}
-      
-      {/* Pulzující efekt světla pro zvýšení dynamiky - vypnuto pro mobilní zařízení */}
-      {!isMobile && (
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-wave-blue-light/20 to-transparent animate-pulse-glow" style={{ animationDuration: '8s' }}></div>
-        </div>
-      )}
-      
-      {/* Ambientní světelné částice s různou intenzitou a barvami - pouze pro desktop */}
-      {!isMobile && (
-        <div className="absolute inset-0 pointer-events-none z-10">
-          {Array.from({ length: 30 }).map((_, i) => {
-            const size = 0.8 + Math.random() * 2; 
-            const opacity = 0.15 + Math.random() * 0.3;
-            const glowIntensity = 8 + Math.random() * 15;
-            const glowColor = Math.random() > 0.7 
-              ? 'rgba(93, 169, 233, 0.6)' 
-              : Math.random() > 0.5 
-                ? 'rgba(255, 215, 0, 0.4)' 
-                : 'rgba(255, 255, 255, 0.5)';
-            const duration = 10 + Math.random() * 20;
-            
-            return (
-              <div 
-                key={i}
-                className="absolute rounded-full animate-particle-fade"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  zIndex: Math.floor(Math.random() * 10) + 5,
-                  backgroundColor: glowColor.replace('0.6', `${opacity}`),
-                  animationDuration: `${duration}s`,
-                  animationDelay: `${Math.random() * 15}s`,
-                  boxShadow: `0 0 ${glowIntensity}px ${glowColor}`
-                }}
-              />
-            );
-          })}
-        </div>
-      )}
-      
-      {/* Bubliny - Poseidonův prvek - pouze pro desktop */}
-      {!isMobile && (
-        <div className="bubble-container">
-          {Array.from({ length: 15 }).map((_, i) => (
-            <div
-              key={i}
-              className="bubble"
-              style={{
-                width: `${10 + Math.random() * 25}px`,
-                height: `${10 + Math.random() * 25}px`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 8}s`,
-                animationDuration: `${8 + Math.random() * 10}s`
-              }}
-            />
-          ))}
-        </div>
-      )}
-      
-      {/* Trojzubec - animovaný symbol Poseidona v pozadí - vypnuto pro mobilní zařízení */}
-      {!isMobile && (
-        <div className="absolute right-[5%] top-[20%] opacity-10 pointer-events-none">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="w-60 h-60 text-ocean-light animate-trident-thrust"
-            style={{ animationDuration: '12s' }}
-          >
-            <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
-          </svg>
-        </div>
-      )}
-      
-      {/* Whirlpool efekt - vypnuto pro mobilní zařízení */}
-      {!isMobile && (
-        <div className="whirlpool absolute top-[15%] left-[8%] opacity-15"></div>
-      )}
-      
+      {/* Trojzubec - animovaný symbol Poseidona v pozadí */}
+      <div className="absolute right-[5%] top-[20%] opacity-10 pointer-events-none">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="1.5" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="w-60 h-60 text-ocean-light animate-trident-thrust"
+          style={{ animationDuration: '12s' }}
+        >
+          <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />
+        </svg>
+      </div>
+
       {/* Container for content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -467,7 +335,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
           <div className="flex flex-col justify-center text-center lg:text-left">
             <div className="mb-8 mt-4 sm:mt-6 md:mt-8 mx-auto lg:mx-0 max-w-2xl lg:max-w-none">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white relative">
-                <span className="text-shadow-lg block relative z-10">
+                <span className="block relative z-10">
                   Přidejte se k ostatním <span className="title-gradient-animation">na vlnu Internetu!</span>
                 </span>
                 <div className="absolute -bottom-2 left-0 right-0 lg:right-auto lg:w-24 h-1 bg-gradient-to-r from-gold to-transparent mx-auto lg:mx-0"></div>
@@ -480,10 +348,9 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
             <div className="flex flex-wrap gap-4 mb-8 justify-center lg:justify-start">
               <a 
                 href="#services" 
-                className="btn-primary relative"
+                className="btn-terminal relative"
               >
-                <span className="font-mono mr-2">./</span>
-                Prozkoumat služby
+                <span className="font-mono mr-2">./Prozkoumat služby</span>
               </a>
               <a 
                 href="#pricing" 
@@ -499,13 +366,13 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
           <div className="mt-0 sm:mt-6 md:mt-10 lg:mt-0">
             <div className="max-w-xl mx-auto lg:mx-0">
               <div 
-                className="bg-terminal-black/80 rounded-lg shadow-glow overflow-hidden border border-terminal-green/20 terminal-card"
+                className="bg-ocean-darkest rounded-lg shadow-lg overflow-hidden border border-terminal-green/20 terminal-card"
                 onClick={handleTerminalClick}
                 tabIndex={0} 
                 onKeyDown={handleKeyPress}
                 style={{ cursor: 'text' }}
               >
-                <div className="flex items-center justify-between p-2 border-b border-terminal-green/20 bg-terminal-black">
+                <div className="flex items-center justify-between p-2 border-b border-terminal-green/20 bg-ocean-darkest">
                   <div className="flex items-center">
                     <div className="w-3 h-3 rounded-full bg-terminal-red mr-2"></div>
                     <div className="w-3 h-3 rounded-full bg-terminal-yellow mr-2"></div>
@@ -517,7 +384,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
                 
                 <div 
                   ref={terminalContentRef}
-                  className="p-4 font-mono text-white/90 text-sm h-60 sm:h-80 overflow-y-auto"
+                  className="p-4 font-mono text-white/90 text-sm h-60 sm:h-80 overflow-y-auto bg-ocean-darkest"
                 >
                   {terminalOutput.map((line, index) => (
                     <div key={index} className={cn(
@@ -547,11 +414,11 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
         </div>
       </div>
       
-      {/* Vlnitá animace v patě sekce - zachována i pro mobilní zařízení */}
+      {/* Vlnitá animace v patě sekce */}
       <WaveAnimation
         className="bottom-0 md:-mb-1"
         waveColor="rgba(93, 169, 233, 0.4)"
-        intensity="medium"
+        intensity="dark"
         position="bottom"
         height={isMobile ? "200" : "360"}
         zIndex={1}

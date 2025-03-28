@@ -104,6 +104,9 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
     >
       <div className="absolute inset-0 bg-terminal-grid bg-[length:40px_40px] opacity-5"></div>
       
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
@@ -119,8 +122,8 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
 
         <div className="max-w-4xl mx-auto">
           <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 rounded-lg overflow-hidden shadow-xl">
-            <div className="bg-terminal-black border border-terminal-green/20 rounded-lg">
-              <div className="bg-terminal-black px-4 py-2 border-b border-terminal-green/20 flex items-center">
+            <div className="bg-ocean-darkest border border-terminal-green/20 rounded-lg">
+              <div className="bg-ocean-darkest px-4 py-2 border-b border-terminal-green/20 flex items-center">
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-terminal-red"></div>
                   <div className="w-3 h-3 rounded-full bg-terminal-yellow"></div>
@@ -128,7 +131,7 @@ const Terminal: React.FC<TerminalProps> = ({ className }) => {
                 </div>
                 <div className="text-terminal-white/70 text-xs font-mono mx-auto">webseidon@server: ~</div>
               </div>
-              <div className="p-6 font-mono text-sm text-terminal-white min-h-[320px] h-[320px] overflow-y-auto">
+              <div className="p-6 font-mono text-sm text-terminal-white min-h-[320px] h-[320px] overflow-y-auto bg-ocean-darkest">
                 <div ref={terminalRef} className="terminal-output leading-6"></div>
               </div>
             </div>

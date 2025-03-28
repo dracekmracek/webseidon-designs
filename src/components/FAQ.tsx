@@ -171,6 +171,10 @@ const FAQ: React.FC<FAQProps> = ({ className }) => {
       )}
     >
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+      
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 terminal-section-title inline-block">

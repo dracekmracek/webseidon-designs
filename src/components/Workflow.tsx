@@ -125,6 +125,9 @@ const Workflow: React.FC<WorkflowProps> = ({ className }) => {
       <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-wave-blue/20 rounded-full filter blur-3xl"></div>
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-gold/10 rounded-full filter blur-3xl"></div>
       
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
       {/* Dynamické světelné částice */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 15 }).map((_, i) => (
@@ -205,7 +208,12 @@ const Workflow: React.FC<WorkflowProps> = ({ className }) => {
         </div>
         
         <div className="text-center mt-20">
-          <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 inline-flex items-center bg-gradient-to-r from-ocean-darker to-ocean-dark px-8 py-5 rounded-xl border border-ocean-light/30 shadow-xl shadow-ocean-light/5 group hover:border-gold/30 transition-all duration-500">
+          <div 
+            className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 inline-flex items-center bg-gradient-to-r from-ocean-darker to-ocean-dark px-8 py-5 rounded-xl border border-ocean-light/30 shadow-xl shadow-ocean-light/5 group hover:border-gold/30 transition-all duration-500 cursor-pointer"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
             <div className="mr-4 text-ocean-light group-hover:text-gold transition-colors duration-500">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2v14M4 9h16M7 3v5M17 3v5" />

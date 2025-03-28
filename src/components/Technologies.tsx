@@ -29,7 +29,7 @@ const technologies = [
     primaryTech: true
   },
   {
-    name: 'React/Next.js',
+    name: 'React/Vite',
     description: 'Vývoj moderních, rychlých a interaktivních webových aplikací a SPA.',
     icon: <Code className="w-6 h-6" />,
     primaryTech: true
@@ -223,6 +223,11 @@ const Technologies: React.FC<TechnologiesProps> = ({ className }) => {
           </div>
         </div>
       </div>
+      
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-wave-blue/15 filter blur-3xl"></div>
+      
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
     </section>
   );
 };

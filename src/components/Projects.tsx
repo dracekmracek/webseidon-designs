@@ -281,7 +281,12 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
         </div>
         
         <div className="text-center mt-16">
-          <div className="inline-flex items-center bg-terminal-black px-4 py-3 rounded-md border border-terminal-green/30 font-mono text-sm text-terminal-green">
+          <div 
+            className="inline-flex items-center bg-terminal-black px-4 py-3 rounded-md border border-terminal-green/30 font-mono text-sm text-terminal-green cursor-pointer hover:bg-terminal-green/10 transition-all"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
             <span className="mr-2">$</span>
             Chceš taky takový web? Stačí zavolat, nebo napsat! <span className="text-terminal-red"></span>  <span className="text-terminal-cyan"></span><span className="blink-cursor">■</span>
           </div>
@@ -385,6 +390,12 @@ const Projects: React.FC<ProjectsProps> = ({ className }) => {
           </div>
         )}
       </div>
+      
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
+      
+      {/* Vznášející se částice */}
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-wave-blue/15 filter blur-3xl"></div>
     </section>
   );
 };

@@ -90,7 +90,7 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
       date: "15. ledna 2025",
       image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
       category: "SEO",
-      url: "https://webseidon-blog.cz"
+      url: "https://blog.webseidon.cz"
     },
     {
       title: "WordPress vs. konkurenční CMS systémy - proč zvolit WordPress?",
@@ -98,7 +98,7 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
       date: "23. března 2025",
       image: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
       category: "WordPress",
-      url: "https://webseidon-blog.cz"
+      url: "https://blog.webseidon.cz"
     },
     {
       title: "Elementor Pro: Kompletní návod pro tvorbu profesionálních webů",
@@ -106,7 +106,7 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
       date: "10. dubna 2025",
       image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
       category: "Elementor",
-      url: "https://webseidon-blog.cz"
+      url: "https://blog.webseidon.cz"
     }
   ];
 
@@ -174,10 +174,10 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
           ))}
         </div>
         
-        <div className="text-center">
+        <div className="flex justify-center">
           <a 
-            href="https://webseidon-blog.cz" 
-            className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 btn-terminal"
+            href="https://blog.webseidon.cz" 
+            className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 btn-terminal inline-flex items-center px-6"
           >
             <span className="mr-2">Navštívit blog</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
@@ -186,8 +186,11 @@ const Blog: React.FC<BlogProps> = ({ className }) => {
           </a>
         </div>
         
-        
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-wave-blue/15 filter blur-3xl"></div>
       </div>
+
+      {/* Korálová dekorace na spodní části sekce */}
+      <div className="coral-decoration"></div>
     </section>
   );
 };

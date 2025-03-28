@@ -52,13 +52,16 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
         {/* Logo */}
         <div 
           className="text-2xl font-display font-bold flex items-center cursor-pointer group"
-          onClick={() => setIsMenuOpen(false)}
+          onClick={() => {
+            setIsMenuOpen(false);
+            document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+          }}
         >
           <div className="relative mr-3 transition-transform duration-300 group-hover:scale-110">
             <img 
               src="/icons/favicon-512x512.png" 
               alt="Webseidon Logo" 
-              className="w-10 h-10 rounded-lg shadow-glow transition-all duration-300"
+              className="w-10 h-10 rounded-lg shadow-glow"
             />
             <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-tr from-ocean-light via-gold to-ocean-light opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
           </div>
@@ -117,15 +120,11 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             FAQ
           </button>
           <a 
-            href="https://webseidon-blog.cz" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="nav-link flex items-center sea-waves-border"
+            href="https://blog.webseidon.cz" 
+            className="text-terminal-white hover:text-gold transition-colors duration-300"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
             Blog
           </a>
           <button onClick={() => scrollToSection('contact')} className="btn-terminal">
