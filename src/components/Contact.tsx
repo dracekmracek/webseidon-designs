@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import WaveAnimation from './WaveAnimation';
-import { Mail, Send } from 'lucide-react';
+import { Mail, Send, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -29,6 +29,7 @@ const Contact: React.FC<ContactProps> = ({ className }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [csrfToken, setCsrfToken] = useState<string>('');
 
   const form = useForm<FormData>({
@@ -54,17 +55,49 @@ const Contact: React.FC<ContactProps> = ({ className }) => {
       // Kontrola honeypot pole - pokud je vyplněno, je to pravděpodobně spam bot
       if (data.honeypot) {
         console.log('Spam detekován');
-        form.reset();
+        // Předstíráme úspěch, ale ve skutečnosti formulář neodesíláme
+        setTimeout(() => {
+          form.reset();
+          setIsSubmitted(true);
+          toast.success('Formulář byl úspěšně odeslán!');
+        }, 1000);
         return;
       }
 
       setIsSubmitting(true);
       
+      // Odesílání dat formuláře na server
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('subject', data.subject || 'Nová zpráva z kontaktního formuláře');
+      formData.append('message', data.message);
+      formData.append('csrf_token', csrfToken);
+      
+      // Prázdné honeypot pole se také odešle pro kontrolu na straně serveru
+      formData.append('website', data.honeypot || '');
+      
+      const response = await fetch('/send_mail.php', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      
+      const responseData = await response.json();
+      
+      if (!responseData.success) {
+        throw new Error(responseData.message || 'Něco se pokazilo při odesílání');
+      }
+      
       // Reset formuláře po odeslání
       form.reset();
-      toast.success('Formulář byl úspěšně odeslán!');
-    } catch (error) {
-      toast.error('Nepodařilo se odeslat formulář. Zkuste to prosím znovu.');
+      setIsSubmitted(true);
+      toast.success('Děkujeme za zprávu! Brzy se vám ozveme.');
+    } catch (error: any) {
+      console.error('Chyba při odesílání:', error);
+      toast.error(error.message || 'Nepodařilo se odeslat formulář. Zkuste to prosím znovu.');
     } finally {
       setIsSubmitting(false);
     }
@@ -274,124 +307,138 @@ const Contact: React.FC<ContactProps> = ({ className }) => {
             {/* Contact Form */}
             <div className="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
               <div className="bg-ocean-dark/40 backdrop-blur-sm p-6 rounded-xl border border-terminal-green/30">
-                <h3 className="text-xl font-mono font-bold mb-4 text-terminal-green flex items-center gap-2">
-                  <span className="text-terminal-green">$</span> ./odeslat_zprávu.sh
-                </h3>
-                
-                <form 
-                  action="/send_mail.php" 
-                  method="POST" 
-                  className="space-y-4"
-                  onSubmit={form.handleSubmit(onSubmit)}
-                >
-                  {/* CSRF token pro ochranu formuláře */}
-                  <input type="hidden" name="csrf_token" value={csrfToken} />
-                  
-                  {/* Honeypot pole - skryté pro uživatele, ale viditelné pro boty */}
-                  <div className="hidden">
-                    <input
-                      type="text"
-                      name="website" 
-                      tabIndex={-1}
-                      autoComplete="off"
-                      {...form.register("honeypot")}
-                    />
+                {isSubmitted ? (
+                  <div className="flex flex-col items-center justify-center py-10 text-center">
+                    <CheckCircle className="w-16 h-16 text-terminal-green mb-4" />
+                    <h3 className="text-xl font-mono font-bold mb-2 text-terminal-green">
+                      Zpráva byla odeslána!
+                    </h3>
+                    <p className="text-white/80 mb-6">
+                      Děkujeme za vaši zprávu. Ozveme se vám co nejdříve.
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      className="border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10"
+                      onClick={() => setIsSubmitted(false)}
+                    >
+                      Odeslat další zprávu
+                    </Button>
                   </div>
-
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="name" className="block text-sm font-medium font-mono text-terminal-green mb-1">
-                          Jméno <span className="text-red-500">*</span>
-                        </label>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-mono font-bold mb-4 text-terminal-green flex items-center gap-2">
+                      <span className="text-terminal-green">$</span> ./odeslat_zprávu.sh
+                    </h3>
+                    
+                    <form 
+                      className="space-y-4"
+                      onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                      {/* CSRF token pro ochranu formuláře */}
+                      <input type="hidden" name="csrf_token" value={csrfToken} />
+                      
+                      {/* Honeypot pole - skryté pro uživatele, ale viditelné pro boty */}
+                      <div className="hidden">
                         <input
                           type="text"
-                          id="name"
-                          name="name"
-                          required
-                          className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
-                          placeholder="Vaše jméno"
-                          {...form.register("name")}
+                          name="website" 
+                          tabIndex={-1}
+                          autoComplete="off"
+                          {...form.register("honeypot")}
                         />
-                        {form.formState.errors.name && (
-                          <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
-                        )}
                       </div>
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium font-mono text-terminal-green mb-1">
-                          E-mail <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          required
-                          className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
-                          placeholder="vas@email.cz"
-                          {...form.register("email")}
-                        />
-                        {form.formState.errors.email && (
-                          <p className="text-red-500 text-xs mt-1">{form.formState.errors.email.message}</p>
-                        )}
+
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label htmlFor="name" className="block text-sm font-medium font-mono text-terminal-green mb-1">
+                              Jméno <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              id="name"
+                              name="name"
+                              required
+                              className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
+                              placeholder="Vaše jméno"
+                              {...form.register("name")}
+                            />
+                            {form.formState.errors.name && (
+                              <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
+                            )}
+                          </div>
+                          <div>
+                            <label htmlFor="email" className="block text-sm font-medium font-mono text-terminal-green mb-1">
+                              E-mail <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="email"
+                              id="email"
+                              name="email"
+                              required
+                              className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
+                              placeholder="vas@email.cz"
+                              {...form.register("email")}
+                            />
+                            {form.formState.errors.email && (
+                              <p className="text-red-500 text-xs mt-1">{form.formState.errors.email.message}</p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="subject" className="block text-sm font-medium font-mono text-terminal-green mb-1">
+                            Předmět
+                          </label>
+                          <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
+                            placeholder="Téma zprávy"
+                            {...form.register("subject")}
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="message" className="block text-sm font-medium font-mono text-terminal-green mb-1">
+                            Zpráva <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            id="message"
+                            name="message"
+                            required
+                            rows={5}
+                            className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green resize-none"
+                            placeholder="Vaše zpráva..."
+                            {...form.register("message")}
+                          ></textarea>
+                          {form.formState.errors.message && (
+                            <p className="text-red-500 text-xs mt-1">{form.formState.errors.message.message}</p>
+                          )}
+                        </div>
+                        
+                        <div className="flex justify-end">
+                          <Button 
+                            type="submit"
+                            className="flex items-center gap-2 transition-all duration-300 bg-terminal-green text-terminal-black hover:bg-terminal-green/90"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <span className="animate-pulse">Odesílám...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Send className="w-4 h-4" /> Odeslat
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium font-mono text-terminal-green mb-1">
-                        Předmět
-                      </label>
-                      <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green"
-                        placeholder="Téma zprávy"
-                        {...form.register("subject")}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium font-mono text-terminal-green mb-1">
-                        Zpráva <span className="text-red-500">*</span>
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={5}
-                        className="w-full px-3 py-2 border border-terminal-green/30 rounded-md bg-terminal-black/50 text-white focus:border-terminal-green focus:outline-none focus:ring-1 focus:ring-terminal-green resize-none"
-                        placeholder="Vaše zpráva..."
-                        {...form.register("message")}
-                      ></textarea>
-                      {form.formState.errors.message && (
-                        <p className="text-red-500 text-xs mt-1">{form.formState.errors.message.message}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-terminal-black border border-terminal-green hover:bg-terminal-green/20 text-terminal-green py-2 px-4 rounded-md transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-terminal-green" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span>Odesílání...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Send className="h-4 w-4" />
-                            <span>Odeslat zprávu</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -133,10 +133,12 @@ const About: React.FC<AboutProps> = ({ className }) => {
       {/* Obsah sekce */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="ocean-title terminal-section-title inline-block">
-            <span className="text-gold"></span> Pán internetových vod
-          </h2>
-          <div className="trident-divider my-6"></div>
+          <div className="flex items-center justify-center mb-4">
+            <h2 className="terminal-section-title">
+              Pán internetových vod
+            </h2>
+          </div>
+          <div className="trident-divider my-6 mx-auto"></div>
           <p className="max-w-2xl mx-auto text-white/80 font-mono">
             Jako Poseidon vládne oceánům, tak Webseidon přináší moderní webové technologie do vašeho podnikání.
             Ponořte se se mnou do světa moderního webdesignu.

@@ -121,10 +121,13 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
           </button>
           <a 
             href="https://blog.webseidon.cz" 
-            className="text-terminal-white hover:text-gold transition-colors duration-300"
+            className="nav-link flex items-center sea-waves-border"
             target="_blank"
             rel="noopener noreferrer"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 mr-1">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
             Blog
           </a>
           <button onClick={() => scrollToSection('contact')} className="btn-terminal">
@@ -190,13 +193,15 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 { id: 'workflow', icon: 'M12 2v14M4 9h16M7 3v5M17 3v5', text: 'Workflow' },
                 { id: 'pricing', icon: 'M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z', text: 'Ceník' },
                 { id: 'faq', icon: 'M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10z M9.09 9h.01 M15 9h.04 M9 13h6', text: 'FAQ' },
-                { id: 'blog', icon: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z', text: 'Blog', isLink: true }
+                { id: 'blog', icon: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z', text: 'Blog', isLink: true, url: 'https://blog.webseidon.cz' }
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => {
                     if (!item.isLink) {
                       scrollToSection(item.id);
+                    } else if (item.url) {
+                      window.open(item.url, '_blank', 'noopener,noreferrer');
                     }
                   }}
                   className={cn(

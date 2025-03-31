@@ -334,7 +334,7 @@ const Hero: React.FC<HeroProps> = ({ className }) => {
           {/* Left Column - Heading and Text */}
           <div className="flex flex-col justify-center text-center lg:text-left">
             <div className="mb-8 mt-4 sm:mt-6 md:mt-8 mx-auto lg:mx-0 max-w-2xl lg:max-w-none">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white relative">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white relative text-center lg:text-left">
                 <span className="block relative z-10">
                   Přidejte se k ostatním <span className="title-gradient-animation">na vlnu Internetu!</span>
                 </span>
